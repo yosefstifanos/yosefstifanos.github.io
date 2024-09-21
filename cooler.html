@@ -40,6 +40,8 @@
         <h3>Comments</h3>
     </div>
 
+    <button id="clearCommentsButton" style="margin: 20px; padding: 10px 20px; background-color: #FF0000; color: white; border: none; border-radius: 5px; cursor: pointer;">Clear Comments</button>
+
     <script>
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
@@ -62,7 +64,6 @@
             '"Why are you so good at everything you do." - No one :(',
             '"If you are reading this, you are cool" - Me',
             '"HAPPY BIRTHDAY WORKU!!!" - Future Son-In-Law :)'
-
         ];
         let testimonialIndex = 0;
         let charIndex = 0;
@@ -84,13 +85,26 @@
             setTimeout(typeEffect, isDeleting ? 20 : 30);
         }
     
-        window.onload = typeEffect;
+        window.onload = function() {
+            typeEffect();
+            loadComments();
+            setTimeout(clearComments, 5 * 60 * 1000); // Clear comments after 5 minutes
+        };
 
-        document.getElementById('commentForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const comment = document.getElementById('comment').value;
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.forEach(comment => {
+                displayComment(comment.name, comment.text);
+            });
+        }
 
+        function saveComment(name, text) {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.push({ name, text });
+            localStorage.setItem('comments', JSON.stringify(comments));
+        }
+
+        function displayComment(name, text) {
             const commentElement = document.createElement('div');
             commentElement.style.margin = '10px 0';
             commentElement.style.padding = '10px';
@@ -103,12 +117,35 @@
             commentElement.appendChild(nameElement);
 
             const commentText = document.createElement('p');
-            commentText.textContent = comment;
+            commentText.textContent = text;
             commentElement.appendChild(commentText);
 
             document.getElementById('commentsSection').appendChild(commentElement);
+        }
+
+        document.getElementById('commentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+
+            displayComment(name, comment);
+            saveComment(name, comment);
 
             document.getElementById('commentForm').reset();
+        });
+
+        function clearComments() {
+            localStorage.removeItem('comments');
+            document.getElementById('commentsSection').innerHTML = '<h3>Comments</h3>';
+        }
+
+        document.getElementById('clearCommentsButton').addEventListener('click', function() {
+            const password = prompt('Enter password to clear comments:');
+            if (password === 'yosefstifanos') {
+                clearComments();
+            } else {
+                alert('Incorrect password!');
+            }
         });
     </script>
 
