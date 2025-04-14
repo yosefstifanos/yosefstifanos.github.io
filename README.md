@@ -7,8 +7,8 @@ This site serves as a digital portfolio to highlight my background, resume, and 
 
 ## 🧠 About Me
 
-I'm a third-year Data Science student at the University of Illinois Urbana-Champaign with a focus on cybersecurity and analytics.  
-I’m passionate about technology, problem-solving, soccer (Go Man United!), and building things that make an impact.
+- I'm a third-year Data Science student at the University of Illinois Urbana-Champaign with a focus on cybersecurity and analytics.  
+- I’m passionate about technology, problem-solving, soccer (Go Man United!), and building things that make an impact.
 
 ---
 
@@ -44,4 +44,4 @@ Check out the live site here:
 
 ---
 
-Feel free to connect on [LinkedIn](https://www.linkedin.com/in/yosefstifanos) or reach out at yosefstifanos30@gmail.com!
+Feel free to connect on [LinkedIn](https://www.linkedin.com/in/yosefstifanos) or reach out at yosefstifanos30@gmail.com! I am always looking to improve my website, so please help me out with cool ideas!!!
