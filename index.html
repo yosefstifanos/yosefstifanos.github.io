@@ -8,26 +8,45 @@
     <h2>Welcome.. TO THE GULAG!</h2>
     <h2><a href="https://www.linkedin.com/in/yosefstifanos">LinkedIn (connect with me pls..)</a></h2>
     <h2><a href="https://github.com/yosefstifanos">GitHub</a></h2>
+    <button id="changeColorButton" style="margin: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Click if you dare....</button>
 
     <h3>About Me</h3>
     <p>Hi! My name is Yosef Stifanos and I am a 3rd Year student at the University of Illinois at Urbana-Champaign.</p>
-
     <p> Some fun facts about the bestest person ever (me btw):</p>
     <ul>
         <li>I'm currently studying Data Science (focused on Cybersecurity).</li> 
         <li>I love SOCCER (MAN UNITED)!</li>
-        <li>I love Injera </li>
+        <li>I love <a href="https://www.google.com/search?q=injera" target="_blank">Injera</a> (Eritrean/Ethiopian flatbread)</li>
     </ul>
 
-    <div class="testimonials" id="typingeffect" style="padding: 20px; background: #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <!-- Resume Section -->
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f9f9f9; padding: 0;">
+    <embed src="Yosef_Resume_2025.pdf" type="application/pdf" width="70%" height="800px" style="border: 1px solid #ccc; border-radius: 8px;" />
+</div>
+
+
+    <!-- Project Showcase Section -->
+    <div class="container" style="background-color:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); margin-top:30px;">
+        <h2>🚀 Featured Project: Game Sales Prediction</h2>
+        <p>
+            Predictive modeling and classification project using Python.<br>
+            Built linear/logistic regression models to predict game sales and classify playtime categories.<br>
+            Evaluated models using R², RMSE, AUC, and accuracy metrics.
+        </p>
+        <p>
+            📂 GitHub Repository: 
+            <a href="https://github.com/yosefstifanos/final_project" target="_blank">yosefstifanos/final_project</a>
+        </p>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="testimonials" id="typingeffect" style="padding: 20px; background: #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top:30px;">
         <h3>What's spittin in Chambana</h3>
         <blockquote style="background: #fff; padding: 15px; margin: 10px 0; border-left: 5px solid #007BFF; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-style: italic;">
             <p id="testimonialText"></p>
         </blockquote>
     </div>
-    
-    <button id="changeColorButton" style="margin: 20px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Change Background Color</button>
-    
+
     <!-- Comment Section -->
     <h3>Leave a Comment</h3>
     <form id="commentForm">
@@ -42,6 +61,7 @@
 
     <button id="clearCommentsButton" style="margin: 20px; padding: 10px 20px; background-color: #FF0000; color: white; border: none; border-radius: 5px; cursor: pointer;">Clear Comments</button>
 
+    <!-- Scripts -->
     <script>
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
@@ -51,13 +71,13 @@
             }
             return color;
         }
-    
+
         function changeBackgroundColor() {
             document.body.style.backgroundColor = getRandomColor();
         }
-    
-        document.getElementById('changeColorButton').addEventListener('click', changeBackgroundColor);
-    
+
+        document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
+
         const testimonials = [
             '"Garbage ahh site!" - All the haters',
             '"How are you so tall..?" - All the short people',
@@ -68,23 +88,23 @@
         let testimonialIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-    
+
         function typeEffect() {
             const currentTestimonial = testimonials[testimonialIndex];
             const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
-    
+
             document.getElementById("testimonialText").innerHTML = displayText;
-    
+
             if (!isDeleting && charIndex === currentTestimonial.length) {
                 setTimeout(() => isDeleting = true, 400);
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 testimonialIndex = (testimonialIndex + 1) % testimonials.length;
             }
-    
+
             setTimeout(typeEffect, isDeleting ? 20 : 30);
         }
-    
+
         window.onload = function() {
             typeEffect();
             loadComments();
@@ -146,8 +166,22 @@
             } else {
                 alert('Incorrect password!');
             }
+            function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function changeBackgroundColor() {
+    document.body.style.backgroundColor = getRandomColor();
+}
+
+document.getElementById('changeColorButton').addEventListener('click', changeBackgroundColor);
+
         });
     </script>
-
 </body>
 </html>

@@ -1,4 +1,47 @@
-## Welcome to my website! This README file is meant to document existing website that I've created. Every time I push an HTML file (fancy word for basically saying "adding words and cool stuff on a boring blank page") into my repo, I will update this homepage and link the current sites that are up. Originally this was a homework lesson for a course, but I decided to add my spin. If there are any errors or issues with any website that I have, please let me know via LinkedIn (@yosefstifanos) and I'll try to fix it ASAP! Enjoy the sites!
+# Yosef Stifanos — Personal Website 🌐
 
-1. Resume website: [click me to see awesomeness](https://yosefstifanos.github.io/resume)
-2. Much Cooler Portfolio Website: [click me to see MORE awesomeness](https://yosefstifanos.github.io/cooler)
+Welcome to my personal website hosted at [yosefstifanos.github.io](https://yosefstifanos.github.io).  
+This site serves as a digital portfolio to highlight my background, resume, and key projects in data science and cybersecurity.
+
+---
+
+## 🧠 About Me
+
+I'm a third-year Data Science student at the University of Illinois Urbana-Champaign with a focus on cybersecurity and analytics.  
+I’m passionate about technology, problem-solving, soccer (Go Man United!), and building things that make an impact.
+
+---
+
+## 📄 Resume
+
+You can view my resume directly at:  
+[📎 Yosef_Resume_2025.pdf](https://yosefstifanos.github.io/Yosef_Resume_2025.pdf)
+
+---
+
+## 🔬 Projects
+
+### 🎮 [Game Sales Prediction & Playtime Classification](https://github.com/yosefstifanos/final_project)
+- Built linear/logistic regression models to predict game sales and classify games by playtime.
+- Evaluated models using R², RMSE, AUC, and accuracy.
+- Technologies: `Python`, `Scikit-learn`, `Statsmodels`, `Jupyter Notebooks`
+
+---
+
+## 🛠️ Tech Stack
+
+**Languages:** Python, Java, JavaScript, HTML, CSS, SQL  
+**Databases:** MySQL, MongoDB  
+**Tools:** Git, Jira, Jupyter, Microsoft Office, Google Suite  
+**Libraries:** Pandas, NumPy, Matplotlib, Scikit-learn
+
+---
+
+## 🚀 Visit the Site
+
+Check out the live site here:  
+👉 **[yosefstifanos.github.io](https://yosefstifanos.github.io)**
+
+---
+
+Feel free to connect on [LinkedIn](https://www.linkedin.com/in/yosefstifanos) or reach out at yosefstifanos30@gmail.com!
