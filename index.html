@@ -315,58 +315,62 @@
 }
 
       
-        function displayComment(name, text, id, uid) {
-          const commentElement = document.createElement('div');
-          const nameElement = document.createElement('strong');
-          nameElement.textContent = name;
-          commentElement.appendChild(nameElement);
+function displayComment(name, text, id, uid) {
+  const commentElement = document.createElement('div');
+  const nameElement = document.createElement('strong');
+  nameElement.textContent = name || "Guest";
+  commentElement.appendChild(nameElement);
+
+  const commentText = document.createElement('p');
+  commentText.textContent = text;
+  commentElement.appendChild(commentText);
+
+  // Admin or owner can delete
+  if (currentUser && (currentUser.email === "yosefstifanos30@gmail.com" || currentUser.uid === uid)) {
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '🗑 Delete';
+    delBtn.className = 'button';
+    delBtn.style.backgroundColor = '#dc3545';
+    delBtn.style.marginTop = '5px';
+    delBtn.onclick = async () => {
+      await db.collection("comments").doc(id).delete();
+      loadComments();
+    };
+    commentElement.appendChild(delBtn);
+  }
+
+  // Only owner can edit
+  if (currentUser && currentUser.uid === uid) {
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✏️ Edit';
+    editBtn.className = 'button';
+    editBtn.style.backgroundColor = '#ffc107';
+    editBtn.style.marginLeft = '5px';
+    editBtn.onclick = () => {
+      const newComment = prompt("Edit your comment:", text);
+      if (newComment) {
+        db.collection("comments").doc(id).update({ text: newComment });
+        loadComments();
+      }
+    };
+    commentElement.appendChild(editBtn);
+  }
+
+  document.getElementById('commentsSection').appendChild(commentElement);
+}
+        // Clear all comments (admin only)
       
-          const commentText = document.createElement('p');
-          commentText.textContent = text;
-          commentElement.appendChild(commentText);
-      
-          // Admin or owner delete
-          if (currentUser && (currentUser.uid === uid || currentUser.email === "yosefstifanos30@gmail.com")) {
-            const delBtn = document.createElement('button');
-            delBtn.textContent = '🗑 Delete';
-            delBtn.className = 'button';
-            delBtn.style.backgroundColor = '#dc3545';
-            delBtn.style.marginTop = '5px';
-            delBtn.onclick = async () => {
-              await db.collection("comments").doc(id).delete();
-              loadComments();
-            };
-            commentElement.appendChild(delBtn);
-          }
-      
-          // Owner only edit
-          if (currentUser && currentUser.uid === uid) {
-            const editBtn = document.createElement('button');
-            editBtn.textContent = '✏️ Edit';
-            editBtn.className = 'button';
-            editBtn.style.backgroundColor = '#ffc107';
-            editBtn.style.marginLeft = '5px';
-            editBtn.onclick = () => {
-              const newComment = prompt("Edit your comment:", text);
-              if (newComment) {
-                db.collection("comments").doc(id).update({ text: newComment });
-                loadComments();
-              }
-            };
-            commentElement.appendChild(editBtn);
-          }
-      
-          document.getElementById('commentsSection').appendChild(commentElement);
-        }
-      
-        async function clearAllComments() {
-          if (!currentUser || currentUser.email !== "yosefstifanos30@gmail.com") return alert("Only admin can clear all comments.");
-          const snapshot = await db.collection("comments").get();
-          const batch = db.batch();
-          snapshot.forEach(doc => batch.delete(doc.ref));
-          await batch.commit();
-          loadComments();
-        }
+        async function saveComment(name, text) {
+        await db.collection("comments").add({
+        name,
+        text,
+        uid: currentUser ? currentUser.uid : null,
+        timestamp: new Date()
+    });
+        console.log("Comment saved:", name, text);
+        loadComments();
+}
+
       
         document.getElementById('commentForm').addEventListener('submit', function (event) {
             event.preventDefault();
