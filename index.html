@@ -305,15 +305,15 @@
         }
       
         async function saveComment(name, text) {
-          if (!currentUser) return;
-          await db.collection("comments").add({
-            name,
-            text,
-            uid: currentUser.uid,
-            timestamp: new Date()
-          });
-          loadComments();
-        }
+  await db.collection("comments").add({
+    name,
+    text,
+    uid: currentUser ? currentUser.uid : null,
+    timestamp: new Date()
+  });
+  loadComments();
+}
+
       
         function displayComment(name, text, id, uid) {
           const commentElement = document.createElement('div');
@@ -369,12 +369,11 @@
         }
       
         document.getElementById('commentForm').addEventListener('submit', function (event) {
-          event.preventDefault();
-          if (!currentUser) return alert("Please log in first.");
-          const name = document.getElementById('name').value;
-          const comment = document.getElementById('comment').value;
-          saveComment(name, comment);
-          document.getElementById('commentForm').reset();
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+            saveComment(name, comment);
+            document.getElementById('commentForm').reset();
         });
       
         document.getElementById('clearCommentsButton').addEventListener('click', function () {
