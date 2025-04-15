@@ -360,17 +360,34 @@ function displayComment(name, text, id, uid) {
 }
         // Clear all comments (admin only)
       
-        async function saveComment(name, text) {
-        await db.collection("comments").add({
-        name,
-        text,
-        uid: currentUser ? currentUser.uid : null,
-        timestamp: new Date()
-    });
-        console.log("Comment saved:", name, text);
-        loadComments();
+        function isCommentAllowed(text) {
+  const bannedWords = [
+    "nigger", "fag", "faggot", "dyke", "retard",
+    "kike", "chink", "tranny", "coon", "spic",
+    "wetback", "sand nigger", "towelhead", "beaner",
+    "bitch", "whore", "slut", "hoe", "kill yourself",
+    "kys", "die", "go back", "terrorist", "isis"
+  ];
+
+  const lowered = text.toLowerCase();
+  return !bannedWords.some(word => lowered.includes(word));
 }
 
+async function saveComment(name, text) {
+  if (!isCommentAllowed(text)) {
+    alert("Your comment contains inappropriate or offensive language and was not posted.");
+    return;
+  }
+
+  await db.collection("comments").add({
+    name,
+    text,
+    uid: currentUser ? currentUser.uid : null,
+    timestamp: new Date()
+  });
+  console.log("Comment saved:", name, text);
+  loadComments();
+}
       
         document.getElementById('commentForm').addEventListener('submit', function (event) {
             event.preventDefault();
