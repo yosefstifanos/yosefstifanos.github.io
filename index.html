@@ -197,121 +197,156 @@
     <footer>
         <p>&copy; <span id="year"></span> Yosef Stifanos. All rights reserved.</p>
     </footer>
-
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    
     <script>
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
+        // Firebase config (replace with YOUR actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyD_QfzT9Emz7sM-g_bQPagA-IxTjM8Scw4",
+      authDomain: "yosefstifanos.firebaseapp.com",
+      projectId: "yosefstifanos",
+      storageBucket: "yosefstifanos.firebasestorage.app",
+      messagingSenderId: "29657148240",
+      appId: "1:29657148240:web:39817e2f3bcfc57e251a55"
+    };
 
-        function changeBackgroundColor() {
-            const bgColor = getRandomColor();
-            document.body.style.backgroundColor = bgColor;
-            document.querySelector('header').style.backgroundColor = bgColor;
-            document.querySelector('footer').style.backgroundColor = bgColor;
-        }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-        function changeTextColor() {
-            const textColor = getRandomColor();
-            document.body.style.color = textColor;
-            document.querySelector('header').style.color = textColor;
-            document.querySelector('footer').style.color = textColor;
-            document.querySelectorAll('a').forEach(link => {
-                link.style.color = textColor;
-            });
-        }
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
 
-        document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
-        document.getElementById('changeTextColorButton')?.addEventListener('click', changeTextColor);
+    function changeBackgroundColor() {
+      const bgColor = getRandomColor();
+      document.body.style.backgroundColor = bgColor;
+      document.querySelector('header').style.backgroundColor = bgColor;
+      document.querySelector('footer').style.backgroundColor = bgColor;
+    }
 
-        const testimonials = [
-            '"Garbage ahh site!" - All the haters',
-            '"How are you so tall..?" - All the short people',
-            '"Why are you so good at everything you do." - No one :(',
-            '"If you are reading this, you are cool" - Me',
-            '"I won a basketball tourney" - Yosef (aka MJ)'
-        ];
-        let testimonialIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+    function changeTextColor() {
+      const textColor = getRandomColor();
+      document.body.style.color = textColor;
+      document.querySelector('header').style.color = textColor;
+      document.querySelector('footer').style.color = textColor;
+      document.querySelectorAll('a').forEach(link => {
+        link.style.color = textColor;
+      });
+    }
 
-        function typeEffect() {
-            const currentTestimonial = testimonials[testimonialIndex];
-            const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
+    document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
+    document.getElementById('changeTextColorButton')?.addEventListener('click', changeTextColor);
 
-            document.getElementById("testimonialText").innerHTML = displayText;
+    const testimonials = [
+      '"Garbage ahh site!" - All the haters',
+      '"How are you so tall..?" - All the short people',
+      '"Why are you so good at everything you do." - No one :(',
+      '"If you are reading this, you are cool" - Me',
+      '"I won a basketball tourney" - Yosef (aka MJ)'
+    ];
+    let testimonialIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
 
-            if (!isDeleting && charIndex === currentTestimonial.length) {
-                setTimeout(() => isDeleting = true, 400);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                testimonialIndex = (testimonialIndex + 1) % testimonials.length;
-            }
+    function typeEffect() {
+      const currentTestimonial = testimonials[testimonialIndex];
+      const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
+      document.getElementById("testimonialText").innerHTML = displayText;
+      if (!isDeleting && charIndex === currentTestimonial.length) {
+        setTimeout(() => isDeleting = true, 400);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+      }
+      setTimeout(typeEffect, isDeleting ? 20 : 30);
+    }
 
-            setTimeout(typeEffect, isDeleting ? 20 : 30);
-        }
+    async function loadComments() {
+      const commentsSection = document.getElementById('commentsSection');
+      commentsSection.innerHTML = '<h3>Comments</h3>';
+      const snapshot = await db.collection("comments").orderBy("timestamp").get();
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const id = doc.id;
+        displayComment(data.name, data.text, id);
+      });
+    }
 
-        function loadComments() {
-            const comments = JSON.parse(localStorage.getItem('comments')) || [];
-            comments.forEach(comment => {
-                displayComment(comment.name, comment.text);
-            });
-        }
+    async function saveComment(name, text) {
+      await db.collection("comments").add({
+        name,
+        text,
+        timestamp: new Date()
+      });
+      loadComments();
+    }
 
-        function saveComment(name, text) {
-            const comments = JSON.parse(localStorage.getItem('comments')) || [];
-            comments.push({ name, text });
-            localStorage.setItem('comments', JSON.stringify(comments));
-        }
+    function displayComment(name, text, id) {
+      const commentElement = document.createElement('div');
+      const nameElement = document.createElement('strong');
+      nameElement.textContent = name;
+      commentElement.appendChild(nameElement);
 
-        function displayComment(name, text) {
-            const commentElement = document.createElement('div');
-            const nameElement = document.createElement('strong');
-            nameElement.textContent = name;
-            commentElement.appendChild(nameElement);
+      const commentText = document.createElement('p');
+      commentText.textContent = text;
+      commentElement.appendChild(commentText);
 
-            const commentText = document.createElement('p');
-            commentText.textContent = text;
-            commentElement.appendChild(commentText);
-
-            document.getElementById('commentsSection').appendChild(commentElement);
-        }
-
-        function clearComments() {
-            localStorage.removeItem('comments');
-            document.getElementById('commentsSection').innerHTML = '<h3>Comments</h3>';
-        }
-
-        document.getElementById('commentForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const comment = document.getElementById('comment').value;
-            displayComment(name, comment);
-            saveComment(name, comment);
-            document.getElementById('commentForm').reset();
-        });
-
-        document.getElementById('clearCommentsButton').addEventListener('click', function() {
-            const password = prompt('Enter password to clear comments:');
-            if (password === 'yosefstifanos') {
-                clearComments();
-            } else {
-                alert('Incorrect password!');
-            }
-        });
-
-        // Set dynamic year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        window.onload = function() {
-            typeEffect();
-            loadComments();
-            setTimeout(clearComments, 5 * 60 * 1000);
+      // Admin delete button if name is Yosef
+      if (name.toLowerCase() === 'yosef') {
+        const delBtn = document.createElement('button');
+        delBtn.textContent = '🗑 Delete';
+        delBtn.className = 'button';
+        delBtn.style.backgroundColor = '#dc3545';
+        delBtn.style.marginTop = '5px';
+        delBtn.onclick = async () => {
+          await db.collection("comments").doc(id).delete();
+          loadComments();
         };
-    </script>
+        commentElement.appendChild(delBtn);
+      }
+
+      document.getElementById('commentsSection').appendChild(commentElement);
+    }
+
+    async function clearAllComments() {
+      const snapshot = await db.collection("comments").get();
+      const batch = db.batch();
+      snapshot.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+      loadComments();
+    }
+
+    document.getElementById('commentForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const comment = document.getElementById('comment').value;
+      saveComment(name, comment);
+      document.getElementById('commentForm').reset();
+    });
+
+    document.getElementById('clearCommentsButton').addEventListener('click', function () {
+      const password = prompt('Enter password to clear comments:');
+      if (password === 'yosefstifanos') {
+        clearAllComments();
+      } else {
+        alert('Incorrect password!');
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    window.onload = function () {
+      typeEffect();
+      loadComments();
+    };
+  </script>
 </body>
 </html>
