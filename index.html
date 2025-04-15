@@ -6,6 +6,9 @@
     <meta name="author" content="Yosef D. Stifanos">
     <title>Why you looking here haha</title>
     <style>
+      html {
+      scroll-behavior: smooth;
+  }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -160,7 +163,7 @@
         <button id="changeTextColorButton" class="button" style="background-color: #28a745;">Change Text Color</button>
     </div>
 
-    <div class="container">
+    <div class="container" id="about">
         <h2>About Me</h2>
         <p>Hi! My name is Yosef Stifanos and I am a 3rd Year student at the University of Illinois at Urbana-Champaign. Some fun facts about me:</p>
         <ul>
@@ -170,7 +173,7 @@
         </ul>
     </div>
 
-    <div class="container">
+    <div class="container" id="project">
         <h2>🚀 Featured Project: Game Sales Prediction</h2>
         <p>
             Predictive modeling and classification project using Python.<br>
@@ -190,12 +193,12 @@
         </blockquote>
     </div>
 
-    <div class="container">
+    <div class="container" id="resume">
         <h3>Resume</h3>
         <embed src="Yosef_Resume_2025.pdf" type="application/pdf" width="100%" height="800px" style="border: 1px solid #ccc; border-radius: 8px;" />
     </div>
 
-    <div class="container">
+    <div class="container" id="comments">
         <h3>Leave a Comment</h3>
         <form id="commentForm">
             <input type="text" id="name" placeholder="Your Name" required>
@@ -290,7 +293,11 @@
           '"How are you so tall..?" - All the short people',
           '"Why are you so good at everything you do." - No one :(',
           '"If you are reading this, you are cool" - Me',
-          '"I won a basketball tourney" - Yosef (aka MJ)'
+          '"I won a basketball tourney" - Yosef (aka MJ)',
+          '"Bro who coded this? Oh wait..." - Also Me',
+          '"I love this site!" - My mom',
+          '"404: Normality Not Found" - Browser Diagnostics',
+
         ];
         let testimonialIndex = 0;
         let charIndex = 0;
