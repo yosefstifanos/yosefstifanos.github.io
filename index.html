@@ -410,6 +410,36 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
     document.body.insertBefore(loginBtn, document.body.firstChild);
     document.body.insertBefore(logoutBtn, document.body.firstChild);
   };
+
+  // Function to enable dark mode
+  function enableDarkMode() {
+    document.body.style.backgroundColor = "#121212"; // Change only the background color
+    localStorage.setItem('darkMode', 'true');
+  }
+
+  // Function to disable dark mode
+  function disableDarkMode() {
+    document.body.style.backgroundColor = ""; // Reset to default background color
+    localStorage.setItem('darkMode', 'false');
+  }
+
+  // Function to toggle dark mode
+  function toggleDarkMode() {
+    if (localStorage.getItem('darkMode') === 'true') {
+      disableDarkMode();
+    } else {
+      enableDarkMode();
+    }
+  }
+
+  // Check localStorage for dark mode preference on page load
+  if (localStorage.getItem('darkMode') === 'true') {
+    enableDarkMode();
+    document.getElementById('darkModeToggle').checked = true;
+  }
+
+  // Add event listener to the dark mode toggle button
+  document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
 </script>
 </body>
 </html>
