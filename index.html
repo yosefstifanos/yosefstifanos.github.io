@@ -1,449 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Yosef D. Stifanos">
-    <title>Why you looking here haha</title>
-    <style>
-      html {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Yosef D. Stifanos" />
+  <title>Yosef's Portfolio</title>
+  <style>
+    html {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
       scroll-behavior: smooth;
-  }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        header {
-            background: #007BFF;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-
-        header h2 a {
-            color: #FFD700;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        header h2 a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .button:hover {
-            background-color: #0056b3;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin: 10px 0;
-        }
-
-        ul li a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .testimonials {
-            background: #e0e0e0;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-
-        .testimonials blockquote {
-            background: #fff;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 5px solid #007BFF;
-            border-radius: 5px;
-            font-style: italic;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        form input, form textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        form button {
-            width: 100%;
-        }
-
-        #commentsSection div {
-            margin: 10px 0;
-            padding: 10px;
-            background: #f0f0f0;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            margin-top: 20px;
-        }
-
-    @media (max-width: 600px) {
-    .container {
-      padding: 10px;
     }
+    body {
+  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  color: #1a1a1a;
+  line-height: 1.6;
+  transition: background 0.4s, color 0.4s;
+
+  transition: background 0.4s ease, color 0.4s ease;
+}
+    header {
+  background: transparent;
+  color: #333;
+  padding: 40px 0;
+  text-align: center;
+  box-shadow: none;
+}
     header h1 {
-      font-size: 1.8em;
+      font-size: 3em;
+      margin: 0 0 10px;
     }
+    header h2 a {
+      color: #ffe066;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    header h2 a:hover {
+      text-decoration: underline;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      background: #f8f9fa;
+      padding: 15px 0;
+    }
+    .button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+    .button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+    .container {
+  
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+    ul {
+      padding-left: 20px;
+    }
+    ul li {
+      margin: 10px 0;
+    }
+    ul li a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    ul li a:hover {
+      text-decoration: underline;
+    }
+    .testimonials blockquote {
+      background: #fafafa;
+      border-left: 5px solid #007BFF;
+      padding: 15px 20px;
+      font-style: italic;
+      border-radius: 5px;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    #commentsSection div {
+      background: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    footer {
+  text-align: center;
+  padding: 20px;
+  background: #1a1a1a;
+  color: white;
+  font-weight: bold;
+  margin-top: 50px;
+  transition: background 0.4s;
+}
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2em;
+      }
+      .container {
+        padding: 20px;
+      }
+    }
+  @keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-    </style>
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Yosef's Portfolio</h1>
-        <h2>
-            <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank">LinkedIn</a> |
-            <a href="https://github.com/yosefstifanos" target="_blank">GitHub</a>
-        </h2>
-    </header>
-    
-    <nav style="text-align:center; padding: 10px; background: #eee;">
-      <a href="#about" class="button">About</a>
-      <a href="#project" class="button">Project</a>
-      <a href="#resume" class="button">Resume</a>
-      <a href="#comments" class="button">Comments</a>
-    </nav>
+<header>
+  <h1>Yosef's Portfolio</h1>
+  <h2>
+    <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank">LinkedIn</a> |
+    <a href="https://github.com/yosefstifanos" target="_blank">GitHub</a>
+  </h2>
+</header>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <button id="changeColorButton" class="button" >Change Page Color</button>
-        <button id="changeTextColorButton" class="button" >Change Text Color</button>
-    </div>
+<nav style="text-align:center; padding: 10px; background: #eee;">
+  <a href="#about" class="button">About</a>
+  <a href="#project" class="button">Project</a>
+  <a href="#resume" class="button">Resume</a>
+  <a href="#comments" class="button">Comments</a>
+</nav>
 
-    <div class="container" id="about">
-        <h2>About Me</h2>
-        <p>Hi! My name is Yosef Stifanos and I am a 3rd Year student at the University of Illinois at Urbana-Champaign. Some fun facts about me:</p>
-        <ul>
-            <li>- I'm currently studying Data Science (focused on Cybersecurity).</li>
-            <li>- I love SOCCER (MAN UNITED)!</li>
-            <li>- I love <a href="https://www.google.com/search?q=injera" target="_blank">Injera</a> (Eritrean/Ethiopian flatbread).</li>
-        </ul>
-    </div>
+<div style="text-align:center; margin: 10px 0;">
+  <label style="font-weight: bold;">
+    🌙 Dark Mode:
+    <input type="checkbox" id="darkModeToggle" />
+  </label>
+</div>
 
-    <div class="container" id="project">
-        <h2>🚀 Featured Project: Game Sales Prediction</h2>
-        <p>
-            Predictive modeling and classification project using Python.<br>
-            Built linear/logistic regression models to predict game sales and classify playtime categories.<br>
-            Evaluated models using R², RMSE, AUC, and accuracy metrics.
-        </p>
-        <p>
-            📂 GitHub Repository: 
-            <a href="https://github.com/yosefstifanos/final_project" target="_blank">yosefstifanos/final_project</a>
-        </p>
-    </div>
+<div style="text-align: center; margin-top: 20px;">
+  <button id="changeColorButton" class="button">Change Page Color</button>
+  <button id="changeTextColorButton" class="button">Change Text Color</button>
+</div>
 
-    <div class="container testimonials">
-        <h3>What's spittin in Chambana</h3>
-        <blockquote>
-            <p id="testimonialText"></p>
-        </blockquote>
-    </div>
+<div class="container" id="about">
+  <h2>About Me</h2>
+  <p>Hi! My name is Yosef Stifanos and I am a 3rd Year student at the University of Illinois at Urbana-Champaign. Some fun facts about me:</p>
+  <ul>
+    <li>- I'm currently studying Data Science (focused on Cybersecurity).</li>
+    <li>- I love SOCCER (MAN UNITED)!</li>
+    <li>- I love <a href="https://www.google.com/search?q=injera" target="_blank">Injera</a> (Eritrean/Ethiopian flatbread).</li>
+  </ul>
+</div>
+<div class="container" id="project">
+  <h2>🚀 Featured Project: Game Sales Prediction</h2>
+  <p>
+    Predictive modeling and classification project using Python.<br>
+    Built linear/logistic regression models to predict game sales and classify playtime categories.<br>
+    Evaluated models using R², RMSE, AUC, and accuracy metrics.
+  </p>
+  <p>
+    📂 GitHub Repository:
+    <a href="https://github.com/yosefstifanos/final_project" target="_blank">yosefstifanos/final_project</a>
+  </p>
+</div>
 
-    <div class="container" id="resume">
-        <h3>Resume</h3>
-        <embed src="Yosef_Resume_2025.pdf" type="application/pdf" width="100%" height="800px" style="border: 1px solid #ccc; border-radius: 8px;" />
-    </div>
+<div class="container testimonials">
+  <h3>What's spittin in Chambana</h3>
+  <blockquote>
+    <p id="testimonialText"></p>
+  </blockquote>
+</div>
 
-    <div class="container" id="comments">
-        <h3>Leave a Comment</h3>
-        <form id="commentForm">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <textarea id="comment" placeholder="Your Comment" required></textarea>
-            <button type="submit" class="button">Submit</button>
-        </form>
+<div class="container" id="resume">
+  <h3>Resume</h3>
+  <embed src="Yosef_Resume_2025.pdf" type="application/pdf" width="100%" height="800px" style="border: 1px solid #ccc; border-radius: 8px;" />
+</div>
 
-        <div id="commentsSection">
-            <h3>Comments</h3>
-        </div>
+<div class="container" id="comments">
+  <h3>Leave a Comment</h3>
+  <form id="commentForm">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <textarea id="comment" placeholder="Your Comment" required></textarea>
+    <button type="submit" class="button">Submit</button>
+  </form>
+  <div id="commentsSection">
+    <h3>Comments</h3>
+  </div>
+  <button id="clearCommentsButton" class="button" style="background-color: #FF0000;">Clear Comments</button>
+</div>
 
-        <button id="clearCommentsButton" class="button" style="background-color: #FF0000;">Clear Comments</button>
-    </div>
+<footer>
+  <p>&copy; <span id="year"></span> Yosef Stifanos. All rights reserved.</p>
+</footer>
 
-    <footer>
-        <p>&copy; <span id="year"></span> Yosef Stifanos. All rights reserved.</p>
-    </footer>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
-
-    <script>
-        const firebaseConfig = {
-          apiKey: "AIzaSyD_QfzT9Emz7sM-g_bQPagA-IxTjM8Scw4",
-          authDomain: "yosefstifanos.firebaseapp.com",
-          projectId: "yosefstifanos",
-          storageBucket: "yosefstifanos.firebasestorage.app",
-          messagingSenderId: "29657148240",
-          appId: "1:29657148240:web:39817e2f3bcfc57e251a55"
-        };
-      
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        let currentUser = null;
-      
-        function loginUser() {
-          const email = prompt("Enter email:");
-          const password = prompt("Enter password:");
-          auth.signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-              currentUser = userCredential.user;
-              alert("Logged in!");
-              loadComments();
-            })
-            .catch((error) => {
-              alert("Login failed: " + error.message);
-            });
-        }
-      
-        function logoutUser() {
-          auth.signOut().then(() => {
-            currentUser = null;
-            alert("Logged out.");
-            loadComments();
-          });
-        }
-      
-        auth.onAuthStateChanged((user) => {
-          currentUser = user;
-        });
-      
-        function getRandomColor() {
-          const letters = '0123456789ABCDEF';
-          let color = '#';
-          for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-          }
-          return color;
-        }
-      
-        function changeBackgroundColor() {
-          const bgColor = getRandomColor();
-          document.body.style.backgroundColor = bgColor;
-          document.querySelector('header').style.backgroundColor = bgColor;
-          document.querySelector('footer').style.backgroundColor = bgColor;
-        }
-      
-        function changeTextColor() {
-          const textColor = getRandomColor();
-          document.body.style.color = textColor;
-          document.querySelector('header').style.color = textColor;
-          document.querySelector('footer').style.color = textColor;
-          document.querySelectorAll('a').forEach(link => {
-            link.style.color = textColor;
-          });
-        }
-      
-        const testimonials = [
-          '"Garbage ahh site!" - All the haters',
-          '"How are you so tall..?" - All the short people',
-          '"Why are you so good at everything you do." - No one :(',
-          '"If you are reading this, you are cool" - Me',
-          '"I won a basketball tourney" - Yosef (aka MJ)',
-          '"Bro who coded this? Oh wait..." - Also Me',
-          '"I love this site!" - My mom',
-          '"404: Normality Not Found" - Browser Diagnostics',
-
-        ];
-        let testimonialIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-      
-        function typeEffect() {
-          const currentTestimonial = testimonials[testimonialIndex];
-          const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
-          document.getElementById("testimonialText").innerHTML = displayText;
-          if (!isDeleting && charIndex === currentTestimonial.length) {
-            setTimeout(() => isDeleting = true, 400);
-          } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
-          }
-          setTimeout(typeEffect, isDeleting ? 20 : 30);
-        }
-      
-        async function loadComments() {
-          const commentsSection = document.getElementById('commentsSection');
-          commentsSection.innerHTML = '<h3>Comments</h3>';
-          const snapshot = await db.collection("comments").orderBy("timestamp").get();
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const id = doc.id;
-            displayComment(data.name, data.text, id, data.uid);
-          });
-        }
-      
-        async function saveComment(name, text) {
-  await db.collection("comments").add({
-    name,
-    text,
-    uid: currentUser ? currentUser.uid : null,
-    timestamp: new Date()
-  });
-  loadComments();
+<script>
+// Detect system dark mode preference
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('darkMode')) {
+  localStorage.setItem('darkMode', 'true');
+  document.getElementById('darkModeToggle').checked = true;
+  enableDarkMode();
 }
 
-      
-function displayComment(name, text, id, uid) {
-  const commentElement = document.createElement('div');
-  const nameElement = document.createElement('strong');
-  nameElement.textContent = name || "Guest";
-  commentElement.appendChild(nameElement);
-
-  const commentText = document.createElement('p');
-  commentText.textContent = text;
-  commentElement.appendChild(commentText);
-
-  // Admin or owner can delete
-  if (currentUser && (currentUser.email === "yosefstifanos30@gmail.com" || currentUser.uid === uid)) {
-    const delBtn = document.createElement('button');
-    delBtn.textContent = '🗑 Delete';
-    delBtn.className = 'button';
-    delBtn.style.backgroundColor = '#dc3545';
-    delBtn.style.marginTop = '5px';
-    delBtn.onclick = async () => {
-      await db.collection("comments").doc(id).delete();
-      loadComments();
-    };
-    commentElement.appendChild(delBtn);
-  }
-
-  // Only owner can edit
-  if (currentUser && currentUser.uid === uid) {
-    const editBtn = document.createElement('button');
-    editBtn.textContent = '✏️ Edit';
-    editBtn.className = 'button';
-    editBtn.style.backgroundColor = '#ffc107';
-    editBtn.style.marginLeft = '5px';
-    editBtn.onclick = () => {
-      const newComment = prompt("Edit your comment:", text);
-      if (newComment) {
-        db.collection("comments").doc(id).update({ text: newComment });
+  const firebaseConfig = {
+    apiKey: "AIzaSyD_QfzT9Emz7sM-g_bQPagA-IxTjM8Scw4",
+    authDomain: "yosefstifanos.firebaseapp.com",
+    projectId: "yosefstifanos",
+    storageBucket: "yosefstifanos.firebasestorage.app",
+    messagingSenderId: "29657148240",
+    appId: "1:29657148240:web:39817e2f3bcfc57e251a55"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  let currentUser = null;
+  function loginUser() {
+    const email = prompt("Enter email:");
+    const password = prompt("Enter password:");
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        currentUser = userCredential.user;
+        alert("Logged in!");
         loadComments();
-      }
-    };
-    commentElement.appendChild(editBtn);
+      })
+      .catch((error) => {
+        alert("Login failed: " + error.message);
+      });
   }
-
-  document.getElementById('commentsSection').appendChild(commentElement);
-}
-        // Clear all comments (admin only)
-      
-        function isCommentAllowed(text) {
-  const bannedWords = [
-    "nigger", "fag", "faggot", "dyke", "retard",
-    "kike", "chink", "tranny", "coon", "spic",
-    "wetback", "sand nigger", "towelhead", "beaner",
-    "bitch", "whore", "slut", "hoe", "kill yourself",
-    "kys", "die", "go back", "terrorist", "isis"
-  ];
-
-  const lowered = text.toLowerCase();
-  return !bannedWords.some(word => lowered.includes(word));
-}
-
-async function saveComment(name, text) {
-  if (!isCommentAllowed(text)) {
-    alert("Your comment contains inappropriate or offensive language and was not posted.");
-    return;
+  function logoutUser() {
+    auth.signOut().then(() => {
+      currentUser = null;
+      alert("Logged out.");
+      loadComments();
+    });
   }
-
-  await db.collection("comments").add({
-    name,
-    text,
-    uid: currentUser ? currentUser.uid : null,
-    timestamp: new Date()
+  auth.onAuthStateChanged((user) => {
+    currentUser = user;
   });
-  console.log("Comment saved:", name, text);
-  loadComments();
-}
-      
-        document.getElementById('commentForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const comment = document.getElementById('comment').value;
-            saveComment(name, comment);
-            document.getElementById('commentForm').reset();
-        });
-      
-        document.getElementById('clearCommentsButton').addEventListener('click', function () {
-          clearAllComments();
-        });
-      
-        document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
-        document.getElementById('changeTextColorButton')?.addEventListener('click', changeTextColor);
-        document.getElementById('year').textContent = new Date().getFullYear();
-      
-        window.onload = function () {
-          typeEffect();
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  function changeBackgroundColor() {
+    const bgColor = getRandomColor();
+    document.body.style.backgroundColor = bgColor;
+    document.querySelector('header').style.backgroundColor = bgColor;
+    document.querySelector('footer').style.backgroundColor = bgColor;
+  }
+  function changeTextColor() {
+    const textColor = getRandomColor();
+    document.body.style.color = textColor;
+    document.querySelector('header').style.color = textColor;
+    document.querySelector('footer').style.color = textColor;
+    document.querySelectorAll('a').forEach(link => {
+      link.style.color = textColor;
+    });
+  }
+  const testimonials = [
+    '"Garbage ahh site!" - All the haters',
+    '"How are you so tall..?" - All the short people',
+    '"Why are you so good at everything you do." - No one :(',
+    '"If you are reading this, you are cool" - Me',
+    '"I won a basketball tourney" - Yosef (aka MJ)',
+    '"Bro who coded this? Oh wait..." - Also Me',
+    '"I love this site!" - My mom',
+    '"404: Normality Not Found" - Browser Diagnostics'
+  ];
+  let testimonialIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  function typeEffect() {
+    const currentTestimonial = testimonials[testimonialIndex];
+    const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
+    document.getElementById("testimonialText").innerHTML = displayText;
+    if (!isDeleting && charIndex === currentTestimonial.length) {
+      setTimeout(() => isDeleting = true, 400);
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+    }
+    setTimeout(typeEffect, isDeleting ? 20 : 30);
+  }
+  async function loadComments() {
+    const commentsSection = document.getElementById('commentsSection');
+    commentsSection.innerHTML = '<h3>Comments</h3>';
+    const snapshot = await db.collection("comments").orderBy("timestamp").get();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const id = doc.id;
+      displayComment(data.name, data.text, id, data.uid);
+    });
+  }
+  function displayComment(name, text, id, uid) {
+    const commentElement = document.createElement('div');
+    const nameElement = document.createElement('strong');
+    nameElement.textContent = name || "Guest";
+    commentElement.appendChild(nameElement);
+    const commentText = document.createElement('p');
+    commentText.textContent = text;
+    commentElement.appendChild(commentText);
+    if (currentUser && (currentUser.email === "yosefstifanos30@gmail.com" || currentUser.uid === uid)) {
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '🗑 Delete';
+      delBtn.className = 'button';
+      delBtn.style.backgroundColor = '#dc3545';
+      delBtn.style.marginTop = '5px';
+      delBtn.onclick = async () => {
+        await db.collection("comments").doc(id).delete();
+        loadComments();
+      };
+      commentElement.appendChild(delBtn);
+    }
+    if (currentUser && currentUser.uid === uid) {
+      const editBtn = document.createElement('button');
+      editBtn.textContent = '✏️ Edit';
+      editBtn.className = 'button';
+      editBtn.style.backgroundColor = '#ffc107';
+      editBtn.style.marginLeft = '5px';
+      editBtn.onclick = () => {
+        const newComment = prompt("Edit your comment:", text);
+        if (newComment) {
+          db.collection("comments").doc(id).update({ text: newComment });
           loadComments();
-      
-          const loginBtn = document.createElement("button");
-          loginBtn.textContent = "🔐 Log In";
-          loginBtn.className = "button";
-          loginBtn.onclick = loginUser;
-      
-          const logoutBtn = document.createElement("button");
-          logoutBtn.textContent = "🚪 Log Out";
-          logoutBtn.className = "button";
-          logoutBtn.style.marginLeft = "10px";
-          logoutBtn.onclick = logoutUser;
-      
-          document.body.insertBefore(loginBtn, document.body.firstChild);
-          document.body.insertBefore(logoutBtn, document.body.firstChild);
-        };
-      </script>      
+        }
+      };
+      commentElement.appendChild(editBtn);
+    }
+    document.getElementById('commentsSection').appendChild(commentElement);
+  }
+  function isCommentAllowed(text) {
+    const bannedWords = ["nigger", "fag", "faggot", "dyke", "retard", "kike", "chink", "tranny", "coon", "spic", "wetback", "sand nigger", "towelhead", "beaner", "bitch", "whore", "slut", "hoe", "kill yourself", "kys", "die", "go back", "terrorist", "isis"];
+    const lowered = text.toLowerCase();
+    return !bannedWords.some(word => lowered.includes(word));
+  }
+  async function saveComment(name, text) {
+    if (!isCommentAllowed(text)) {
+      alert("Your comment contains inappropriate or offensive language and was not posted.");
+      return;
+    }
+    await db.collection("comments").add({
+      name,
+      text,
+      uid: currentUser ? currentUser.uid : null,
+      timestamp: new Date()
+    });
+    console.log("Comment saved:", name, text);
+    loadComments();
+  }
+  document.getElementById('commentForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const comment = document.getElementById('comment').value;
+    saveComment(name, comment);
+    document.getElementById('commentForm').reset();
+  });
+  document.getElementById('clearCommentsButton').addEventListener('click', function () {
+    clearAllComments();
+  });
+  document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
+  document.getElementById('changeTextColorButton')?.addEventListener('click', changeTextColor);
+  document.getElementById('year').textContent = new Date().getFullYear();
+  window.onload = function () {
+  document.documentElement.style.visibility = 'visible';
+  document.documentElement.style.opacity = '1';
+    typeEffect();
+    loadComments();
+    const loginBtn = document.createElement("button");
+    loginBtn.textContent = "🔐 Log In";
+    loginBtn.className = "button";
+    loginBtn.onclick = loginUser;
+    const logoutBtn = document.createElement("button");
+    logoutBtn.textContent = "🚪 Log Out";
+    logoutBtn.className = "button";
+    logoutBtn.style.marginLeft = "10px";
+    logoutBtn.onclick = logoutUser;
+    document.body.insertBefore(loginBtn, document.body.firstChild);
+    document.body.insertBefore(logoutBtn, document.body.firstChild);
+  };
+</script>
+</body>
+</html>
