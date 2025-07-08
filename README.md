@@ -7,7 +7,7 @@ This site serves as a digital portfolio to highlight my background, resume, and 
 
 ## 🧠 About Me
 
-- I'm a third-year Data Science student at the University of Illinois Urbana-Champaign with a focus on cybersecurity and analytics.  
+- I'm a fourth-year Data Science student at the University of Illinois Urbana-Champaign with a focus on cybersecurity and analytics.  
 - I’m passionate about technology, problem-solving, soccer (Go Man United!), and building things that make an impact.
 
 ---
@@ -20,6 +20,14 @@ You can view my resume directly at:
 ---
 
 ## 🔬 Projects
+
+### 🔐 [NIST Password Generator + Passphrase Tool](https://yosefstifanos.github.io/NIST-password.html)
+- Generates strong, random passwords that meet NIST guidelines.
+- Checks passwords against known data breaches using the Have I Been Pwned API.
+- Also generates secure passphrases using a Diceware-style approach.
+- Technologies: `HTML`, `CSS`, `JavaScript`, [Have I Been Pwned API](https://haveibeenpwned.com/API/v3#PwnedPasswords)
+
+---
 
 ### 🎮 [Game Sales Prediction & Playtime Classification](https://github.com/yosefstifanos/final_project)
 - Built linear/logistic regression models to predict game sales and classify games by playtime.
