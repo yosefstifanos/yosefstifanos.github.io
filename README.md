@@ -21,7 +21,7 @@ You can view my resume directly at:
 
 ## 🔬 Projects
 
-### 🔐 [NIST Password Generator + Passphrase Tool](https://yosefstifanos.github.io/NIST-password.html)
+### 🔐 [NIST Password Generator + Passphrase Tool](https://yosefstifanos.github.io/NIST.html)
 - Generates strong, random passwords that meet NIST guidelines.
 - Checks passwords against known data breaches using the Have I Been Pwned API.
 - Also generates secure passphrases using a Diceware-style approach.
