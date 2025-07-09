@@ -128,7 +128,6 @@
         
         <label for="wordSource">Word Source:</label><br>
         <select id="wordSource">
-          <option value="simple">Simple Words (Fast)</option>
           <option value="english">English Dictionary (Comprehensive)</option>
           <option value="diceware">Diceware List (Secure)</option>
         </select><br>
@@ -156,8 +155,7 @@
     let englishWords = [];
     let dicewareWords = [];
     
-    // Simple word list as fallback
-    const simpleWords = ["apple","ball","cat","dog","eagle","fish","goat","hat","ice","jungle","kite","lion","moon","night","orange","piano","queen","river","star","tree","umbrella","vase","whale","xray","yellow","zebra","house","book","phone","water","green","happy","smile","dance","music","light","cloud","beach","forest","mountain","bridge","window","garden","flower","butter","coffee","cookie","friend","family","summer","winter","spring","autumn","travel","adventure","dream","magic","wonder","sparkle","rainbow","sunset","sunrise","ocean","island","castle","dragon","wizard","unicorn","treasure","journey","mystery","secret","whisper","laughter","courage","freedom","kindness","wisdom","harmony","peace","joy","hope","faith","love","trust","honor","grace","beauty","strength","power","energy","spirit","soul","heart","mind","thought","idea","vision","future","past","present","moment","memory","story","tale","legend","myth","hero","champion","leader","guide","teacher","student","artist","creator","builder","maker","inventor","explorer","pioneer","voyager","traveler","wanderer","seeker","finder","keeper","guardian","protector","defender","warrior","knight","prince","princess","king","queen","emperor","ruler","master","expert","genius","scholar","sage","wise","clever","smart","bright","brilliant","amazing","awesome","fantastic","wonderful","marvelous","incredible","outstanding","excellent","perfect","flawless","pristine","pure","clean","fresh","new","modern","advanced","sophisticated","elegant","graceful","beautiful","gorgeous","stunning","magnificent","spectacular","breathtaking","awe-inspiring","remarkable","extraordinary","exceptional","unique","special","precious","valuable","priceless","rare","uncommon","unusual","distinct","different","diverse","varied","colorful","vibrant","vivid","bold","striking","impressive","dramatic","exciting","thrilling","adventurous","daring","brave","fearless","confident","determined","persistent","resilient","strong","powerful","mighty","fierce","intense","passionate","enthusiastic","energetic","dynamic","active","lively","spirited","cheerful","optimistic","positive","uplifting","inspiring","motivating","encouraging","supportive","helpful","kind","gentle","caring","loving","compassionate","understanding","patient","tolerant","respectful","honest","trustworthy","reliable","loyal","faithful","devoted","committed","dedicated","focused","determined","ambitious","driven","motivated","successful","accomplished","skilled","talented","gifted","creative","innovative","imaginative","resourceful","adaptable","flexible","versatile","capable","competent","efficient","effective","productive","organized","systematic","methodical","logical","rational","reasonable","sensible","practical","realistic","grounded","stable","secure","safe","protected","comfortable","cozy","warm","inviting","welcoming","friendly","approachable","accessible","available","ready","prepared","equipped","armed","supplied","stocked","loaded","filled","complete","whole","entire","total","full","abundant","plentiful","rich","wealthy","prosperous","successful","fortunate","lucky","blessed","grateful","thankful","appreciative","mindful","aware","conscious","alert","attentive","observant","perceptive","insightful","understanding","knowledgeable","informed","educated","learned","experienced","seasoned","mature","grown","developed","evolved","advanced","progressed","improved","enhanced","upgraded","refined","polished","perfected","mastered","accomplished","achieved","attained","reached","arrived","landed","settled","established","founded","created","built","constructed","assembled","formed","shaped","molded","crafted","designed","planned","organized","arranged","coordinated","managed","directed","guided","led","conducted","performed","executed","delivered","provided","offered","presented","displayed","showed","demonstrated","illustrated","explained","described","detailed","specified","outlined","summarized","reviewed","analyzed","examined","studied","researched","investigated","explored","discovered","found","located","identified","recognized","acknowledged","accepted","approved","endorsed","supported","backed","sponsored","funded","financed","invested","contributed","donated","gave","shared","offered","provided","supplied","delivered","served","helped","assisted","aided","supported","encouraged","motivated","inspired","uplifted","elevated","raised","lifted","boosted","enhanced","improved","strengthened","fortified","reinforced","secured","protected","defended","guarded","watched","monitored","observed","tracked","followed","pursued","chased","hunted","sought","searched","looked","found","discovered","uncovered","revealed","exposed","shown","displayed","presented","introduced","launched","started","began","initiated","commenced","opened","activated","triggered","sparked","ignited","lit","illuminated","brightened","clarified","explained","simplified","streamlined","optimized","maximized","enhanced","improved","upgraded","updated","refreshed","renewed","restored","revived","rejuvenated","energized","activated","stimulated","motivated","inspired","encouraged","supported","helped","assisted","guided","directed","led","managed","organized","coordinated","planned","prepared","arranged","scheduled","timed","synchronized","harmonized","balanced","aligned","matched","paired","connected","linked","joined","united","merged","combined","integrated","incorporated","included","added","inserted","placed","positioned","located","situated","established","founded","created","formed","shaped","built","constructed","assembled","manufactured","produced","generated","developed","evolved","grew","expanded","extended","stretched","reached","arrived","landed","settled","stayed","remained","continued","persisted","endured","lasted","survived","thrived","flourished","prospered","succeeded","achieved","accomplished","attained","reached","arrived","landed","settled","established","founded","created","built","constructed","assembled","formed","shaped","molded","crafted","designed","planned","organized","arranged","coordinated","managed","directed","guided","led","conducted","performed","executed","delivered","provided","offered","presented","displayed","showed","demonstrated","illustrated","explained","described","detailed","specified","outlined","summarized","reviewed","analyzed","examined","studied","researched","investigated","explored","discovered","found","located","identified","recognized","acknowledged","accepted","approved","endorsed","supported","backed","sponsored","funded","financed","invested","contributed","donated","gave","shared","offered","provided","supplied","delivered","served","helped","assisted","aided","supported","encouraged","motivated","inspired","uplifted","elevated","raised","lifted","boosted","enhanced","improved","strengthened","fortified","reinforced","secured","protected","defended","guarded","watched","monitored","observed","tracked","followed","pursued","chased","hunted","sought","searched","looked","found","discovered","uncovered","revealed","exposed","shown","displayed","presented","introduced","launched","started","began","initiated","commenced","opened","activated","triggered","sparked","ignited","lit","illuminated","brightened","clarified","explained","simplified","streamlined","optimized","maximized","enhanced","improved","upgraded","updated","refreshed","renewed","restored","revived","rejuvenated","energized","activated","stimulated","motivated","inspired","encouraged","supported","helped","assisted","guided","directed","led","managed","organized","coordinated","planned","prepared","arranged","scheduled","timed","synchronized","harmonized","balanced","aligned","matched","paired","connected","linked","joined","united","merged","combined","integrated","incorporated","included","added","inserted","placed","positioned","located","situated"];
+
 
     async function generatePassword() {
       const length = Math.max(8, parseInt(document.getElementById("length").value));
@@ -199,15 +197,15 @@
       if (englishWords.length > 0) return englishWords;
       
       try {
-        // Using a free word list API
+
         const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
         const text = await response.text();
         const words = text.split('\n').filter(word => word.length >= 3 && word.length <= 8);
-        englishWords = words.slice(0, 10000); // Limit to 10k words for performance
+        englishWords = words.slice(0, 1000000000);
         return englishWords;
       } catch (error) {
         console.error('Failed to load English words:', error);
-        return simpleWords;
+        return [];
       }
     }
 
@@ -226,7 +224,7 @@
         return dicewareWords;
       } catch (error) {
         console.error('Failed to load Diceware words:', error);
-        return simpleWords;
+        return [];
       }
     }
 
@@ -241,7 +239,7 @@
       button.textContent = "Generating...";
       resultDiv.innerHTML = '<span class="loading">🔄 Loading words...</span>';
       
-      let wordList;
+      let wordList = [];
       
       try {
         switch (wordSource) {
@@ -251,9 +249,7 @@
           case 'diceware':
             wordList = await loadDicewareWords();
             break;
-          default:
-            wordList = simpleWords;
-        }
+          }
         
         let passphrase = [];
         for (let i = 0; i < wordCount; i++) {
@@ -264,16 +260,7 @@
         resultDiv.innerHTML = `<span class="success">${passphrase.join("-")}</span>`;
         
       } catch (error) {
-        resultDiv.innerHTML = `<span class="error">❌ Error generating passphrase. Using simple words as fallback.</span>`;
-        // Fallback to simple words
-        let passphrase = [];
-        for (let i = 0; i < wordCount; i++) {
-          const index = Math.floor(Math.random() * simpleWords.length);
-          passphrase.push(simpleWords[index]);
-        }
-        setTimeout(() => {
-          resultDiv.innerHTML = `<span class="success">${passphrase.join("-")}</span>`;
-        }, 1000);
+        resultDiv.innerHTML = `<span class="error">❌ Error generating passphrase. Please try again.</span>`;
       } finally {
         button.disabled = false;
         button.textContent = "Generate Passphrase";
