@@ -36,6 +36,17 @@ You can view my resume directly at:
 
 ---
 
+## 🏅 Certification
+
+**Google Cybersecurity Professional Certificate**  
+I completed the Google Cybersecurity Professional Certificate program, gaining hands-on experience in security operations, network defense, incident response, and more.
+
+[View Certificate](https://coursera.org/share/f9bf6647320fe57074c391169d92f173)
+
+![Google Cybersecurity Professional Certificate](yosef_cert_google.jpg)
+
+---
+
 ## 🛠️ Tech Stack
 
 **Languages:** Python, Java, JavaScript, HTML, CSS, SQL  
