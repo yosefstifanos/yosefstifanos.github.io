@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Red Resilience — Manchester United 2024/25</title>
+  <style>
+    :root{--red:#c8102e;--dark:#0b0b0b;--gold:#d6a33a;--muted:#666}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:#111;background:#fff}
+    .container{max-width:1000px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,var(--red),#7a0b13);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    h1{margin:0;font-size: clamp(20px,4vw,36px)}
+    p.lead{color:var(--muted);margin:12px 0 24px}
+    .hero{position:relative;border-radius:12px;overflow:hidden}
+    .hero img{width:100%;height:420px;object-fit:cover;display:block;filter:grayscale(10%) contrast(92%)}
+    .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,11,0.25),rgba(11,11,11,0.55));display:flex;align-items:flex-end;padding:24px}
+    .overlay h2{color:#fff;margin:0;font-size:clamp(18px,3vw,28px)}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:28px}
+    article{background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 24px rgba(11,11,11,0.06)}
+    .sidebar{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 24px rgba(11,11,11,0.06)}
+    section.lesson{margin-bottom:18px}
+    h3{margin:0 0 8px}
+    .pull{font-weight:700;color:var(--red);font-size:18px;margin:12px 0}
+    .keystats{list-style:none;padding:0;margin:0}
+    .keystats li{padding:8px 0;border-bottom:1px solid #f1f1f1;color:var(--muted)}
+    .quote{font-style:italic;color:#222;padding:12px;background:#fff6f6;border-left:4px solid var(--red);border-radius:6px}
+    .fanqa{margin-top:12px}
+    .fanqa p{margin:8px 0}
+    footer{margin-top:36px;padding-top:20px;border-top:1px solid #eee;color:var(--muted);font-size:14px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}.hero img{height:240px}}
+    /* subtle reveal animations */
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .tag{display:inline-block;padding:6px 10px;border-radius:20px;background:#fff6f6;color:var(--red);font-weight:600;margin-right:8px;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MU</div>
+        <div>
+          <h1>Red Resilience</h1>
+          <div style="color:var(--muted);font-size:14px">Life Lessons from Manchester United’s 2024/25 Season</div>
+        </div>
+      </div>
+      <div style="text-align:right;color:var(--muted);font-size:14px">By: Yosef Stifanos • Interactive Feature</div>
+    </header>
+
+    <p class="lead">This interactive feature explores how a difficult season can still teach lessons about loyalty, growth, and perseverance. Scroll to move through the narrative—from the low points to the moments of hope.</p>
+
+    <div class="hero">
+      <img src="/united-at-old-trafford.jpg" alt="Collage: Old Trafford, players, fans — Red Resilience">
+      <div class="overlay">
+        <div>
+          <h2>From struggle to comeback: what being a fan taught me</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article id="story">
+        <section class="lesson reveal" id="s1">
+          <div class="tag">Fall</div>
+          <h3>When the season hit bottom</h3>
+          <p>United’s 2024/25 campaign included unexpected losses and off-field change. These moments felt heavy, but they set the stage for self-reflection and rebuilding. The pain of defeat made each small positive moment matter more.</p>
+          <div class="pull">"Losing isn’t the problem—giving up is."</div>
+        </section>
+
+        <section class="lesson reveal" id="s2">
+          <div class="tag">Reflection</div>
+          <h3>What change looked like</h3>
+          <p>The season included managerial transitions and boardroom shifts. Change is messy, but change can be necessary. For fans and players, adapting became an unexpected lesson in patience and flexibility.</p>
+        </section>
+
+        <section class="lesson reveal" id="s3">
+          <div class="tag">Resilience</div>
+          <h3>Small wins that mattered</h3>
+          <p>From scoring droughts ending to a run to the Europa League final, tiny victories reminded supporters that progress takes time. These moments offered fuel to keep believing.</p>
+        </section>
+
+        <section class="lesson reveal" id="s4">
+          <div class="tag">Unity</div>
+          <h3>The strength in togetherness</h3>
+          <p>Whether in the stands or on the pitch, unity remained constant. The team’s and fans’ shared identity made every comeback and every setback feel collective—part of a longer story.</p>
+        </section>
+
+        <section class="lesson reveal" id="s5">
+          <div class="tag">Hope</div>
+          <h3>Looking forward</h3>
+          <p>The final image is always of sunrise—literal or metaphorical. Manchester United’s season taught me that loyalty isn’t conditional on trophies; it’s about sticking with something bigger than a single year.</p>
+        </section>
+
+        <div class="fanqa reveal">
+          <h3>Fan Voices</h3>
+          <p class="quote">"Even in the worst season, the small moments keep you coming back." — United Supporter</p>
+          <p><strong>Q:</strong> What moment stuck with you this year?<br><em>A:</em> Reaching the Europa League final—proof that fight never truly dies.</p>
+        </div>
+
+      </article>
+
+      <aside class="sidebar reveal" id="side">
+        <h3>Key Stats & Moments</h3>
+        <ul class="keystats">
+          <li>League finish: 15th — a low point in recent history</li>
+          <li>Europa League: Runners-up — a sign of persistence</li>
+          <li>Notable performance: Højlund ends drought; youth stepping up</li>
+        </ul>
+
+        <h3 style="margin-top:16px">Pull Quote</h3>
+        <div class="quote">Resilience—not perfection—is what keeps you United.</div>
+
+        <h3 style="margin-top:16px">Share</h3>
+        <p style="color:var(--muted)">Use the buttons below to save or share the piece.</p>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button onclick="share()" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee;background:var(--red);color:#fff;cursor:pointer">Share</button>
+          <button onclick="download()" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee;background:#fff;color:var(--red);cursor:pointer">Download</button>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>
+      <div>© Red Resilience — A fan project</div>
+      <div style="margin-top:6px">Built as a web composition for class. Images may be edited or symbolic.</div>
+    </footer>
+  </div>
+
+  <script>
+    // simple reveal on scroll
+    const revealElems = document.querySelectorAll('.reveal');
+    const onScroll = ()=>{
+      const top = window.scrollY + window.innerHeight * 0.85;
+      revealElems.forEach(el=>{
+        if(el.getBoundingClientRect().top + window.scrollY < top){el.classList.add('visible')}
+      })
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+
+    function share(){
+      alert('Share: copy URL or screenshot this feature to share with classmates.');
+    }
+    function download(){
+      alert('Download: Right-click the page and choose Save As to download the HTML.');
+    }
+  </script>
+</body>
+</html>
