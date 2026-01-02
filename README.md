@@ -15,7 +15,7 @@ This site serves as a digital portfolio to highlight my background, resume, and 
 ## 📄 Resume
 
 You can view my resume directly at:  
-[📎 Yosef_Resume_2025.pdf](https://yosefstifanos.github.io/Yosef_Resume_2026.pdf)
+[📎 Yosef's Resume](https://yosefstifanos.github.io/Yosef_Resume_2026.pdf)
 
 ---
 
