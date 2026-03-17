@@ -1,551 +1,676 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Yosef D. Stifanos" />
-  <title>Yosef's Portfolio</title>
+  <title>Yosef Stifanos — Portfolio</title>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
   <style>
-  #particles-js {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    top: 0;
-    left: 0;
-  } 
-
-    html {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-      scroll-behavior: smooth;
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:        #0f0f13;
+      --bg2:       #16161d;
+      --bg3:       #1c1c26;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #e2e2e8;
+      --muted:     #888899;
+      --accent:    #6c63ff;
+      --accent2:   #a78bfa;
+      --card-bg:   #1a1a24;
+      --card-shad: 0 4px 32px rgba(0,0,0,0.45);
+      --nav-bg:    rgba(15,15,19,0.85);
+      --tag-bg:    rgba(108,99,255,0.15);
+      --tag-text:  #a78bfa;
+      --btn-bg:    #6c63ff;
+      --btn-hover: #5a52e0;
+      --link:      #818cf8;
+      --footer-bg: #0a0a0e;
     }
+    [data-theme="light"] {
+      --bg:        #f4f4f8;
+      --bg2:       #ffffff;
+      --bg3:       #eeeef4;
+      --border:    rgba(0,0,0,0.09);
+      --text:      #1a1a2e;
+      --muted:     #666680;
+      --accent:    #4f46e5;
+      --accent2:   #7c3aed;
+      --card-bg:   #ffffff;
+      --card-shad: 0 4px 24px rgba(0,0,0,0.08);
+      --nav-bg:    rgba(244,244,248,0.9);
+      --tag-bg:    rgba(79,70,229,0.1);
+      --tag-text:  #4f46e5;
+      --btn-bg:    #4f46e5;
+      --btn-hover: #4338ca;
+      --link:      #4f46e5;
+      --footer-bg: #1a1a2e;
+    }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
     body {
-  
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  color: #1a1a1a;
-  line-height: 1.6;
-  transition: background 0.4s, color 0.4s;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
 
-  transition: background 0.4s ease, color 0.4s ease;
-}
-    header {
-  background: transparent;
-  color: #333;
-  padding: 40px 0;
-  text-align: center;
-  box-shadow: none;
-}
-    header h1 {
-      font-size: 3em;
-      margin: 0 0 10px;
+    /* ── PARTICLES ──────────────────────────────────────── */
+    #particles-js {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
-    header h2 a {
-      color: #ffe066;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-    }
-    header h2 a:hover {
-      text-decoration: underline;
-    }
+
+    /* ── NAV ────────────────────────────────────────────── */
     nav {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      background: #f8f9fa;
-      padding: 15px 0;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
     }
-    .button {
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s ease;
+    .nav-logo {
+      font-weight: 700; font-size: 1.1rem;
+      color: var(--accent2); letter-spacing: -0.02em;
     }
-    .button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
+    .nav-links {
+      display: flex; gap: 6px; flex-wrap: wrap;
     }
-    .container {
-  
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    
-  transition: background 0.4s ease, box-shadow 0.4s ease;
-  animation: fadeInUp 0.5s ease forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-    ul {
-      padding-left: 20px;
-    }
-    ul li {
-      margin: 10px 0;
-    }
-    ul li a {
-      color: #007BFF;
+    .nav-links a {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted);
       text-decoration: none;
+      transition: background 0.2s, color 0.2s;
     }
-    ul li a:hover {
-      text-decoration: underline;
+    .nav-links a:hover {
+      background: var(--tag-bg);
+      color: var(--accent2);
     }
-    .testimonials blockquote {
-      background: #fafafa;
-      border-left: 5px solid #007BFF;
-      padding: 15px 20px;
+    .theme-toggle {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 100px 2rem 80px;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .hero h1 span { color: var(--accent2); }
+    .hero p {
+      max-width: 520px; margin: 0 auto 32px;
+      color: var(--muted); font-size: 1.05rem;
+    }
+    .hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 22px;
+      border-radius: 10px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary { background: var(--btn-bg); color: #fff; }
+    .btn-primary:hover { background: var(--btn-hover); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent2); }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .section {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto 60px;
+      padding: 0 1.5rem;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .section h2 {
+      font-size: 1.75rem; font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    /* ── CARDS ──────────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: var(--card-shad);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: rgba(108,99,255,0.3); transform: translateY(-2px); }
+    .card + .card { margin-top: 16px; }
+
+    /* ── PROJECT CARDS ──────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 28px;
+      box-shadow: var(--card-shad);
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .project-card:hover { border-color: rgba(108,99,255,0.35); transform: translateY(-3px); }
+    .project-icon {
+      font-size: 28px; line-height: 1;
+    }
+    .project-title {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text);
+    }
+    .project-desc {
+      font-size: 14px; color: var(--muted); line-height: 1.65;
+      flex: 1;
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 12px;
+      background: var(--tag-bg); color: var(--tag-text);
+    }
+    .project-footer {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px;
+    }
+
+    /* ── ABOUT LIST ─────────────────────────────────────── */
+    .about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .about-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px;
+    }
+    .about-list li span.icon {
+      font-size: 18px; flex-shrink: 0; margin-top: 1px;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── CERT ───────────────────────────────────────────── */
+    .cert-img {
+      width: 100%; border-radius: 10px;
+      margin-top: 16px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── NIST ───────────────────────────────────────────── */
+    .nist-desc { font-size: 15px; color: var(--muted); margin-bottom: 20px; line-height: 1.7; }
+
+    /* ── TESTIMONIAL ────────────────────────────────────── */
+    .testimonial-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 16px;
+      padding: 28px 32px;
       font-style: italic;
-      border-radius: 5px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      min-height: 68px;
     }
-    form input, form textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1em;
+    .cursor { display: inline-block; animation: blink 0.75s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── RESUME ─────────────────────────────────────────── */
+    .resume-embed {
+      width: 100%; height: 780px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
     }
-    #commentsSection div {
-      background: #f9f9f9;
-      padding: 15px;
+
+    /* ── COMMENTS ───────────────────────────────────────── */
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%; padding: 12px 16px;
+      margin-bottom: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .comment-form input:focus,
+    .comment-form textarea:focus { border-color: var(--accent); }
+    .comment-form textarea { min-height: 100px; resize: vertical; }
+    .comment-item {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
       margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
+    .comment-item strong { color: var(--accent2); font-size: 14px; }
+    .comment-item p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .comment-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .btn-sm {
+      padding: 5px 12px; font-size: 12px; font-weight: 600;
+      border-radius: 7px; border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-sm:hover { opacity: 0.8; }
+    .btn-danger { background: #7f1d1d; color: #fca5a5; }
+    .btn-warn { background: #78350f; color: #fde68a; }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
     footer {
-  text-align: center;
-  padding: 20px;
-  background: #1a1a1a;
-  color: white;
-  font-weight: bold;
-  margin-top: 50px;
-  transition: background 0.4s;
-}
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2em;
-      }
-      .container {
-        padding: 20px;
-      }
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--footer-bg);
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
     }
-  @keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>
+    footer span { color: var(--accent2); font-weight: 600; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .hero { padding: 70px 1.25rem 60px; }
+      .card, .project-card { padding: 20px; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── DIVIDER ────────────────────────────────────────── */
+    .divider {
+      height: 1px; background: var(--border);
+      max-width: 860px; margin: 0 auto 60px;
+    }
+  </style>
 </head>
 <body>
-  <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
 
-<header>
-  <h1>Yosef's Portfolio</h1>
-  <h2>
-    <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank">LinkedIn</a> |
-    <a href="https://github.com/yosefstifanos" target="_blank">GitHub</a>
-  </h2>
-</header>
+<div id="particles-js"></div>
 
-<nav style="text-align:center; padding: 10px; background: #eee;">
-  <a href="#about" class="button">About</a>
-  <a href="#project" class="button">Project</a>
-  <a href="red_resilience_website.html" class="button">Manchester United Article</a>
-  <a href="#nist-password" class="button">NIST Password Tool</a>
-  <a href="#resume" class="button">Resume</a>
-  <a href="#comments" class="button">Comments</a>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YS</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#cert">Cert</a>
+    <a href="#resume">Resume</a>
+    <a href="#comments">Comments</a>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
 </nav>
 
-<div style="text-align:center; margin: 10px 0;">
-  <label style="font-weight: bold;">
-    🌙 Dark Mode:
-    <input type="checkbox" id="darkModeToggle" />
-  </label>
-</div>
-
-<div style="text-align: center; margin-top: 20px;">
-  <button id="changeColorButton" class="button">Change Page Color</button>
-  <button id="changeTextColorButton" class="button">Change Text Color</button>
-</div>
-
-<div class="container" id="about">
-  <h2>About Me</h2>
-  <p>Hi! My name is Yosef Stifanos and I am a 4th Year student at the University of Illinois at Urbana-Champaign. Some fun facts about me:</p>
-  <ul>
-    <li> I'm currently studying Data Science (focused on Cybersecurity).</li>
-    <li> I love SOCCER (MAN UNITED)!</li>
-    <li> I love <a href="https://www.google.com/search?q=injera" target="_blank">Injera (click on me) </a> (Eritrean/Ethiopian flatbread).</li>
-  </ul>
-</div>
-
-<div class="container" id="google-cert">
-  <h2>🏅 Google Cybersecurity Professional Certificate</h2>
-  <p>
-    I completed the <strong>Google Cybersecurity Professional Certificate</strong> program, gaining hands-on experience in security operations, network defense, incident response, and more.
-  </p>
-  <div style="margin-top:18px; text-align:center;">
-    <a href="https://coursera.org/share/f9bf6647320fe57074c391169d92f173" target="_blank" class="button" style="margin-bottom:18px;">View Certificate</a>
-    <br>
-    <img src="yosef_cert_google.jpg" alt="Google Cybersecurity Professional Certificate" style="max-width:100%; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-top:18px;" />
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Open to opportunities</div>
+  <h1>Hi, I'm <span>Yosef Stifanos</span></h1>
+  <p>Data Science student at UIUC, focused on cybersecurity, machine learning, and building things that actually work.</p>
+  <div class="hero-links">
+    <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank" class="btn btn-primary">LinkedIn</a>
+    <a href="https://github.com/yosefstifanos" target="_blank" class="btn btn-ghost">GitHub</a>
   </div>
-</div>
+</section>
 
-<div class="container" id="nist-password">
-  <h2>🔐 NIST Password Generator + Passphrase Tool</h2>
-  <p>
-    This tool generates strong, random passwords that meet <strong>NIST</strong> guidelines and checks them against known data breaches using the <a href="https://haveibeenpwned.com/API/v3#PwnedPasswords" target="_blank">Have I Been Pwned</a> API.<br>
-    It also creates secure passphrases using a Diceware-style approach!!!<br>
-  </p>
-  <div style="margin-top: 24px;">
-    <a href="NIST.html" target="_blank" class="button">Try the NIST Password Tool</a>
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-label">About</div>
+  <h2>A bit about me</h2>
+  <div class="card">
+    <ul class="about-list">
+      <li><span class="icon">🎓</span><span>4th year at the University of Illinois at Urbana-Champaign studying Data Science (Cybersecurity focus)</span></li>
+      <li><span class="icon">⚽</span><span>Massive football fan — Man United through the bad times and the worse times</span></li>
+      <li><span class="icon">🍞</span><span>Obsessed with <a href="https://www.google.com/search?q=injera" target="_blank">Injera</a> — Eritrean/Ethiopian flatbread that goes with everything</span></li>
+      <li><span class="icon">🏀</span><span>Won a basketball tournament (the model predicted it)</span></li>
+    </ul>
   </div>
-</div>
+</section>
 
-<div class="container" id="project">
-  <h2>🚀 Featured Project: Game Sales Prediction</h2>
-  <p>
-    Predictive modeling and classification project using Python.<br>
-    Built linear/logistic regression models to predict game sales and classify playtime categories.<br>
-    Evaluated models using R², RMSE, AUC, and accuracy metrics.
-  </p>
-  <p>
-    📂 GitHub Repository:
-    <a href="https://github.com/yosefstifanos/final_project" target="_blank">yosefstifanos/final_project</a>
-  </p>
-</div>
+<div class="divider"></div>
 
-<div class="container testimonials">
-  <h3>What's spittin in Chambana</h3>
-  <blockquote>
-    <p id="testimonialText"></p>
-  </blockquote>
-</div>
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="section-label">Work</div>
+  <h2>Projects</h2>
+  <div class="projects-grid">
 
-<div class="container" id="resume">
-  <h3>Resume</h3>
-  <embed src="Yosef_Resume_2026.pdf" type="application/pdf" width="100%" height="800px" style="border: 1px solid #ccc; border-radius: 8px;" />
-</div>
+    <!-- March Madness 2026 -->
+    <div class="project-card" style="border-color:rgba(108,99,255,0.4)">
+      <div class="project-icon">🏀</div>
+      <div class="project-title">2026 March Madness ML Predictor</div>
+      <div class="project-desc">
+        Built an ML ensemble (XGBoost, neural net, random forest, Bayesian LR) trained on 25 years of NCAA data — KenPom efficiency metrics, Vegas spreads, BartTorvik, and more. Runs 100,000 Monte Carlo simulations to output championship probabilities, upset picks, and a full bracket.
+      </div>
+      <div class="project-tags">
+        <span class="tag">XGBoost</span>
+        <span class="tag">Neural Net</span>
+        <span class="tag">Monte Carlo</span>
+        <span class="tag">KenPom</span>
+        <span class="tag">Vegas Odds</span>
+      </div>
+      <div class="project-footer">
+        <a href="mm26.html" class="btn btn-primary" style="font-size:13px;padding:9px 18px">🚀 Try it live</a>
+        <a href="https://github.com/yosefstifanos" target="_blank" class="btn btn-ghost" style="font-size:13px;padding:9px 18px">GitHub</a>
+      </div>
+    </div>
 
-<div class="container" id="comments">
-  <h3>Leave a Comment</h3>
-  <form id="commentForm">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <textarea id="comment" placeholder="Your Comment" required></textarea>
-    <button type="submit" class="button">Submit</button>
-  </form>
-  <div id="commentsSection">
-    <h3>Comments</h3>
+    <!-- Game Sales -->
+    <div class="project-card">
+      <div class="project-icon">🎮</div>
+      <div class="project-title">Game Sales Prediction</div>
+      <div class="project-desc">
+        Predictive modeling and classification project using Python. Built linear and logistic regression models to predict game sales and classify playtime categories. Evaluated using R², RMSE, AUC, and accuracy metrics.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Regression</span>
+        <span class="tag">Classification</span>
+        <span class="tag">scikit-learn</span>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/yosefstifanos/final_project" target="_blank" class="btn btn-ghost" style="font-size:13px;padding:9px 18px">View on GitHub</a>
+      </div>
+    </div>
+
+    <!-- NIST -->
+    <div class="project-card">
+      <div class="project-icon">🔐</div>
+      <div class="project-title">NIST Password Generator</div>
+      <div class="project-desc">
+        Generates strong random passwords meeting NIST guidelines and checks them against known data breaches using the Have I Been Pwned API. Also creates secure passphrases using a Diceware-style approach.
+      </div>
+      <div class="project-tags">
+        <span class="tag">NIST</span>
+        <span class="tag">Security</span>
+        <span class="tag">HIBP API</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="project-footer">
+        <a href="NIST.html" target="_blank" class="btn btn-ghost" style="font-size:13px;padding:9px 18px">Try the tool</a>
+      </div>
+    </div>
+
+    <!-- Man United Article -->
+    <div class="project-card">
+      <div class="project-icon">🔴</div>
+      <div class="project-title">Manchester United — Red Resilience</div>
+      <div class="project-desc">
+        A deep-dive article on Manchester United's resilience, history, and identity. Written for fans who remember what it felt like when United meant something different.
+      </div>
+      <div class="project-tags">
+        <span class="tag">Writing</span>
+        <span class="tag">Football</span>
+        <span class="tag">Analysis</span>
+      </div>
+      <div class="project-footer">
+        <a href="red_resilience_website.html" class="btn btn-ghost" style="font-size:13px;padding:9px 18px">Read article</a>
+      </div>
+    </div>
+
   </div>
-  <button id="clearCommentsButton" class="button" style="background-color: #FF0000;">Clear Comments</button>
-</div>
+</section>
 
+<div class="divider"></div>
+
+<!-- CERT -->
+<section class="section" id="cert">
+  <div class="section-label">Credentials</div>
+  <h2>Google Cybersecurity Certificate</h2>
+  <div class="card">
+    <p style="color:var(--muted);font-size:15px;margin-bottom:18px">
+      Completed the Google Cybersecurity Professional Certificate — hands-on experience in security operations, network defense, incident response, and threat analysis.
+    </p>
+    <a href="https://coursera.org/share/f9bf6647320fe57074c391169d92f173" target="_blank" class="btn btn-primary">View Certificate</a>
+    <img src="yosef_cert_google.jpg" alt="Google Cybersecurity Certificate" class="cert-img" />
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="section-label">Vibes</div>
+  <h2>What's spittin in Chambana</h2>
+  <div class="testimonial-box">
+    <span id="testimonialText"></span><span class="cursor">|</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESUME -->
+<section class="section" id="resume">
+  <div class="section-label">Resume</div>
+  <h2>My Resume</h2>
+  <embed src="Yosef_Resume_2026.pdf" type="application/pdf" class="resume-embed" />
+</section>
+
+<div class="divider"></div>
+
+<!-- COMMENTS -->
+<section class="section" id="comments">
+  <div class="section-label">Connect</div>
+  <h2>Leave a comment</h2>
+  <div class="card comment-form">
+    <form id="commentForm">
+      <input type="text" id="name" placeholder="Your name" required />
+      <textarea id="comment" placeholder="Your comment" required></textarea>
+      <button type="submit" class="btn btn-primary">Post comment</button>
+    </form>
+  </div>
+  <div id="commentsSection" style="margin-top:20px">
+    <p style="color:var(--muted);font-size:14px">Loading comments...</p>
+  </div>
+  <button id="clearCommentsButton" class="btn btn-ghost" style="margin-top:12px;font-size:13px;color:#fca5a5;border-color:rgba(239,68,68,0.3)">Clear all comments</button>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>&copy; <span id="year"></span> Yosef Stifanos. All rights reserved.</p>
+  <p>© <span id="year"></span> <span>Yosef Stifanos</span>. All rights reserved.</p>
+  <p style="margin-top:6px;font-size:12px">Built with curiosity and too much coffee ☕</p>
 </footer>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
 
-
-
 <script>
-// Detect system dark mode preference
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('darkMode')) {
-  localStorage.setItem('darkMode', 'true');
-  document.getElementById('darkModeToggle').checked = true;
-  enableDarkMode();
+// ── THEME ────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  updateParticles(!isDark);
 }
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD_QfzT9Emz7sM-g_bQPagA-IxTjM8Scw4",
-    authDomain: "yosefstifanos.firebaseapp.com",
-    projectId: "yosefstifanos",
-    storageBucket: "yosefstifanos.firebasestorage.app",
-    messagingSenderId: "29657148240",
-    appId: "1:29657148240:web:39817e2f3bcfc57e251a55"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
-  let currentUser = null;
-  function loginUser() {
-    const email = prompt("Enter email:");
-    const password = prompt("Enter password:");
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        currentUser = userCredential.user;
-        alert("Logged in!");
-        loadComments();
-      })
-      .catch((error) => {
-        alert("Login failed: " + error.message);
-      });
-  }
-  function logoutUser() {
-    auth.signOut().then(() => {
-      currentUser = null;
-      alert("Logged out.");
-      loadComments();
-    });
-  }
-  auth.onAuthStateChanged((user) => {
-    currentUser = user;
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('themeBtn').textContent = theme === 'dark' ? '🌙 Dark' : '☀️ Light';
   });
-  function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-  function changeBackgroundColor() {
-    if (localStorage.getItem('darkMode') === 'true') return;
-    const bgColor = getRandomColor();
-    document.body.style.backgroundColor = bgColor;
-    document.querySelector('header').style.backgroundColor = bgColor;
-    document.querySelector('footer').style.backgroundColor = bgColor;
-  }
-  function changeTextColor() {
-    const textColor = getRandomColor();
-    document.body.style.color = textColor;
-    document.querySelector('header').style.color = textColor;
-    document.querySelector('footer').style.color = textColor;
-    document.querySelectorAll('a').forEach(link => {
-      link.style.color = textColor;
-    });
-  }
-  const testimonials = [
-    '"Garbage ahh site!" - All the haters',
-    '"How are you so tall..?" - All the short people',
-    '"Why are you so good at everything you do." - No one :(',
-    '"If you are reading this, you are cool" - Me',
-    '"I won a basketball tourney" - Yosef (aka MJ)',
-    '"Bro who coded this? Oh wait..." - Also Me',
-    '"I love this site!" - My mom',
-    '"404: Normality Not Found" - Browser Diagnostics'
-  ];
-  let testimonialIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  function typeEffect() {
-    const currentTestimonial = testimonials[testimonialIndex];
-    const displayText = isDeleting ? currentTestimonial.substring(0, charIndex--) : currentTestimonial.substring(0, charIndex++);
-    document.getElementById("testimonialText").innerHTML = displayText;
-    if (!isDeleting && charIndex === currentTestimonial.length) {
-      setTimeout(() => isDeleting = true, 400);
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      testimonialIndex = (testimonialIndex + 1) % testimonials.length;
-    }
-    setTimeout(typeEffect, isDeleting ? 20 : 30);
-  }
-  async function loadComments() {
-    const commentsSection = document.getElementById('commentsSection');
-    commentsSection.innerHTML = '<h3>Comments</h3>';
-    const snapshot = await db.collection("comments").orderBy("timestamp").get();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const id = doc.id;
-      displayComment(data.name, data.text, id, data.uid);
-    });
-  }
-  function displayComment(name, text, id, uid) {
-    const commentElement = document.createElement('div');
-    const nameElement = document.createElement('strong');
-    nameElement.textContent = name || "Guest";
-    commentElement.appendChild(nameElement);
-    const commentText = document.createElement('p');
-    commentText.textContent = text;
-    commentElement.appendChild(commentText);
-    if (currentUser && (currentUser.email === "yosefstifanos30@gmail.com" || currentUser.uid === uid)) {
-      const delBtn = document.createElement('button');
-      delBtn.textContent = '🗑 Delete';
-      delBtn.className = 'button';
-      delBtn.style.backgroundColor = '#dc3545';
-      delBtn.style.marginTop = '5px';
-      delBtn.onclick = async () => {
-        await db.collection("comments").doc(id).delete();
-        loadComments();
+})();
+
+// ── FIREBASE ─────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyD_QfzT9Emz7sM-g_bQPagA-IxTjM8Scw4",
+  authDomain: "yosefstifanos.firebaseapp.com",
+  projectId: "yosefstifanos",
+  storageBucket: "yosefstifanos.firebasestorage.app",
+  messagingSenderId: "29657148240",
+  appId: "1:29657148240:web:39817e2f3bcfc57e251a55"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+let currentUser = null;
+auth.onAuthStateChanged(u => { currentUser = u; });
+
+// ── COMMENTS ─────────────────────────────────────────────
+const BANNED = ["nigger","fag","faggot","dyke","retard","kike","chink","tranny","coon","spic","wetback","sand nigger","towelhead","beaner","bitch","whore","slut","hoe","kill yourself","kys","die","go back","terrorist","isis"];
+function isAllowed(text) {
+  const l = text.toLowerCase();
+  return !BANNED.some(w => l.includes(w));
+}
+async function loadComments() {
+  const el = document.getElementById('commentsSection');
+  el.innerHTML = '';
+  const snap = await db.collection("comments").orderBy("timestamp").get();
+  if (snap.empty) { el.innerHTML = '<p style="color:var(--muted);font-size:14px">No comments yet. Be the first!</p>'; return; }
+  snap.forEach(doc => { renderComment(doc.data(), doc.id); });
+}
+function renderComment(data, id) {
+  const div = document.createElement('div');
+  div.className = 'comment-item';
+  div.innerHTML = `<strong>${data.name || 'Guest'}</strong><p>${data.text}</p>`;
+  if (currentUser && (currentUser.email === "yosefstifanos30@gmail.com" || currentUser.uid === data.uid)) {
+    const actions = document.createElement('div');
+    actions.className = 'comment-actions';
+    const del = document.createElement('button');
+    del.textContent = '🗑 Delete'; del.className = 'btn-sm btn-danger';
+    del.onclick = async () => { await db.collection("comments").doc(id).delete(); loadComments(); };
+    actions.appendChild(del);
+    if (currentUser.uid === data.uid) {
+      const edit = document.createElement('button');
+      edit.textContent = '✏️ Edit'; edit.className = 'btn-sm btn-warn';
+      edit.onclick = () => {
+        const nc = prompt("Edit comment:", data.text);
+        if (nc) { db.collection("comments").doc(id).update({ text: nc }); loadComments(); }
       };
-      commentElement.appendChild(delBtn);
+      actions.appendChild(edit);
     }
-    if (currentUser && currentUser.uid === uid) {
-      const editBtn = document.createElement('button');
-      editBtn.textContent = '✏️ Edit';
-      editBtn.className = 'button';
-      editBtn.style.backgroundColor = '#ffc107';
-      editBtn.style.marginLeft = '5px';
-      editBtn.onclick = () => {
-        const newComment = prompt("Edit your comment:", text);
-        if (newComment) {
-          db.collection("comments").doc(id).update({ text: newComment });
-          loadComments();
-        }
-      };
-      commentElement.appendChild(editBtn);
-    }
-    document.getElementById('commentsSection').appendChild(commentElement);
+    div.appendChild(actions);
   }
-  function isCommentAllowed(text) {
-    const bannedWords = ["nigger", "fag", "faggot", "dyke", "retard", "kike", "chink", "tranny", "coon", "spic", "wetback", "sand nigger", "towelhead", "beaner", "bitch", "whore", "slut", "hoe", "kill yourself", "kys", "die", "go back", "terrorist", "isis"];
-    const lowered = text.toLowerCase();
-    return !bannedWords.some(word => lowered.includes(word));
-  }
-  async function saveComment(name, text) {
-    if (!isCommentAllowed(text)) {
-      alert("Your comment contains inappropriate or offensive language and was not posted.");
-      return;
-    }
-    await db.collection("comments").add({
-      name,
-      text,
-      uid: currentUser ? currentUser.uid : null,
-      timestamp: new Date()
-    });
-    console.log("Comment saved:", name, text);
-    loadComments();
-  }
-  document.getElementById('commentForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    const comment = document.getElementById('comment').value;
-    saveComment(name, comment);
-    document.getElementById('commentForm').reset();
-  });
-  document.getElementById('clearCommentsButton').addEventListener('click', function () {
-    clearAllComments();
-  });
-  document.getElementById('changeColorButton')?.addEventListener('click', changeBackgroundColor);
-  document.getElementById('changeTextColorButton')?.addEventListener('click', changeTextColor);
-  document.getElementById('year').textContent = new Date().getFullYear();
-  window.onload = function () {
-  document.documentElement.style.visibility = 'visible';
-  document.documentElement.style.opacity = '1';
-    typeEffect();
-    loadComments();
-    const loginBtn = document.createElement("button");
-    loginBtn.textContent = "🔐 Log In";
-    loginBtn.className = "button";
-    loginBtn.onclick = loginUser;
-    const logoutBtn = document.createElement("button");
-    logoutBtn.textContent = "🚪 Log Out";
-    logoutBtn.className = "button";
-    logoutBtn.style.marginLeft = "10px";
-    logoutBtn.onclick = logoutUser;
-    document.body.insertBefore(loginBtn, document.body.firstChild);
-    document.body.insertBefore(logoutBtn, document.body.firstChild);
-  };
-
-  // Function to enable dark mode
-  function enableDarkMode() {
-    document.body.style.backgroundColor = "#121212"; // Only background
-    localStorage.setItem('darkMode', 'true');
-    document.getElementById('darkModeToggle').checked = true;
-  }
-
-  // Function to disable dark mode
-  function disableDarkMode() {
-    document.body.style.backgroundColor = ""; // Reset to default
-    localStorage.setItem('darkMode', 'false');
-    document.getElementById('darkModeToggle').checked = false;
-  }
-
-  // Function to toggle dark mode
-  function toggleDarkMode() {
-    if (localStorage.getItem('darkMode') === 'true') {
-    disableDarkMode();
-    } else {
-      enableDarkMode();
-    }
-  }
-
-
-  // Check localStorage for dark mode preference on page load
-  if (localStorage.getItem('darkMode') === 'true') {
-    enableDarkMode();
-    document.getElementById('darkModeToggle').checked = true;
-  }
-
-  // Add event listener to the dark mode toggle button
-  document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
-  particlesJS('particles-js', {
-  "particles": {
-    "number": {
-      "value": 85,
-      "density": {
-        "enable": true,
-        "value_area": 1000
-      }
-    },
-    "color": {
-      "value": "#000000"
-    },
-    "shape": {
-      "type": "circle"
-    },
-    "opacity": {
-      "value": 0.4,
-      "random": true
-    },
-    "size": {
-      "value": 3,
-      "random": true
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 120,
-      "color": "#000000",
-      "opacity": 0.3,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 1.6,
-      "direction": "none",
-      "random": true,
-      "straight": false,
-      "bounce": false
-    }
-  },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": {
-        "enable": true,
-        "mode": "repulse"
-      },
-      "onclick": {
-        "enable": false
-      },
-      "resize": true
-    },
-    "modes": {
-      "repulse": {
-        "distance": 100,
-        "duration": 0.4
-      }
-    }
-  },
-  "retina_detect": true
+  document.getElementById('commentsSection').appendChild(div);
+}
+async function saveComment(name, text) {
+  if (!isAllowed(text)) { alert("Comment contains inappropriate language and was not posted."); return; }
+  await db.collection("comments").add({ name, text, uid: currentUser ? currentUser.uid : null, timestamp: new Date() });
+  loadComments();
+}
+document.getElementById('commentForm').addEventListener('submit', e => {
+  e.preventDefault();
+  saveComment(document.getElementById('name').value, document.getElementById('comment').value);
+  e.target.reset();
+});
+document.getElementById('clearCommentsButton').addEventListener('click', async () => {
+  if (!confirm("Clear all comments?")) return;
+  const snap = await db.collection("comments").get();
+  snap.forEach(doc => doc.ref.delete());
+  loadComments();
 });
 
+// ── TESTIMONIALS ─────────────────────────────────────────
+const testimonials = [
+  '"Garbage ahh site!" — All the haters',
+  '"How are you so tall..?" — All the short people',
+  '"Why are you so good at everything you do." — No one :(',
+  '"If you are reading this, you are cool" — Me',
+  '"I won a basketball tourney" — Yosef (aka MJ)',
+  '"Bro who coded this? Oh wait..." — Also Me',
+  '"I love this site!" — My mom',
+  '"404: Normality Not Found" — Browser Diagnostics',
+];
+let ti = 0, ci = 0, deleting = false;
+function typeEffect() {
+  const cur = testimonials[ti];
+  document.getElementById('testimonialText').textContent = deleting ? cur.slice(0,ci--) : cur.slice(0,ci++);
+  if (!deleting && ci === cur.length + 1) { setTimeout(() => deleting = true, 1200); }
+  else if (deleting && ci < 0) { deleting = false; ti = (ti + 1) % testimonials.length; }
+  setTimeout(typeEffect, deleting ? 18 : 28);
+}
+
+// ── PARTICLES ────────────────────────────────────────────
+function updateParticles(isDark) {
+  const col = isDark ? '#ffffff' : '#000000';
+  if (window.pJSDom && window.pJSDom.length > 0) {
+    const p = window.pJSDom[0].pJS.particles;
+    p.color.value = col;
+    p.line_linked.color = col;
+  }
+}
+function initParticles() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const col = isDark ? '#ffffff' : '#000000';
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 70, density: { enable: true, value_area: 900 } },
+      color: { value: col },
+      shape: { type: "circle" },
+      opacity: { value: 0.25, random: true },
+      size: { value: 2.5, random: true },
+      line_linked: { enable: true, distance: 130, color: col, opacity: 0.18, width: 1 },
+      move: { enable: true, speed: 1.2, random: true, straight: false, bounce: false }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: { onhover: { enable: true, mode: "repulse" }, resize: true },
+      modes: { repulse: { distance: 90, duration: 0.4 } }
+    },
+    retina_detect: true
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────
+document.getElementById('year').textContent = new Date().getFullYear();
+window.addEventListener('load', () => {
+  typeEffect();
+  loadComments();
+  initParticles();
+});
 </script>
 </body>
 </html>
