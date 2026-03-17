@@ -266,7 +266,7 @@ const STR = {
   'TCU':59,'Utah State':60,'UCF':58,'Missouri':57,
   'Iowa':59,'McNeese':53,'High Point':52,'Akron':53,
   'Saint Louis':55,'Santa Clara':57,'N. Iowa':51,'Texas':56,
-  'NC State':58,'SMU':57,'Penn':48,'Yale':51,'Texas A&M':57,
+  'Troy':50,'VCU':62,'M-OH/SMU':57,'Idaho':38,'Penn':48,'Howard':32,'Lehigh':34,
   'Hawaii':44,'Hofstra':46,'Kennesaw St.':40,'Cal Baptist':41,
   'N. Dakota St.':42,'Idaho':39,'Wright State':40,
   'Prairie View':30,'UMBC':31,'LIU':30,'Queens':31,
@@ -297,16 +297,16 @@ const BRACKET = {
     [7,'Miami (FL)',10,'Missouri'],[2,'Purdue',15,'Queens']
   ],
   midwest: [
-    [1,'Michigan',16,'UMBC'],      [9,'Saint Louis',8,'Georgia'],
+    [1,'Michigan',16,'Howard'],      [9,'Saint Louis',8,'Georgia'],
     [5,'Texas Tech',12,'Akron'],   [4,'Alabama',13,'Hofstra'],
-    [6,'Tennessee',11,'SMU'],      [3,'Virginia',14,'Wright State'],
+    [6,'Tennessee',11,'M-OH/SMU'],      [3,'Virginia',14,'Wright State'],
     [10,'Santa Clara',7,'Kentucky'],[2,'Iowa State',15,'Tenn. State']
   ],
   south: [
-    [1,'Florida',16,'Prairie View'],[9,'Iowa',8,'Clemson'],
-    [5,'Vanderbilt',12,'McNeese'], [4,'Nebraska',13,'Yale'],
-    [6,'N. Carolina',11,'Penn'],   [3,'Illinois',14,'Idaho'],
-    [7,"Saint Mary's",10,'Texas A&M'],[2,'Houston',15,'Tenn. State']
+    [1,'Florida',16,'Lehigh'],[9,'Iowa',8,'Clemson'],
+    [5,'Vanderbilt',12,'McNeese'],  [4,'Nebraska',13,'Troy'],
+    [6,'N. Carolina',11,'VCU'],     [3,'Illinois',14,'Penn'],
+    [7,"Saint Mary's",10,'Texas A&M'],[2,'Houston',15,'Idaho']
   ]
 };
 
@@ -566,11 +566,11 @@ const PICKS = {
   midwest: {
     name:'Midwest', one:'Michigan',
     r64:[
-      {s1:1,t1:'Michigan',s2:16,t2:'UMBC',pick:true,p:99,upset:false},
+      {s1:1,t1:'Michigan',s2:16,t2:'Howard',pick:true,p:99,upset:false},
       {s1:8,t1:'Georgia',s2:9,t2:'Saint Louis',pick:false,p:50,upset:true},
       {s1:5,t1:'Texas Tech',s2:12,t2:'Akron',pick:false,p:40,upset:true},
       {s1:4,t1:'Alabama',s2:13,t2:'Hofstra',pick:true,p:86,upset:false},
-      {s1:6,t1:'Tennessee',s2:11,t2:'SMU',pick:true,p:57,upset:false},
+      {s1:6,t1:'Tennessee',s2:11,t2:'M-OH/SMU',pick:true,p:57,upset:false},
       {s1:3,t1:'Virginia',s2:14,t2:'Wright State',pick:true,p:92,upset:false},
       {s1:7,t1:'Kentucky',s2:10,t2:'Santa Clara',pick:false,p:47,upset:true},
       {s1:2,t1:'Iowa State',s2:15,t2:'Tenn. State',pick:true,p:97,upset:false},
@@ -591,14 +591,14 @@ const PICKS = {
   south: {
     name:'South', one:'Florida',
     r64:[
-      {s1:1,t1:'Florida',s2:16,t2:'Prairie View',pick:true,p:98,upset:false},
+      {s1:1,t1:'Florida',s2:16,t2:'Lehigh',pick:true,p:98,upset:false},
       {s1:8,t1:'Clemson',s2:9,t2:'Iowa',pick:false,p:46,upset:true},
       {s1:5,t1:'Vanderbilt',s2:12,t2:'McNeese',pick:false,p:38,upset:true},
-      {s1:4,t1:'Nebraska',s2:13,t2:'Yale',pick:true,p:84,upset:false},
-      {s1:6,t1:'N. Carolina',s2:11,t2:'Penn',pick:true,p:74,upset:false},
-      {s1:3,t1:'Illinois',s2:14,t2:'Idaho',pick:true,p:93,upset:false},
+      {s1:4,t1:'Nebraska',s2:13,t2:'Troy',pick:true,p:84,upset:false},
+      {s1:6,t1:'N. Carolina',s2:11,t2:'VCU',pick:true,p:68,upset:false},
+      {s1:3,t1:'Illinois',s2:14,t2:'Penn',pick:true,p:93,upset:false},
       {s1:7,t1:"Saint Mary's",s2:10,t2:'Texas A&M',pick:true,p:55,upset:false},
-      {s1:2,t1:'Houston',s2:15,t2:'Tenn. State',pick:true,p:97,upset:false},
+      {s1:2,t1:'Houston',s2:15,t2:'Idaho',pick:true,p:97,upset:false},
     ],
     r32:[
       {s1:1,t1:'Florida',s2:9,t2:'Iowa',pick:true,p:87,upset:false},
