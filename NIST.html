@@ -154,15 +154,36 @@
     // Cached word lists to avoid repeated API calls
     let englishWords = [];
     let dicewareWords = [];
-    
 
+    /**
+     * Cryptographically secure random integer in [0, max).
+     *
+     * Uses crypto.getRandomValues() — a CSPRNG — instead of Math.random().
+     * Applies rejection sampling to eliminate modulo bias, matching the
+     * technique used by Steve Gibson's GRC Perfect Passwords and other
+     * serious cryptographic implementations.
+     *
+     * @param {number} max - Upper bound (exclusive)
+     * @returns {number} - A secure random integer in [0, max)
+     */
+    function secureRandom(max) {
+      const array = new Uint32Array(1);
+      const limit = Math.floor(0x100000000 / max) * max; // rejection threshold
+      let value;
+      do {
+        crypto.getRandomValues(array);
+        value = array[0];
+      } while (value >= limit); // reject values that would introduce bias
+      return value % max;
+    }
 
     async function generatePassword() {
       const length = Math.max(8, parseInt(document.getElementById("length").value));
       const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|:<>?-=~";
       let password = "";
       for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * charset.length);
+        // ✅ Uses CSPRNG — NOT Math.random()
+        const randomIndex = secureRandom(charset.length);
         password += charset[randomIndex];
       }
       document.getElementById("generatedPassword").innerText = password;
@@ -197,7 +218,6 @@
       if (englishWords.length > 0) return englishWords;
       
       try {
-
         const response = await fetch('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
         const text = await response.text();
         const words = text.split('\n').filter(word => word.length >= 3 && word.length <= 8);
@@ -213,7 +233,6 @@
       if (dicewareWords.length > 0) return dicewareWords;
       
       try {
-        // Using the official Diceware word list
         const response = await fetch('https://raw.githubusercontent.com/ulif/diceware/master/diceware/wordlists/wordlist_en_eff.txt');
         const text = await response.text();
         const words = text.split('\n')
@@ -234,7 +253,6 @@
       const button = document.getElementById("passphraseBtn");
       const resultDiv = document.getElementById("generatedPassphrase");
       
-      // Show loading state
       button.disabled = true;
       button.textContent = "Generating...";
       resultDiv.innerHTML = '<span class="loading">🔄 Loading words...</span>';
@@ -249,11 +267,12 @@
           case 'diceware':
             wordList = await loadDicewareWords();
             break;
-          }
+        }
         
         let passphrase = [];
         for (let i = 0; i < wordCount; i++) {
-          const index = Math.floor(Math.random() * wordList.length);
+          // ✅ Uses CSPRNG — NOT Math.random()
+          const index = secureRandom(wordList.length);
           passphrase.push(wordList[index]);
         }
         
