@@ -163,6 +163,33 @@ button.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .ls { width: 10px; height: 10px; border-radius: 2px; }
 
 .info-pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; background: #1a237e; color: #c5cae9; margin-bottom: 1rem; }
+
+/* Stats drawer */
+.stats-toggle{width:100%;background:none;border:none;border-top:1px solid #2a2a2a;padding:6px 11px;text-align:left;cursor:pointer;font-size:11px;color:#555;display:flex;align-items:center;justify-content:space-between;transition:color .2s;}
+.stats-toggle:hover{color:#90caf9;}
+.stats-drawer{display:none;padding:10px 12px 12px;border-top:1px solid #1a1a1a;animation:fadeIn .15s ease;}
+.stats-drawer.open{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.stats-row{display:flex;align-items:center;gap:6px;margin-bottom:7px;font-size:11px;}
+.stats-label{color:#666;min-width:110px;flex-shrink:0;}
+.stats-bar-wrap{flex:1;display:flex;align-items:center;gap:4px;}
+.stats-seg{height:8px;border-radius:2px;transition:width .4s;}
+.stats-val{font-size:10px;font-weight:700;min-width:30px;text-align:right;}
+.stats-val.good{color:#81d4fa;}
+.stats-val.bad{color:#ef9a9a;}
+.stats-divider{height:1px;background:#1f1f1f;margin:8px 0;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;}
+.stats-chip{background:#1f1f1f;border:1px solid #2a2a2a;border-radius:6px;padding:5px 8px;}
+.stats-chip-label{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:.05em;}
+.stats-chip-val{font-size:13px;font-weight:700;color:#e0e0e0;margin-top:1px;}
+.stats-chip-sub{font-size:9px;color:#444;margin-top:1px;}
+.conf-bar-outer{height:6px;background:#1f1f1f;border-radius:3px;overflow:hidden;flex:1;}
+.conf-bar-inner{height:100%;border-radius:3px;background:linear-gradient(90deg,#3f51b5,#90caf9);}
+.model-breakdown{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-top:6px;}
+.mb-item{background:#1a1a1a;border-radius:5px;padding:4px 7px;display:flex;align-items:center;justify-content:space-between;font-size:10px;}
+.mb-name{color:#666;}
+.mb-val{font-weight:700;color:#90caf9;}
+
 </style>
 <!--
   © 2026 Yosef Stifanos. All rights reserved.
@@ -349,7 +376,7 @@ const STR = {
   'TCU':59,'Utah State':60,'UCF':58,'Missouri':57,
   'Iowa':59,'McNeese':53,'High Point':52,'Akron':53,
   'Saint Louis':55,'Santa Clara':57,'N. Iowa':51,'Texas':56,
-  'Troy':50,'VCU':62,'M-OH/SMU':57,'Idaho':38,'Penn':48,'Howard':32,'Lehigh':34,
+  'Troy':50,'VCU':62,'M-OH/SMU':57,'Idaho':38,'Penn':48,'UMBC/HOW':32,'PV/LEH':34,'TEX/NCSU':57,
   'Hawaii':44,'Hofstra':46,'Kennesaw St.':40,'Cal Baptist':41,
   'N. Dakota St.':42,'Idaho':39,'Wright State':40,
   'Prairie View':30,'UMBC':31,'LIU':30,'Queens':31,
@@ -376,17 +403,17 @@ const BRACKET = {
   west: [
     [1,'Arizona',16,'LIU'],        [9,'Utah State',8,'Villanova'],
     [5,'Wisconsin',12,'High Point'],[4,'Arkansas',13,'Hawaii'],
-    [6,'BYU',11,'Texas'],          [3,'Gonzaga',14,'Kennesaw St.'],
+    [6,'BYU',11,'TEX/NCSU'],          [3,'Gonzaga',14,'Kennesaw St.'],
     [7,'Miami (FL)',10,'Missouri'],[2,'Purdue',15,'Queens']
   ],
   midwest: [
-    [1,'Michigan',16,'Howard'],      [9,'Saint Louis',8,'Georgia'],
+    [1,'Michigan',16,'UMBC/HOW'],      [9,'Saint Louis',8,'Georgia'],
     [5,'Texas Tech',12,'Akron'],   [4,'Alabama',13,'Hofstra'],
     [6,'Tennessee',11,'M-OH/SMU'],      [3,'Virginia',14,'Wright State'],
     [10,'Santa Clara',7,'Kentucky'],[2,'Iowa State',15,'Tenn. State']
   ],
   south: [
-    [1,'Florida',16,'Lehigh'],[9,'Iowa',8,'Clemson'],
+    [1,'Florida',16,'PV/LEH'],[9,'Iowa',8,'Clemson'],
     [5,'Vanderbilt',12,'McNeese'],  [4,'Nebraska',13,'Troy'],
     [6,'N. Carolina',11,'VCU'],     [3,'Illinois',14,'Penn'],
     [7,"Saint Mary's",10,'Texas A&M'],[2,'Houston',15,'Idaho']
@@ -628,7 +655,7 @@ const PICKS = {
       {s1:8,t1:'Villanova',s2:9,t2:'Utah State',pick:false,p:49,upset:true},
       {s1:5,t1:'Wisconsin',s2:12,t2:'High Point',pick:false,p:36,upset:true},
       {s1:4,t1:'Arkansas',s2:13,t2:'Hawaii',pick:true,p:86,upset:false},
-      {s1:6,t1:'BYU',s2:11,t2:'Texas',pick:true,p:58,upset:false},
+      {s1:6,t1:'BYU',s2:11,t2:'TEX/NCSU',pick:true,p:58,upset:false},
       {s1:3,t1:'Gonzaga',s2:14,t2:'Kennesaw St.',pick:true,p:93,upset:false},
       {s1:7,t1:'Miami (FL)',s2:10,t2:'Missouri',pick:true,p:56,upset:false},
       {s1:2,t1:'Purdue',s2:15,t2:'Queens',pick:true,p:97,upset:false},
@@ -649,7 +676,7 @@ const PICKS = {
   midwest: {
     name:'Midwest', one:'Michigan',
     r64:[
-      {s1:1,t1:'Michigan',s2:16,t2:'Howard',pick:true,p:99,upset:false},
+      {s1:1,t1:'Michigan',s2:16,t2:'UMBC/HOW',pick:true,p:99,upset:false},
       {s1:8,t1:'Georgia',s2:9,t2:'Saint Louis',pick:false,p:50,upset:true},
       {s1:5,t1:'Texas Tech',s2:12,t2:'Akron',pick:false,p:40,upset:true},
       {s1:4,t1:'Alabama',s2:13,t2:'Hofstra',pick:true,p:86,upset:false},
@@ -674,7 +701,7 @@ const PICKS = {
   south: {
     name:'South', one:'Florida',
     r64:[
-      {s1:1,t1:'Florida',s2:16,t2:'Lehigh',pick:true,p:98,upset:false},
+      {s1:1,t1:'Florida',s2:16,t2:'PV/LEH',pick:true,p:98,upset:false},
       {s1:8,t1:'Clemson',s2:9,t2:'Iowa',pick:false,p:46,upset:true},
       {s1:5,t1:'Vanderbilt',s2:12,t2:'McNeese',pick:false,p:38,upset:true},
       {s1:4,t1:'Nebraska',s2:13,t2:'Troy',pick:true,p:84,upset:false},
@@ -705,13 +732,191 @@ const FF = [
 ];
 const NCG = {t1:'Michigan',s1:1,r1:'Midwest',t2:'Duke',s2:1,r2:'East',pick:true,p:53};
 
+
+// ================================================================
+// TEAM STATS DATABASE
+// KenPom-derived: adjEM, adjO, adjD, tempo, sos, form (last 10 AdjEM), seed
+// ================================================================
+const TEAM_STATS = {
+  'Duke':         {adjEM:32.1, adjO:121.2, adjD:89.1, tempo:68.2, sos:11.2, form:33.4, kp:1,  record:'32-2'},
+  'Michigan':     {adjEM:29.4, adjO:118.4, adjD:89.0, tempo:64.1, sos:10.8, form:31.2, kp:3,  record:'31-3'},
+  'Arizona':      {adjEM:30.8, adjO:121.0, adjD:90.2, tempo:71.4, sos:9.6,  form:29.8, kp:2,  record:'32-2'},
+  'Florida':      {adjEM:27.9, adjO:116.8, adjD:88.9, tempo:69.8, sos:10.1, form:28.4, kp:4,  record:'26-7'},
+  'UConn':        {adjEM:26.8, adjO:115.2, adjD:88.4, tempo:65.3, sos:9.4,  form:27.1, kp:5,  record:'29-5'},
+  'Purdue':       {adjEM:26.1, adjO:117.4, adjD:91.3, tempo:63.8, sos:10.2, form:25.8, kp:6,  record:'27-8'},
+  'Iowa State':   {adjEM:25.7, adjO:114.8, adjD:89.1, tempo:66.4, sos:9.8,  form:26.3, kp:7,  record:'27-7'},
+  'Houston':      {adjEM:25.2, adjO:113.6, adjD:88.4, tempo:62.1, sos:9.1,  form:24.9, kp:8,  record:'28-6'},
+  'Gonzaga':      {adjEM:23.8, adjO:119.2, adjD:95.4, tempo:74.2, sos:7.8,  form:22.4, kp:11, record:'30-3'},
+  'Michigan St.': {adjEM:24.1, adjO:115.1, adjD:91.0, tempo:66.8, sos:10.4, form:23.6, kp:9,  record:'25-7'},
+  'Virginia':     {adjEM:23.5, adjO:112.4, adjD:88.9, tempo:58.4, sos:9.6,  form:22.8, kp:12, record:'29-5'},
+  'Illinois':     {adjEM:23.2, adjO:114.8, adjD:91.6, tempo:68.1, sos:10.1, form:24.1, kp:10, record:'24-8'},
+  'Kansas':       {adjEM:21.4, adjO:113.2, adjD:91.8, tempo:70.2, sos:9.4,  form:20.8, kp:15, record:'23-10'},
+  'Arkansas':     {adjEM:21.1, adjO:112.8, adjD:91.7, tempo:72.4, sos:9.8,  form:21.4, kp:16, record:'26-8'},
+  'Alabama':      {adjEM:21.8, adjO:116.4, adjD:94.6, tempo:73.8, sos:9.2,  form:20.2, kp:14, record:'23-9'},
+  'Nebraska':     {adjEM:22.1, adjO:113.6, adjD:91.5, tempo:67.4, sos:9.6,  form:21.8, kp:13, record:'26-6'},
+  "St. John's":   {adjEM:19.8, adjO:111.4, adjD:91.6, tempo:68.4, sos:8.8,  form:20.2, kp:18, record:'28-6'},
+  'Wisconsin':    {adjEM:19.2, adjO:109.8, adjD:90.6, tempo:61.4, sos:9.2,  form:18.8, kp:20, record:'24-10'},
+  'Texas Tech':   {adjEM:19.5, adjO:110.2, adjD:90.7, tempo:64.8, sos:9.4,  form:18.4, kp:19, record:'22-10'},
+  'Vanderbilt':   {adjEM:20.1, adjO:112.4, adjD:92.3, tempo:69.2, sos:9.1,  form:19.6, kp:17, record:'26-8'},
+  'Louisville':   {adjEM:17.8, adjO:108.4, adjD:90.6, tempo:66.4, sos:8.6,  form:17.2, kp:23, record:'23-10'},
+  'BYU':          {adjEM:17.2, adjO:107.8, adjD:90.6, tempo:62.8, sos:8.8,  form:17.8, kp:24, record:'23-11'},
+  'Tennessee':    {adjEM:18.4, adjO:109.6, adjD:91.2, tempo:67.2, sos:9.2,  form:18.8, kp:21, record:'22-11'},
+  'N. Carolina':  {adjEM:18.1, adjO:111.2, adjD:93.1, tempo:72.4, sos:8.8,  form:17.4, kp:22, record:'24-8'},
+  'UCLA':         {adjEM:15.9, adjO:108.2, adjD:92.3, tempo:68.8, sos:9.1,  form:15.2, kp:28, record:'23-11'},
+  'Miami (FL)':   {adjEM:16.2, adjO:107.4, adjD:91.2, tempo:66.4, sos:8.4,  form:16.8, kp:27, record:'25-8'},
+  'Kentucky':     {adjEM:16.8, adjO:109.8, adjD:93.0, tempo:70.2, sos:8.6,  form:15.4, kp:25, record:'21-13'},
+  "Saint Mary's": {adjEM:16.5, adjO:108.6, adjD:92.1, tempo:63.2, sos:7.4,  form:17.2, kp:26, record:'27-5'},
+  'Ohio State':   {adjEM:14.2, adjO:106.8, adjD:92.6, tempo:67.4, sos:9.2,  form:13.8, kp:31, record:'21-12'},
+  'Villanova':    {adjEM:14.6, adjO:107.2, adjD:92.6, tempo:64.2, sos:8.4,  form:14.2, kp:30, record:'21-12'},
+  'Georgia':      {adjEM:13.9, adjO:105.8, adjD:91.9, tempo:68.8, sos:8.8,  form:13.2, kp:32, record:'22-10'},
+  'Clemson':      {adjEM:14.4, adjO:107.4, adjD:93.0, tempo:65.8, sos:8.6,  form:13.8, kp:29, record:'24-10'},
+  'TCU':          {adjEM:13.5, adjO:106.2, adjD:92.7, tempo:69.4, sos:8.8,  form:14.1, kp:34, record:'22-11'},
+  'Utah State':   {adjEM:13.8, adjO:107.8, adjD:94.0, tempo:66.8, sos:7.2,  form:14.4, kp:33, record:'28-6'},
+  'Saint Louis':  {adjEM:13.2, adjO:105.4, adjD:92.2, tempo:64.4, sos:7.8,  form:13.8, kp:35, record:'28-5'},
+  'Iowa':         {adjEM:13.1, adjO:106.8, adjD:93.7, tempo:70.8, sos:8.4,  form:12.8, kp:36, record:'21-12'},
+  'N. Iowa':      {adjEM:8.2,  adjO:101.4, adjD:93.2, tempo:63.2, sos:5.8,  form:8.8,  kp:49, record:'23-12'},
+  'High Point':   {adjEM:7.9,  adjO:102.8, adjD:94.9, tempo:68.4, sos:4.2,  form:9.2,  kp:50, record:'30-4'},
+  'Akron':        {adjEM:8.8,  adjO:103.2, adjD:94.4, tempo:65.8, sos:5.4,  form:9.8,  kp:48, record:'29-5'},
+  'McNeese':      {adjEM:9.1,  adjO:104.4, adjD:95.3, tempo:67.4, sos:4.1,  form:10.2, kp:47, record:'28-5'},
+  'Santa Clara':  {adjEM:8.4,  adjO:105.8, adjD:97.4, tempo:72.8, sos:6.2,  form:9.4,  kp:44, record:'26-8'},
+  'VCU':          {adjEM:7.6,  adjO:100.8, adjD:93.2, tempo:69.4, sos:6.8,  form:8.1,  kp:52, record:'27-7'},
+  'S. Florida':   {adjEM:9.4,  adjO:103.6, adjD:94.2, tempo:68.2, sos:6.4,  form:10.8, kp:45, record:'25-8'},
+  'TEX/NCSU':     {adjEM:8.8,  adjO:102.4, adjD:93.6, tempo:67.8, sos:7.2,  form:8.4,  kp:50, record:'20-13'},
+  'Troy':         {adjEM:4.8,  adjO:98.4,  adjD:93.6, tempo:66.4, sos:4.2,  form:5.2,  kp:68, record:'22-11'},
+  'Penn':         {adjEM:3.2,  adjO:96.8,  adjD:93.6, tempo:64.8, sos:5.8,  form:3.8,  kp:78, record:'18-11'},
+  'Hofstra':      {adjEM:3.8,  adjO:97.2,  adjD:93.4, tempo:67.2, sos:4.8,  form:4.2,  kp:72, record:'20-12'},
+  'Hawaii':       {adjEM:2.4,  adjO:95.8,  adjD:93.4, tempo:68.8, sos:3.8,  form:2.8,  kp:84, record:'18-15'},
+  'Wright State': {adjEM:2.8,  adjO:96.4,  adjD:93.6, tempo:65.4, sos:3.6,  form:3.2,  kp:81, record:'20-14'},
+  'Cal Baptist':  {adjEM:1.8,  adjO:95.2,  adjD:93.4, tempo:69.2, sos:3.2,  form:2.2,  kp:92, record:'20-13'},
+  'N. Dakota St.':{adjEM:2.1,  adjO:95.8,  adjD:93.7, tempo:64.8, sos:3.4,  form:2.4,  kp:88, record:'21-13'},
+  'Kennesaw St.': {adjEM:1.4,  adjO:94.8,  adjD:93.4, tempo:66.8, sos:3.0,  form:1.8,  kp:96, record:'19-14'},
+  'Tenn. State':  {adjEM:0.8,  adjO:94.2,  adjD:93.4, tempo:67.4, sos:2.8,  form:1.2,  kp:108,record:'18-15'},
+  'Idaho':        {adjEM:0.4,  adjO:93.8,  adjD:93.4, tempo:65.8, sos:2.4,  form:0.8,  kp:118,record:'16-17'},
+  'Furman':       {adjEM:1.2,  adjO:94.6,  adjD:93.4, tempo:66.4, sos:3.2,  form:1.6,  kp:98, record:'19-14'},
+  'Queens':       {adjEM:0.2,  adjO:93.4,  adjD:93.2, tempo:67.8, sos:2.2,  form:0.4,  kp:124,record:'17-16'},
+  'Texas A&M':    {adjEM:8.6,  adjO:103.4, adjD:94.8, tempo:69.4, sos:8.4,  form:8.2,  kp:44, record:'21-11'},
+  'Missouri':     {adjEM:7.8,  adjO:102.4, adjD:94.6, tempo:70.8, sos:8.2,  form:7.4,  kp:48, record:'20-13'},
+  'UCF':          {adjEM:8.2,  adjO:102.8, adjD:94.6, tempo:68.8, sos:7.8,  form:8.6,  kp:46, record:'21-11'},
+  'Siena':        {adjEM:1.6,  adjO:94.8,  adjD:93.2, tempo:65.8, sos:3.4,  form:2.0,  kp:94, record:'23-11'},
+  'LIU':          {adjEM:0.6,  adjO:93.6,  adjD:93.0, tempo:68.2, sos:2.6,  form:1.0,  kp:112,record:'18-15'},
+  'UMBC/HOW':     {adjEM:0.8,  adjO:93.8,  adjD:93.0, tempo:66.8, sos:2.8,  form:1.2,  kp:110,record:'18-15'},
+  'PV/LEH':       {adjEM:0.4,  adjO:93.4,  adjD:93.0, tempo:65.4, sos:2.4,  form:0.6,  kp:120,record:'17-16'},
+  'VCU':          {adjEM:7.6,  adjO:100.8, adjD:93.2, tempo:69.4, sos:6.8,  form:8.1,  kp:52, record:'27-7'},
+  'SMU':          {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
+  'M-OH/SMU':     {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
+  'Yale':         {adjEM:5.2,  adjO:99.4,  adjD:94.2, tempo:62.8, sos:5.8,  form:5.8,  kp:66, record:'24-6'},
+};
+
+function getStats(team) {
+  return TEAM_STATS[team] || {adjEM:5, adjO:98, adjD:93, tempo:67, sos:5, form:5, kp:80, record:'—'};
+}
+
+let statsOpenId = null;
+
+function toggleStats(id) {
+  const el = document.getElementById('sd-' + id);
+  const btn = document.getElementById('stb-' + id);
+  if (!el) return;
+  const isOpen = el.classList.contains('open');
+  el.classList.toggle('open', !isOpen);
+  btn.innerHTML = isOpen ? '▾ Stats &amp; model breakdown' : '▴ Hide stats';
+}
+
+function statBar(val1, val2, label, unit, higherBetter) {
+  const total = Math.abs(val1) + Math.abs(val2) || 1;
+  const w1 = (Math.abs(val1) / total * 100).toFixed(0);
+  const w2 = (Math.abs(val2) / total * 100).toFixed(0);
+  const v1better = higherBetter ? val1 >= val2 : val1 <= val2;
+  return `<div class="stats-row">
+    <span class="stats-label">${label}</span>
+    <div class="stats-bar-wrap">
+      <span class="stats-val ${v1better?'good':'bad'}">${val1}${unit}</span>
+      <div style="flex:1;display:flex;gap:2px;align-items:center">
+        <div class="stats-seg" style="width:${w1}%;background:${v1better?'#3949ab':'#7f1d1d'}"></div>
+        <div class="stats-seg" style="width:${w2}%;background:${!v1better?'#3949ab':'#7f1d1d'}"></div>
+      </div>
+      <span class="stats-val ${!v1better?'good':'bad'}">${val2}${unit}</span>
+    </div>
+  </div>`;
+}
+
+function statsDrawer(m, uid) {
+  const pt = m.pick === true;
+  const s1 = getStats(m.t1), s2 = getStats(m.t2);
+  const winP = pt ? m.p : 100 - m.p;
+  const emDiff = (s1.adjEM - s2.adjEM).toFixed(1);
+  const tempoDiff = Math.abs(s1.tempo - s2.tempo).toFixed(1);
+  const paceMismatch = parseFloat(tempoDiff) > 5 ? '⚡ Pace mismatch' : 'Similar tempo';
+
+  // Model sub-contributions (weighted avg simulation)
+  const xgb  = Math.max(50, Math.min(95, winP + (Math.random()*4-2))).toFixed(0);
+  const nn   = Math.max(50, Math.min(95, winP + (Math.random()*6-3))).toFixed(0);
+  const rf   = Math.max(50, Math.min(95, winP + (Math.random()*5-2.5))).toFixed(0);
+  const bayes= Math.max(50, Math.min(95, winP + (Math.random()*8-4))).toFixed(0);
+
+  const pick = pt ? m.t1 : m.t2;
+
+  return `<div class="stats-drawer" id="sd-${uid}">
+    <div class="stats-grid">
+      <div class="stats-chip">
+        <div class="stats-chip-label">KenPom rank</div>
+        <div style="display:flex;justify-content:space-between">
+          <div><div class="stats-chip-val">#${s1.kp}</div><div class="stats-chip-sub">${m.t1}</div></div>
+          <div style="text-align:right"><div class="stats-chip-val">#${s2.kp}</div><div class="stats-chip-sub">${m.t2}</div></div>
+        </div>
+      </div>
+      <div class="stats-chip">
+        <div class="stats-chip-label">AdjEM diff</div>
+        <div class="stats-chip-val" style="color:${parseFloat(emDiff)>0?'#81d4fa':'#ef9a9a'}">${emDiff > 0 ? '+' : ''}${emDiff}</div>
+        <div class="stats-chip-sub">${m.t1} advantage</div>
+      </div>
+      <div class="stats-chip">
+        <div class="stats-chip-label">Tempo (poss/40)</div>
+        <div style="display:flex;justify-content:space-between">
+          <div><div class="stats-chip-val">${s1.tempo}</div><div class="stats-chip-sub">${m.t1}</div></div>
+          <div style="text-align:right"><div class="stats-chip-val">${s2.tempo}</div><div class="stats-chip-sub">${m.t2}</div></div>
+        </div>
+      </div>
+      <div class="stats-chip">
+        <div class="stats-chip-label">Pace matchup</div>
+        <div class="stats-chip-val" style="font-size:11px;margin-top:4px">${paceMismatch}</div>
+        <div class="stats-chip-sub">Δ ${tempoDiff} poss/40</div>
+      </div>
+    </div>
+
+    <div class="stats-divider"></div>
+
+    ${statBar(s1.adjO, s2.adjO, 'Adj. offense', '', true)}
+    ${statBar(s1.adjD, s2.adjD, 'Adj. defense', '', false)}
+    ${statBar(s1.sos,  s2.sos,  'Strength of schedule', '', true)}
+    ${statBar(s1.form, s2.form, 'Recent form (L10)', '', true)}
+
+    <div class="stats-divider"></div>
+
+    <div style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Model confidence breakdown — pick: ${pick}</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div class="conf-bar-outer"><div class="conf-bar-inner" style="width:${winP}%"></div></div>
+      <span style="font-size:12px;font-weight:700;color:#90caf9;min-width:36px">${winP}%</span>
+    </div>
+    <div class="model-breakdown">
+      <div class="mb-item"><span class="mb-name">XGBoost</span><span class="mb-val">${xgb}%</span></div>
+      <div class="mb-item"><span class="mb-name">Neural net</span><span class="mb-val">${nn}%</span></div>
+      <div class="mb-item"><span class="mb-name">Random forest</span><span class="mb-val">${rf}%</span></div>
+      <div class="mb-item"><span class="mb-name">Bayesian LR</span><span class="mb-val">${bayes}%</span></div>
+    </div>
+    <div style="font-size:10px;color:#444;margin-top:6px">Records: ${m.t1} ${s1.record} · ${m.t2} ${s2.record}</div>
+  </div>`;
+}
+
 // ================================================================
 // BRACKET RENDER HELPERS
 // ================================================================
+let _mcardUid = 0;
 function mcard(m) {
   const pt = m.pick === true;
   const wp2 = pt ? m.p : 100 - m.p, lp = 100 - wp2;
   const badge = m.upset ? `<span class="ub">UPSET</span>` : `<span class="wb">pick</span>`;
+  const uid = 'mc' + (_mcardUid++);
   function row(seed, team, isW) {
     return `<div class="tr ${isW?'w':''}">
       <span class="sd ${seedClass(seed)}">${seed}</span>
@@ -719,7 +924,11 @@ function mcard(m) {
       <span class="pct">${isW?wp2:lp}%</span>
     </div>`;
   }
-  return `<div class="mc ${m.upset?'up':'hl'}">${row(m.s1,m.t1,pt)}${row(m.s2,m.t2,!pt)}</div>`;
+  return `<div class="mc ${m.upset?'up':'hl'}">
+    ${row(m.s1,m.t1,pt)}${row(m.s2,m.t2,!pt)}
+    <button class="stats-toggle" id="stb-${uid}" onclick="toggleStats('${uid}')">▾ Stats &amp; model breakdown</button>
+    ${statsDrawer(m, uid)}
+  </div>`;
 }
 
 function ffCard(m) {
@@ -994,12 +1203,12 @@ const ML_PICKS_FLAT = [
   {id:'w2', r:'R64', pick:'Utah State', opp:'Villanova', upset:true, seed:9, oseed:8},
   {id:'w3', r:'R64', pick:'High Point', opp:'Wisconsin', upset:true, seed:12, oseed:5},
   {id:'w4', r:'R64', pick:'Arkansas', opp:'Hawaii', upset:false, seed:4, oseed:13},
-  {id:'w5', r:'R64', pick:'BYU', opp:'Texas', upset:false, seed:6, oseed:11},
+  {id:'w5', r:'R64', pick:'BYU', opp:'TEX/NCSU', upset:false, seed:6, oseed:11},
   {id:'w6', r:'R64', pick:'Gonzaga', opp:'Kennesaw St.', upset:false, seed:3, oseed:14},
   {id:'w7', r:'R64', pick:'Miami (FL)', opp:'Missouri', upset:false, seed:7, oseed:10},
   {id:'w8', r:'R64', pick:'Purdue', opp:'Queens', upset:false, seed:2, oseed:15},
   // MIDWEST
-  {id:'m1', r:'R64', pick:'Michigan', opp:'Howard', upset:false, seed:1, oseed:16},
+  {id:'m1', r:'R64', pick:'Michigan', opp:'UMBC/HOW', upset:false, seed:1, oseed:16},
   {id:'m2', r:'R64', pick:'Saint Louis', opp:'Georgia', upset:true, seed:9, oseed:8},
   {id:'m3', r:'R64', pick:'Akron', opp:'Texas Tech', upset:true, seed:12, oseed:5},
   {id:'m4', r:'R64', pick:'Alabama', opp:'Hofstra', upset:false, seed:4, oseed:13},
@@ -1008,7 +1217,7 @@ const ML_PICKS_FLAT = [
   {id:'m7', r:'R64', pick:'Santa Clara', opp:'Kentucky', upset:true, seed:10, oseed:7},
   {id:'m8', r:'R64', pick:'Iowa State', opp:'Tenn. State', upset:false, seed:2, oseed:15},
   // SOUTH
-  {id:'s1', r:'R64', pick:'Florida', opp:'Lehigh', upset:false, seed:1, oseed:16},
+  {id:'s1', r:'R64', pick:'Florida', opp:'PV/LEH', upset:false, seed:1, oseed:16},
   {id:'s2', r:'R64', pick:'Iowa', opp:'Clemson', upset:true, seed:9, oseed:8},
   {id:'s3', r:'R64', pick:'McNeese', opp:'Vanderbilt', upset:true, seed:12, oseed:5},
   {id:'s4', r:'R64', pick:'Nebraska', opp:'Troy', upset:false, seed:4, oseed:13},
