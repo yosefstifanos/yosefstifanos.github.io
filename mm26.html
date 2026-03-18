@@ -76,6 +76,40 @@ button.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .step-title { font-size: 13px; font-weight: 600; color: #e0e0e0; margin-bottom: 3px; }
 .step-desc { font-size: 12px; color: #888; }
 
+/* Live scores */
+.live-dot{width:8px;height:8px;border-radius:50%;background:#ef5350;display:inline-block;margin-right:5px;animation:pulse 1.2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.score-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px 16px;margin-bottom:8px;transition:border-color .2s;}
+.score-card:hover{border-color:#3f51b5;}
+.score-card.live-game{border-color:#ef5350;background:#1c1515;}
+.score-card.final-game{border-color:#388e3c;background:#151c15;}
+.score-team{display:flex;align-items:center;justify-content:space-between;padding:4px 0;}
+.score-team-name{font-size:13px;font-weight:600;color:#e0e0e0;display:flex;align-items:center;gap:7px;}
+.score-team-pts{font-size:20px;font-weight:700;color:#fff;min-width:36px;text-align:right;}
+.score-team-pts.winning{color:#81d4fa;}
+.score-divider{height:1px;background:#2a2a2a;margin:5px 0;}
+.score-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:11px;color:#888;}
+.status-live{color:#ef5350;font-weight:700;}
+.status-final{color:#66bb6a;font-weight:700;}
+.ml-pred-badge{font-size:10px;padding:2px 7px;border-radius:10px;background:#1a237e;color:#90caf9;font-weight:600;}
+.ml-correct{background:#1b5e20!important;color:#a5d6a7!important;}
+.ml-wrong{background:#7f1d1d!important;color:#ffcdd2!important;}
+.accuracy-box{background:#1f1f1f;border:1px solid #333;border-radius:12px;padding:16px 20px;margin-bottom:1.5rem;}
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-top:12px;}
+.acc-stat{text-align:center;}
+.acc-num{font-size:28px;font-weight:700;}
+.acc-lbl{font-size:11px;color:#888;margin-top:2px;}
+.channel-badge{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600;margin-left:4px;}
+.ch-cbs{background:#003087;color:#90caf9;}
+.ch-tbs{background:#1a237e;color:#c5cae9;}
+.ch-tnt{background:#b71c1c;color:#ffcdd2;}
+.ch-trutv{background:#1b5e20;color:#c8e6c9;}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:10px;}
+.refresh-btn{padding:6px 16px;border-radius:20px;border:1px solid #333;background:transparent;color:#aaa;font-size:12px;cursor:pointer;transition:all .2s;}
+.refresh-btn:hover{border-color:#3f51b5;color:#90caf9;}
+.round-hdr{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.08em;padding:8px 0 5px;margin-top:12px;border-bottom:1px solid #1f1f1f;}
+.upd-ts{font-size:11px;color:#444;margin-left:8px;}
+
 /* Seed colors — adapted for dark bg */
 .s1  { background:#312e81; color:#c7d2fe; }
 .s2  { background:#1e3a5f; color:#bfdbfe; }
@@ -159,6 +193,7 @@ button.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   <button class="tab" onclick="showTab('model')">ML Models</button>
   <button class="tab" onclick="showTab('features')">Features</button>
   <button class="tab" onclick="showTab('pipeline')">Pipeline</button>
+  <button class="tab" onclick="showTab('live')">🔴 Live Scores</button>
 </div>
 
 <!-- RESULTS PANEL -->
@@ -200,6 +235,54 @@ button.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 <!-- FULL BRACKET PANEL -->
 <div id="tab-bracket" class="panel">
   <div id="bracket-content"></div>
+</div>
+
+<!-- LIVE SCORES PANEL -->
+<div id="tab-live" class="panel">
+
+  <div class="accuracy-box" id="accuracy-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff">Live Model Accuracy Tracker</div>
+        <div style="font-size:12px;color:#888;margin-top:2px">Updates as tournament results come in</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="refresh-btn" onclick="refreshLive()">↻ Refresh</button>
+        <span class="upd-ts" id="last-updated">Not yet updated</span>
+      </div>
+    </div>
+    <div class="acc-grid" id="acc-grid">
+      <div class="acc-stat"><div class="acc-num" id="acc-correct" style="color:#66bb6a">—</div><div class="acc-lbl">Correct picks</div></div>
+      <div class="acc-stat"><div class="acc-num" id="acc-wrong" style="color:#ef5350">—</div><div class="acc-lbl">Wrong picks</div></div>
+      <div class="acc-stat"><div class="acc-num" id="acc-pct" style="color:#90caf9">—</div><div class="acc-lbl">Accuracy</div></div>
+      <div class="acc-stat"><div class="acc-num" id="acc-upsets" style="color:#ffd54f">—</div><div class="acc-lbl">Upsets caught</div></div>
+      <div class="acc-stat"><div class="acc-num" id="acc-pending" style="color:#888">—</div><div class="acc-lbl">Games pending</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600">
+      <span class="live-dot"></span><span style="color:#ef5350">LIVE</span>
+    </div>
+    <span style="color:#555;font-size:12px">Scores auto-refresh every 60 seconds during tournament · Powered by ESPN data</span>
+  </div>
+
+  <div id="cors-note" style="display:none;background:#1c1a10;border:1px solid #ffd54f44;border-radius:10px;padding:12px 16px;margin-bottom:1rem;font-size:12px;color:#ffd54f;line-height:1.7">
+    ⚠️ <strong>Live scores blocked by browser CORS policy</strong> — this happens when opening the file locally.<br>
+    <strong>Fix:</strong> Deploy to your GitHub Pages site and scores will load automatically.<br>
+    <span style="color:#888">Alternatively: open browser console → Network tab → check which ESPN URL is being blocked.</span>
+  </div>
+
+  <div id="live-games-container">
+    <div style="text-align:center;padding:3rem;color:#555;font-size:14px">
+      <div style="font-size:32px;margin-bottom:12px">🏀</div>
+      <div style="font-weight:600;color:#888;margin-bottom:8px">Tournament starts March 19, 2026</div>
+      <div style="font-size:12px;line-height:1.7">Live scores, game clocks, and ML prediction accuracy<br>will appear here once games begin.<br><br>
+      The model will track every game result in real time<br>and show whether each pick was correct or wrong.</div>
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;max-width:400px;margin-left:auto;margin-right:auto" id="schedule-preview"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ML MODELS PANEL -->
@@ -877,7 +960,7 @@ function renderPipeline() {
 // ================================================================
 function showTab(id) {
   document.querySelectorAll('.tab').forEach((t,i) =>
-    t.classList.toggle('active', ['results','bracket','model','features','pipeline'][i] === id)
+    t.classList.toggle('active', ['results','bracket','model','features','pipeline','live'][i] === id)
   );
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
@@ -890,6 +973,328 @@ renderModels();
 renderFeatures();
 renderPipeline();
 renderBracket();
+
+// ================================================================
+// LIVE SCORES + ACCURACY TRACKER
+// ================================================================
+
+// All ML picks flat — {game_id, pick, upset_pick}
+const ML_PICKS_FLAT = [
+  // EAST
+  {id:'e1', r:'R64', pick:'Duke', opp:'Siena', upset:false, seed:1, oseed:16},
+  {id:'e2', r:'R64', pick:'TCU', opp:'Ohio State', upset:true, seed:9, oseed:8},
+  {id:'e3', r:'R64', pick:"St. John's", opp:'N. Iowa', upset:false, seed:5, oseed:12},
+  {id:'e4', r:'R64', pick:'Kansas', opp:'Cal Baptist', upset:false, seed:4, oseed:13},
+  {id:'e5', r:'R64', pick:'S. Florida', opp:'Louisville', upset:true, seed:11, oseed:6},
+  {id:'e6', r:'R64', pick:'Michigan St.', opp:'N. Dakota St.', upset:false, seed:3, oseed:14},
+  {id:'e7', r:'R64', pick:'UCLA', opp:'UCF', upset:false, seed:7, oseed:10},
+  {id:'e8', r:'R64', pick:'UConn', opp:'Furman', upset:false, seed:2, oseed:15},
+  // WEST
+  {id:'w1', r:'R64', pick:'Arizona', opp:'LIU', upset:false, seed:1, oseed:16},
+  {id:'w2', r:'R64', pick:'Utah State', opp:'Villanova', upset:true, seed:9, oseed:8},
+  {id:'w3', r:'R64', pick:'High Point', opp:'Wisconsin', upset:true, seed:12, oseed:5},
+  {id:'w4', r:'R64', pick:'Arkansas', opp:'Hawaii', upset:false, seed:4, oseed:13},
+  {id:'w5', r:'R64', pick:'BYU', opp:'Texas', upset:false, seed:6, oseed:11},
+  {id:'w6', r:'R64', pick:'Gonzaga', opp:'Kennesaw St.', upset:false, seed:3, oseed:14},
+  {id:'w7', r:'R64', pick:'Miami (FL)', opp:'Missouri', upset:false, seed:7, oseed:10},
+  {id:'w8', r:'R64', pick:'Purdue', opp:'Queens', upset:false, seed:2, oseed:15},
+  // MIDWEST
+  {id:'m1', r:'R64', pick:'Michigan', opp:'Howard', upset:false, seed:1, oseed:16},
+  {id:'m2', r:'R64', pick:'Saint Louis', opp:'Georgia', upset:true, seed:9, oseed:8},
+  {id:'m3', r:'R64', pick:'Akron', opp:'Texas Tech', upset:true, seed:12, oseed:5},
+  {id:'m4', r:'R64', pick:'Alabama', opp:'Hofstra', upset:false, seed:4, oseed:13},
+  {id:'m5', r:'R64', pick:'Tennessee', opp:'M-OH/SMU', upset:false, seed:6, oseed:11},
+  {id:'m6', r:'R64', pick:'Virginia', opp:'Wright State', upset:false, seed:3, oseed:14},
+  {id:'m7', r:'R64', pick:'Santa Clara', opp:'Kentucky', upset:true, seed:10, oseed:7},
+  {id:'m8', r:'R64', pick:'Iowa State', opp:'Tenn. State', upset:false, seed:2, oseed:15},
+  // SOUTH
+  {id:'s1', r:'R64', pick:'Florida', opp:'Lehigh', upset:false, seed:1, oseed:16},
+  {id:'s2', r:'R64', pick:'Iowa', opp:'Clemson', upset:true, seed:9, oseed:8},
+  {id:'s3', r:'R64', pick:'McNeese', opp:'Vanderbilt', upset:true, seed:12, oseed:5},
+  {id:'s4', r:'R64', pick:'Nebraska', opp:'Troy', upset:false, seed:4, oseed:13},
+  {id:'s5', r:'R64', pick:'N. Carolina', opp:'VCU', upset:false, seed:6, oseed:11},
+  {id:'s6', r:'R64', pick:'Illinois', opp:'Penn', upset:false, seed:3, oseed:14},
+  {id:'s7', r:'R64', pick:"Saint Mary's", opp:'Texas A&M', upset:false, seed:7, oseed:10},
+  {id:'s8', r:'R64', pick:'Houston', opp:'Idaho', upset:false, seed:2, oseed:15},
+];
+
+// Stored results — keyed by game id. 'correct'|'wrong'|null
+// This will populate from ESPN API or manual entry
+let gameResults = JSON.parse(localStorage.getItem('mm26_results') || '{}');
+let liveScores = [];
+let refreshInterval = null;
+
+// Schedule data — TV listings
+const SCHEDULE = [
+  {date:'Tue Mar 18', games:[
+    {time:'6:40 PM ET', t1:'Howard', t2:'UMBC', venue:'Dayton, OH', channel:'TruTV', round:'First Four'},
+    {time:'9:10 PM ET', t1:'Lehigh', t2:'Prairie View', venue:'Dayton, OH', channel:'TruTV', round:'First Four'},
+  ]},
+  {date:'Wed Mar 19', games:[
+    {time:'12:15 PM ET', t1:'Duke', t2:'Siena', venue:'Raleigh, NC', channel:'CBS', round:'R64'},
+    {time:'12:40 PM ET', t1:'Michigan', t2:'Howard', venue:'Indianapolis, IN', channel:'TNT', round:'R64'},
+    {time:'2:45 PM ET', t1:'Arizona', t2:'LIU', venue:'Denver, CO', channel:'CBS', round:'R64'},
+    {time:'3:10 PM ET', t1:'Florida', t2:'Lehigh', venue:'Memphis, TN', channel:'TNT', round:'R64'},
+    {time:'7:10 PM ET', t1:'UConn', t2:'Furman', venue:'Raleigh, NC', channel:'TBS', round:'R64'},
+    {time:'7:25 PM ET', t1:'Iowa State', t2:'Tenn. State', venue:'Indianapolis, IN', channel:'TNT', round:'R64'},
+    {time:'9:40 PM ET', t1:'Purdue', t2:'Queens', venue:'Denver, CO', channel:'TBS', round:'R64'},
+    {time:'9:55 PM ET', t1:'Houston', t2:'Idaho', venue:'Memphis, TN', channel:'TNT', round:'R64'},
+  ]},
+  {date:'Thu Mar 20', games:[
+    {time:'12:15 PM ET', t1:'Kansas', t2:'Cal Baptist', venue:'Cleveland, OH', channel:'CBS', round:'R64'},
+    {time:'12:40 PM ET', t1:'Alabama', t2:'Hofstra', venue:'Seattle, WA', channel:'TNT', round:'R64'},
+    {time:'2:45 PM ET', t1:'Arkansas', t2:'Hawaii', venue:'Cleveland, OH', channel:'CBS', round:'R64'},
+    {time:'3:10 PM ET', t1:'Nebraska', t2:'Troy', venue:'Seattle, WA', channel:'TNT', round:'R64'},
+    {time:'7:10 PM ET', t1:'Michigan St.', t2:'N. Dakota St.', venue:'Cleveland, OH', channel:'TBS', round:'R64'},
+    {time:'7:25 PM ET', t1:'Virginia', t2:'Wright State', venue:'Seattle, WA', channel:'TNT', round:'R64'},
+    {time:'9:40 PM ET', t1:'Gonzaga', t2:'Kennesaw St.', venue:'Salt Lake City, UT', channel:'TBS', round:'R64'},
+    {time:'9:55 PM ET', t1:'Illinois', t2:'Penn', venue:'Cleveland, OH', channel:'TNT', round:'R64'},
+  ]},
+];
+
+const CH_CLASS = {CBS:'ch-cbs', TBS:'ch-tbs', TNT:'ch-tnt', TruTV:'ch-trutv', ESPN:'ch-espn'};
+
+function channelBadge(ch) {
+  return `<span class="channel-badge ${CH_CLASS[ch]||''}">${ch}</span>`;
+}
+
+function parseESPNEvents(data) {
+  const events = data.events || [];
+  return events.map(ev => {
+    const comp = ev.competitions[0];
+    const teams = comp.competitors.map(c => ({
+      name: c.team.shortDisplayName,
+      fullName: c.team.displayName,
+      score: parseInt(c.score) || 0,
+      winner: c.winner || false,
+      seed: c.curatedRank?.current || c.seed || null,
+    }));
+    const status = ev.status.type;
+    const broadcast = comp.broadcasts && comp.broadcasts.length > 0
+      ? comp.broadcasts.map(b => b.names || []).flat().join(', ')
+      : '';
+    return {
+      id: ev.id,
+      name: ev.name,
+      t1: teams[0], t2: teams[1],
+      clock: ev.status.displayClock,
+      period: ev.status.period,
+      statusType: status.name,
+      statusDesc: status.description,
+      venue: comp.venue ? (comp.venue.fullName || '') : '',
+      broadcast,
+      date: ev.date,
+      notes: comp.notes ? comp.notes.map(n => n.headline).join(' ') : '',
+    };
+  });
+}
+
+async function fetchESPNScores() {
+  // Try multiple ESPN endpoints — CDN scoreboard has best CORS support
+  const URLS = [
+    // NCAA tournament specific group (50 = NCAA Tournament)
+    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100',
+    // CDN version — often has better CORS
+    'https://cdn.espn.com/core/mens-college-basketball/scoreboard?xhr=1&limit=100&groups=50',
+    // Fallback — all games today
+    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=100',
+  ];
+
+  for (const url of URLS) {
+    try {
+      const res = await fetch(url, { method: 'GET', mode: 'cors' });
+      if (!res.ok) continue;
+      const data = await res.json();
+      // CDN wraps in .content.sbData
+      const root = data.content?.sbData || data;
+      const parsed = parseESPNEvents(root);
+      if (parsed.length > 0) return parsed;
+    } catch(e) {
+      continue;
+    }
+  }
+
+  // All endpoints failed — return empty so schedule preview shows
+  return [];
+}
+
+function matchPickToGame(game) {
+  // Try to match ESPN game to our ML picks list
+  const both = [game.t1.name.toLowerCase(), game.t2.name.toLowerCase()];
+  for (const pick of ML_PICKS_FLAT) {
+    const p = pick.pick.toLowerCase(), o = pick.opp.toLowerCase();
+    if ((both.includes(p) || both.some(b => b.includes(p.split(' ')[0]))) &&
+        (both.includes(o) || both.some(b => b.includes(o.split(' ')[0])))) {
+      return pick;
+    }
+  }
+  return null;
+}
+
+function scoreCardHTML(game) {
+  const isFinal = game.statusType === 'STATUS_FINAL';
+  const isLive = game.statusType === 'STATUS_IN_PROGRESS';
+  const pick = matchPickToGame(game);
+  const cardClass = isFinal ? 'final-game' : isLive ? 'live-game' : '';
+
+  let predBadge = '';
+  let resultTag = '';
+  if (pick) {
+    if (isFinal) {
+      const winner = game.t1.winner ? game.t1.name : game.t2.name;
+      const correct = winner.toLowerCase().includes(pick.pick.toLowerCase().split(' ')[0]);
+      predBadge = `<span class="ml-pred-badge ${correct ? 'ml-correct' : 'ml-wrong'}">${correct ? '✓' : '✗'} ML: ${pick.pick}</span>`;
+      // Store result
+      gameResults[pick.id] = correct ? 'correct' : 'wrong';
+      localStorage.setItem('mm26_results', JSON.stringify(gameResults));
+    } else {
+      predBadge = `<span class="ml-pred-badge">ML: ${pick.pick} (${pick.upset ? '⚡ upset' : 'fav'})</span>`;
+    }
+  }
+
+  const t1winning = game.t1.score > game.t2.score;
+  const t2winning = game.t2.score > game.t1.score;
+
+  let statusHTML = '';
+  if (isFinal) statusHTML = `<span class="status-final">FINAL</span>`;
+  else if (isLive) statusHTML = `<span class="status-live"><span class="live-dot"></span>${game.period > 2 ? 'OT' : game.period + 'H'} ${game.clock}</span>`;
+  else {
+    const d = new Date(game.date);
+    statusHTML = `<span style="color:#888">${d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} ET</span>`;
+  }
+
+  const s1 = pick ? pick.seed : '';
+  const s2 = pick ? pick.oseed : '';
+
+  return `<div class="score-card ${cardClass}">
+    <div class="score-team">
+      <div class="score-team-name">
+        ${s1 ? `<span class="sd s${Math.min(s1,16)}" style="width:18px;height:18px;font-size:9px">${s1}</span>` : ''}
+        ${game.t1.name}
+      </div>
+      <div class="score-team-pts ${isLive||isFinal ? (t1winning?'winning':'') : ''}">${isLive||isFinal ? game.t1.score : ''}</div>
+    </div>
+    <div class="score-divider"></div>
+    <div class="score-team">
+      <div class="score-team-name">
+        ${s2 ? `<span class="sd s${Math.min(s2,16)}" style="width:18px;height:18px;font-size:9px">${s2}</span>` : ''}
+        ${game.t2.name}
+      </div>
+      <div class="score-team-pts ${isLive||isFinal ? (t2winning?'winning':'') : ''}">${isLive||isFinal ? game.t2.score : ''}</div>
+    </div>
+    <div class="score-meta">
+      ${statusHTML}
+      <div>${predBadge}</div>
+    </div>
+  </div>`;
+}
+
+function renderAccuracy() {
+  const all = Object.values(gameResults);
+  const correct = all.filter(v => v === 'correct').length;
+  const wrong = all.filter(v => v === 'wrong').length;
+  const total = correct + wrong;
+  const pct = total > 0 ? ((correct/total)*100).toFixed(1)+'%' : '—';
+  const upsetsCaught = ML_PICKS_FLAT.filter(p => p.upset && gameResults[p.id] === 'correct').length;
+  const pending = ML_PICKS_FLAT.length - total;
+
+  document.getElementById('acc-correct').textContent = total > 0 ? correct : '—';
+  document.getElementById('acc-wrong').textContent = total > 0 ? wrong : '—';
+  document.getElementById('acc-pct').textContent = pct;
+  document.getElementById('acc-upsets').textContent = upsetsCaught || '—';
+  document.getElementById('acc-pending').textContent = pending;
+}
+
+function renderSchedulePreview() {
+  const el = document.getElementById('schedule-preview');
+  if (!el) return;
+  el.innerHTML = '<div style="font-size:12px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Upcoming games</div>';
+  SCHEDULE.forEach(day => {
+    el.innerHTML += `<div style="font-size:12px;font-weight:700;color:#5c6bc0;margin:10px 0 4px">${day.date}</div>`;
+    day.games.forEach(g => {
+      el.innerHTML += `<div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:8px 12px;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#e0e0e0">${g.t1} vs ${g.t2}</div>
+          <div style="font-size:11px;color:#666;margin-top:2px">${g.time} · ${g.venue}</div>
+        </div>
+        ${channelBadge(g.channel)}
+      </div>`;
+    });
+  });
+}
+
+async function refreshLive() {
+  document.getElementById('last-updated').textContent = 'Refreshing...';
+  const container = document.getElementById('live-games-container');
+  document.getElementById('last-updated').textContent = 'Fetching...';
+
+  let scores = [];
+  try {
+    scores = await fetchESPNScores();
+  } catch(e) {
+    scores = [];
+  }
+
+  if (scores.length === 0) {
+    // Show schedule + explain what happened
+    renderSchedulePreview();
+    const note = document.getElementById('cors-note');
+    if (note) note.style.display = 'block';
+    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    renderAccuracy();
+    return;
+  }
+  // Hide CORS note if we got data
+  const note = document.getElementById('cors-note');
+  if (note) note.style.display = 'none';
+
+  // Separate by status
+  const live = scores.filter(g => g.statusType === 'STATUS_IN_PROGRESS');
+  const final = scores.filter(g => g.statusType === 'STATUS_FINAL');
+  const upcoming = scores.filter(g => g.statusType === 'STATUS_SCHEDULED');
+
+  let html = '';
+
+  if (live.length > 0) {
+    html += `<div class="round-hdr"><span class="live-dot"></span>In progress (${live.length})</div>`;
+    html += '<div class="games-grid">';
+    live.forEach(g => html += scoreCardHTML(g));
+    html += '</div>';
+  }
+
+  if (upcoming.length > 0) {
+    html += `<div class="round-hdr">Today — upcoming (${upcoming.length})</div>`;
+    html += '<div class="games-grid">';
+    upcoming.forEach(g => html += scoreCardHTML(g));
+    html += '</div>';
+  }
+
+  if (final.length > 0) {
+    html += `<div class="round-hdr">Final (${final.length})</div>`;
+    html += '<div class="games-grid">';
+    final.forEach(g => html += scoreCardHTML(g));
+    html += '</div>';
+  }
+
+  container.innerHTML = html || container.innerHTML;
+  document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  renderAccuracy();
+}
+
+function startLiveRefresh() {
+  refreshLive();
+  if (refreshInterval) clearInterval(refreshInterval);
+  refreshInterval = setInterval(refreshLive, 60000); // refresh every 60s
+}
+
+// Auto-start live when tab opened
+const origShowTab = showTab;
+window.showTab = function(id) {
+  origShowTab(id);
+  if (id === 'live') startLiveRefresh();
+};
+
+
 </script>
 <div style="margin-top:3rem;padding-top:1rem;border-top:1px solid #2a2a2a;text-align:center;font-size:12px;color:#555">
   © 2026 Yosef Stifanos. All rights reserved.
