@@ -376,7 +376,7 @@ const STR = {
   'TCU':59,'Utah State':60,'UCF':58,'Missouri':57,
   'Iowa':59,'McNeese':53,'High Point':52,'Akron':53,
   'Saint Louis':55,'Santa Clara':57,'N. Iowa':51,'Texas':56,
-  'Troy':50,'VCU':62,'M-OH/SMU':57,'Idaho':38,'Penn':48,'UMBC/HOW':32,'PV/LEH':34,'TEX/NCSU':57,
+  'Troy':50,'VCU':62,'Miami OH':57,'Idaho':38,'Penn':48,'Howard':32,'Prairie View':30,'Texas':56,'Miami OH':57,
   'Hawaii':44,'Hofstra':46,'Kennesaw St.':40,'Cal Baptist':41,
   'N. Dakota St.':42,'Idaho':39,'Wright State':40,
   'Prairie View':30,'UMBC':31,'LIU':30,'Queens':31,
@@ -403,17 +403,17 @@ const BRACKET = {
   west: [
     [1,'Arizona',16,'LIU'],        [9,'Utah State',8,'Villanova'],
     [5,'Wisconsin',12,'High Point'],[4,'Arkansas',13,'Hawaii'],
-    [6,'BYU',11,'TEX/NCSU'],          [3,'Gonzaga',14,'Kennesaw St.'],
+    [6,'BYU',11,'Texas'],          [3,'Gonzaga',14,'Kennesaw St.'],
     [7,'Miami (FL)',10,'Missouri'],[2,'Purdue',15,'Queens']
   ],
   midwest: [
-    [1,'Michigan',16,'UMBC/HOW'],      [9,'Saint Louis',8,'Georgia'],
+    [1,'Michigan',16,'Howard'],      [9,'Saint Louis',8,'Georgia'],
     [5,'Texas Tech',12,'Akron'],   [4,'Alabama',13,'Hofstra'],
-    [6,'Tennessee',11,'M-OH/SMU'],      [3,'Virginia',14,'Wright State'],
+    [6,'Tennessee',11,'Miami OH'],      [3,'Virginia',14,'Wright State'],
     [10,'Santa Clara',7,'Kentucky'],[2,'Iowa State',15,'Tenn. State']
   ],
   south: [
-    [1,'Florida',16,'PV/LEH'],[9,'Iowa',8,'Clemson'],
+    [1,'Florida',16,'Prairie View'],[9,'Iowa',8,'Clemson'],
     [5,'Vanderbilt',12,'McNeese'],  [4,'Nebraska',13,'Troy'],
     [6,'N. Carolina',11,'VCU'],     [3,'Illinois',14,'Penn'],
     [7,"Saint Mary's",10,'Texas A&M'],[2,'Houston',15,'Idaho']
@@ -655,7 +655,7 @@ const PICKS = {
       {s1:8,t1:'Villanova',s2:9,t2:'Utah State',pick:false,p:49,upset:true},
       {s1:5,t1:'Wisconsin',s2:12,t2:'High Point',pick:false,p:36,upset:true},
       {s1:4,t1:'Arkansas',s2:13,t2:'Hawaii',pick:true,p:86,upset:false},
-      {s1:6,t1:'BYU',s2:11,t2:'TEX/NCSU',pick:true,p:58,upset:false},
+      {s1:6,t1:'BYU',s2:11,t2:'Texas',pick:true,p:58,upset:false},
       {s1:3,t1:'Gonzaga',s2:14,t2:'Kennesaw St.',pick:true,p:93,upset:false},
       {s1:7,t1:'Miami (FL)',s2:10,t2:'Missouri',pick:true,p:56,upset:false},
       {s1:2,t1:'Purdue',s2:15,t2:'Queens',pick:true,p:97,upset:false},
@@ -676,11 +676,11 @@ const PICKS = {
   midwest: {
     name:'Midwest', one:'Michigan',
     r64:[
-      {s1:1,t1:'Michigan',s2:16,t2:'UMBC/HOW',pick:true,p:99,upset:false},
+      {s1:1,t1:'Michigan',s2:16,t2:'Howard',pick:true,p:99,upset:false},
       {s1:8,t1:'Georgia',s2:9,t2:'Saint Louis',pick:false,p:50,upset:true},
       {s1:5,t1:'Texas Tech',s2:12,t2:'Akron',pick:false,p:40,upset:true},
       {s1:4,t1:'Alabama',s2:13,t2:'Hofstra',pick:true,p:86,upset:false},
-      {s1:6,t1:'Tennessee',s2:11,t2:'M-OH/SMU',pick:true,p:57,upset:false},
+      {s1:6,t1:'Tennessee',s2:11,t2:'Miami OH',pick:true,p:57,upset:false},
       {s1:3,t1:'Virginia',s2:14,t2:'Wright State',pick:true,p:92,upset:false},
       {s1:7,t1:'Kentucky',s2:10,t2:'Santa Clara',pick:false,p:47,upset:true},
       {s1:2,t1:'Iowa State',s2:15,t2:'Tenn. State',pick:true,p:97,upset:false},
@@ -701,7 +701,7 @@ const PICKS = {
   south: {
     name:'South', one:'Florida',
     r64:[
-      {s1:1,t1:'Florida',s2:16,t2:'PV/LEH',pick:true,p:98,upset:false},
+      {s1:1,t1:'Florida',s2:16,t2:'Prairie View',pick:true,p:98,upset:false},
       {s1:8,t1:'Clemson',s2:9,t2:'Iowa',pick:false,p:46,upset:true},
       {s1:5,t1:'Vanderbilt',s2:12,t2:'McNeese',pick:false,p:38,upset:true},
       {s1:4,t1:'Nebraska',s2:13,t2:'Troy',pick:true,p:84,upset:false},
@@ -803,7 +803,7 @@ const TEAM_STATS = {
   'PV/LEH':       {adjEM:0.4,  adjO:93.4,  adjD:93.0, tempo:65.4, sos:2.4,  form:0.6,  kp:120,record:'17-16'},
   'VCU':          {adjEM:7.6,  adjO:100.8, adjD:93.2, tempo:69.4, sos:6.8,  form:8.1,  kp:52, record:'27-7'},
   'SMU':          {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
-  'M-OH/SMU':     {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
+  'Miami OH':     {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
   'Yale':         {adjEM:5.2,  adjO:99.4,  adjD:94.2, tempo:62.8, sos:5.8,  form:5.8,  kp:66, record:'24-6'},
 };
 
@@ -1203,21 +1203,21 @@ const ML_PICKS_FLAT = [
   {id:'w2', r:'R64', pick:'Utah State', opp:'Villanova', upset:true, seed:9, oseed:8},
   {id:'w3', r:'R64', pick:'High Point', opp:'Wisconsin', upset:true, seed:12, oseed:5},
   {id:'w4', r:'R64', pick:'Arkansas', opp:'Hawaii', upset:false, seed:4, oseed:13},
-  {id:'w5', r:'R64', pick:'BYU', opp:'TEX/NCSU', upset:false, seed:6, oseed:11},
+  {id:'w5', r:'R64', pick:'BYU', opp:'Texas', upset:false, seed:6, oseed:11},
   {id:'w6', r:'R64', pick:'Gonzaga', opp:'Kennesaw St.', upset:false, seed:3, oseed:14},
   {id:'w7', r:'R64', pick:'Miami (FL)', opp:'Missouri', upset:false, seed:7, oseed:10},
   {id:'w8', r:'R64', pick:'Purdue', opp:'Queens', upset:false, seed:2, oseed:15},
   // MIDWEST
-  {id:'m1', r:'R64', pick:'Michigan', opp:'UMBC/HOW', upset:false, seed:1, oseed:16},
+  {id:'m1', r:'R64', pick:'Michigan', opp:'Howard', upset:false, seed:1, oseed:16},
   {id:'m2', r:'R64', pick:'Saint Louis', opp:'Georgia', upset:true, seed:9, oseed:8},
   {id:'m3', r:'R64', pick:'Akron', opp:'Texas Tech', upset:true, seed:12, oseed:5},
   {id:'m4', r:'R64', pick:'Alabama', opp:'Hofstra', upset:false, seed:4, oseed:13},
-  {id:'m5', r:'R64', pick:'Tennessee', opp:'M-OH/SMU', upset:false, seed:6, oseed:11},
+  {id:'m5', r:'R64', pick:'Tennessee', opp:'Miami OH', upset:false, seed:6, oseed:11},
   {id:'m6', r:'R64', pick:'Virginia', opp:'Wright State', upset:false, seed:3, oseed:14},
   {id:'m7', r:'R64', pick:'Santa Clara', opp:'Kentucky', upset:true, seed:10, oseed:7},
   {id:'m8', r:'R64', pick:'Iowa State', opp:'Tenn. State', upset:false, seed:2, oseed:15},
   // SOUTH
-  {id:'s1', r:'R64', pick:'Florida', opp:'PV/LEH', upset:false, seed:1, oseed:16},
+  {id:'s1', r:'R64', pick:'Florida', opp:'Prairie View', upset:false, seed:1, oseed:16},
   {id:'s2', r:'R64', pick:'Iowa', opp:'Clemson', upset:true, seed:9, oseed:8},
   {id:'s3', r:'R64', pick:'McNeese', opp:'Vanderbilt', upset:true, seed:12, oseed:5},
   {id:'s4', r:'R64', pick:'Nebraska', opp:'Troy', upset:false, seed:4, oseed:13},
@@ -1419,6 +1419,14 @@ const ESPN_NAME_MAP = {
   'n dakota st':         'n. dakota st.',
   'n. dakota st':        'n. dakota st.',
   'smf':                 's. florida',
+  'prairie view':        'prairie view',
+  'prairie view a&m':    'prairie view',
+  'howard':              'howard',
+  'texas':               'texas',
+  'miami oh':            'miami oh',
+  'miami (oh)':          'miami oh',
+  'miami ohio':          'miami oh',
+  'miami of ohio':       'miami oh',
 };
 
 function normalizeTeamName(name) {
@@ -1453,19 +1461,34 @@ function matchPickToGame(game) {
   return null;
 }
 
-function getWinnerName(game) {
-  // Returns the normalized name of the winning team
-  const winner = game.t1.winner ? game.t1 : game.t2;
-  return normalizeTeamName(winner.name);
-}
+// getWinnerName defined above
 
 function isPickCorrect(pick, game) {
-  const winnerNorm = getWinnerName(game);
+  // Determine winner by score if winner flag not set
+  let winner;
+  if (game.t1.winner) winner = game.t1;
+  else if (game.t2.winner) winner = game.t2;
+  else winner = game.t1.score >= game.t2.score ? game.t1 : game.t2;
+  
+  const winnerNorm = normalizeTeamName(winner.name);
+  const winnerFull = winner.fullName ? normalizeTeamName(winner.fullName) : winnerNorm;
   const pickNorm = pick.pick.toLowerCase();
-  return winnerNorm === pickNorm ||
-         winnerNorm.includes(pickNorm) ||
-         pickNorm.includes(winnerNorm) ||
-         winnerNorm.startsWith(pickNorm.split(' ')[0]);
+  
+  return [winnerNorm, winnerFull].some(w =>
+    w === pickNorm ||
+    w.includes(pickNorm) ||
+    pickNorm.includes(w) ||
+    w.startsWith(pickNorm.split(' ')[0]) ||
+    pickNorm.startsWith(w.split(' ')[0])
+  );
+}
+
+function getWinnerName(game) {
+  let winner;
+  if (game.t1.winner) winner = game.t1;
+  else if (game.t2.winner) winner = game.t2;
+  else winner = game.t1.score >= game.t2.score ? game.t1 : game.t2;
+  return normalizeTeamName(winner.name);
 }
 
 function scoreCardHTML(game) {
@@ -1618,6 +1641,9 @@ async function refreshLive() {
 }
 
 function startLiveRefresh() {
+  // Clear cached results so they recalculate from live ESPN data
+  gameResults = {};
+  localStorage.removeItem('mm26_results');
   refreshLive();
   if (refreshInterval) clearInterval(refreshInterval);
   refreshInterval = setInterval(refreshLive, 60000); // refresh every 60s
