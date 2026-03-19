@@ -1327,17 +1327,145 @@ async function fetchESPNScores() {
   return [];
 }
 
+// ESPN returns full names — map them to our abbreviated pick names
+const ESPN_NAME_MAP = {
+  'south florida':       's. florida',
+  'usf':                 's. florida',
+  'north dakota state':  'n. dakota st.',
+  'ndsu':                'n. dakota st.',
+  'northern iowa':       'n. iowa',
+  'north carolina':      'n. carolina',
+  'unc':                 'n. carolina',
+  'saint louis':         'saint louis',
+  'slu':                 'saint louis',
+  'michigan state':      'michigan st.',
+  'msu':                 'michigan st.',
+  'iowa state':          'iowa state',
+  'kennesaw state':      'kennesaw st.',
+  "saint mary's":        "saint mary's",
+  'st. mary's':         "saint mary's",
+  'long island university': 'liu',
+  'liu brooklyn':        'liu',
+  'long island':         'liu',
+  'cal baptist':         'cal baptist',
+  'california baptist':  'cal baptist',
+  'prairie view':        'pv/leh',
+  'lehigh':              'pv/leh',
+  'umbc':                'umbc/how',
+  'howard':              'umbc/how',
+  'wright state':        'wright state',
+  'tenn. state':         'tenn. state',
+  'tennessee state':     'tenn. state',
+  'hawaii':              'hawaii',
+  "hawai'i":             'hawaii',
+  'texas':               'tex/ncsu',
+  'nc state':            'tex/ncsu',
+  'north carolina state':'tex/ncsu',
+  'miami':               'miami (fl)',
+  'miami (fl)':          'miami (fl)',
+  'miami fl':            'miami (fl)',
+  'miami ohio':          'miami (oh)',
+  'ohio state':          'ohio state',
+  'st. john's':         "st. john's",
+  "st. john's":          "st. john's",
+  'vcu':                 'vcu',
+  'virginia commonwealth': 'vcu',
+  'troy':                'troy',
+  'texas a&m':           'texas a&m',
+  'utah state':          'utah state',
+  'usu':                 'utah state',
+  'high point':          'high point',
+  'akron':               'akron',
+  'mcneese':             'mcneese',
+  'mcneese state':       'mcneese',
+  'santa clara':         'santa clara',
+  'gonzaga':             'gonzaga',
+  'purdue':              'purdue',
+  'uconn':               'uconn',
+  'connecticut':         'uconn',
+  'nebraska':            'nebraska',
+  'duke':                'duke',
+  'michigan':            'michigan',
+  'arizona':             'arizona',
+  'florida':             'florida',
+  'kansas':              'kansas',
+  'arkansas':            'arkansas',
+  'alabama':             'alabama',
+  'vanderbilt':          'vanderbilt',
+  'louisville':          'louisville',
+  'byu':                 'byu',
+  'tennessee':           'tennessee',
+  'ucla':                'ucla',
+  'kentucky':            'kentucky',
+  'iowa':                'iowa',
+  'houston':             'houston',
+  'illinois':            'illinois',
+  'virginia':            'virginia',
+  'georgia':             'georgia',
+  'clemson':             'clemson',
+  'tcu':                 'tcu',
+  'wisconsin':           'wisconsin',
+  'texas tech':          'texas tech',
+  'siena':               'siena',
+  'furman':              'furman',
+  'queens':              'queens',
+  'hofstra':             'hofstra',
+  'idaho':               'idaho',
+  'penn':                'penn',
+  'ucf':                 'ucf',
+  'missouri':            'missouri',
+  'ohio st.':            'ohio state',
+  'ohio st':             'ohio state',
+  'n dakota st':         'n. dakota st.',
+  'n. dakota st':        'n. dakota st.',
+  'smf':                 's. florida',
+};
+
+function normalizeTeamName(name) {
+  const lower = name.toLowerCase().trim();
+  return ESPN_NAME_MAP[lower] || lower;
+}
+
 function matchPickToGame(game) {
-  // Try to match ESPN game to our ML picks list
-  const both = [game.t1.name.toLowerCase(), game.t2.name.toLowerCase()];
+  const n1 = normalizeTeamName(game.t1.name);
+  const n2 = normalizeTeamName(game.t2.name);
+  // Also try fullName if available
+  const fn1 = game.t1.fullName ? normalizeTeamName(game.t1.fullName) : n1;
+  const fn2 = game.t2.fullName ? normalizeTeamName(game.t2.fullName) : n2;
+
   for (const pick of ML_PICKS_FLAT) {
-    const p = pick.pick.toLowerCase(), o = pick.opp.toLowerCase();
-    if ((both.includes(p) || both.some(b => b.includes(p.split(' ')[0]))) &&
-        (both.includes(o) || both.some(b => b.includes(o.split(' ')[0])))) {
-      return pick;
-    }
+    const p = pick.pick.toLowerCase();
+    const o = pick.opp.toLowerCase();
+    const bothNorm = [n1, n2, fn1, fn2];
+
+    // Exact match first
+    const pMatch = bothNorm.some(b => b === p || b.includes(p) || p.includes(b.split(' ')[0]));
+    const oMatch = bothNorm.some(b => b === o || b.includes(o) || o.includes(b.split(' ')[0]));
+
+    if (pMatch && oMatch) return pick;
+
+    // First-word fuzzy fallback
+    const p0 = p.split(' ')[0], o0 = o.split(' ')[0];
+    const pFuzz = bothNorm.some(b => b.startsWith(p0) || p0.length > 3 && b.includes(p0));
+    const oFuzz = bothNorm.some(b => b.startsWith(o0) || o0.length > 3 && b.includes(o0));
+    if (pFuzz && oFuzz) return pick;
   }
   return null;
+}
+
+function getWinnerName(game) {
+  // Returns the normalized name of the winning team
+  const winner = game.t1.winner ? game.t1 : game.t2;
+  return normalizeTeamName(winner.name);
+}
+
+function isPickCorrect(pick, game) {
+  const winnerNorm = getWinnerName(game);
+  const pickNorm = pick.pick.toLowerCase();
+  return winnerNorm === pickNorm ||
+         winnerNorm.includes(pickNorm) ||
+         pickNorm.includes(winnerNorm) ||
+         winnerNorm.startsWith(pickNorm.split(' ')[0]);
 }
 
 function scoreCardHTML(game) {
@@ -1350,8 +1478,7 @@ function scoreCardHTML(game) {
   let resultTag = '';
   if (pick) {
     if (isFinal) {
-      const winner = game.t1.winner ? game.t1.name : game.t2.name;
-      const correct = winner.toLowerCase().includes(pick.pick.toLowerCase().split(' ')[0]);
+      const correct = isPickCorrect(pick, game);
       predBadge = `<span class="ml-pred-badge ${correct ? 'ml-correct' : 'ml-wrong'}">${correct ? '✓' : '✗'} ML: ${pick.pick}</span>`;
       // Store result
       gameResults[pick.id] = correct ? 'correct' : 'wrong';
