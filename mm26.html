@@ -1515,12 +1515,43 @@ function teamMatches(espnName, pickName) {
   return pWords.some(pw => eWords.some(ew => ew.startsWith(pw) || pw.startsWith(ew)));
 }
 
+// Build a lookup: team name → which pick covers them in each round
+// This prevents "Iowa State" matching "Utah State" via word "State"
+const TEAM_TO_PICK = {};
+ML_PICKS_FLAT.forEach(pick => {
+  const key = (name, r) => name.toLowerCase().trim() + '|' + r;
+  TEAM_TO_PICK[key(pick.pick, pick.r)] = pick;
+  TEAM_TO_PICK[key(pick.opp,  pick.r)] = pick;
+});
+
+function findPickForTeam(teamName, round) {
+  if (!teamName) return null;
+  const n = teamName.toLowerCase().trim();
+  const r = round;
+  // Direct key lookup
+  const directKey = n + '|' + r;
+  if (TEAM_TO_PICK[directKey]) return TEAM_TO_PICK[directKey];
+  // Try all picks for this round — strict word match only
+  const roundPicks = ML_PICKS_FLAT.filter(p => p.r === r);
+  for (const pick of roundPicks) {
+    const pn = pick.pick.toLowerCase();
+    const on = pick.opp.toLowerCase();
+    // Must match the FULL team name or a distinctive word (not generic like "state")
+    const SKIP_WORDS = new Set(['state','university','college','a&m']);
+    const pWords = pn.split(/\s+/).filter(w => w.length > 3 && !SKIP_WORDS.has(w));
+    const oWords = on.split(/\s+/).filter(w => w.length > 3 && !SKIP_WORDS.has(w));
+    const nWords = n.split(/\s+/);
+    if (pWords.some(pw => nWords.some(nw => nw === pw || nw.startsWith(pw)))) return pick;
+    if (oWords.some(ow => nWords.some(nw => nw === ow || nw.startsWith(ow)))) return pick;
+  }
+  return null;
+}
+
 function matchPickToGame(game) {
   const t1Names = [game.t1.name, game.t1.fullName].filter(Boolean);
   const t2Names = [game.t2.name, game.t2.fullName].filter(Boolean);
-  const allNames = [...t1Names, ...t2Names];
 
-  // First try: exact matchup match (both pick and opp found on opposite sides)
+  // Pass 1 — exact matchup match (R64 fixed matchups, or lucky match in later rounds)
   for (const pick of ML_PICKS_FLAT) {
     const pickMatchesT1 = t1Names.some(n => teamMatches(n, pick.pick));
     const oppMatchesT2  = t2Names.some(n => teamMatches(n, pick.opp));
@@ -1531,18 +1562,17 @@ function matchPickToGame(game) {
     }
   }
 
-  // Second try: for R32+ games, actual matchups differ from predictions
-  // Just find which pick covers this round and one of the teams matches
-  // (e.g. Iowa State vs Kentucky — model picked Iowa State to win R32 regardless of who they faced)
-  for (const pick of ML_PICKS_FLAT) {
-    if (pick.r === 'R64') continue; // R64 matchups are fixed, skip fuzzy
-    const pickInGame = allNames.some(n => teamMatches(n, pick.pick));
-    const oppInGame  = allNames.some(n => teamMatches(n, pick.opp));
-    // If our pick appears in this game, that's the relevant pick
-    if (pickInGame) return pick;
-    // If the opp appears but not the pick, model got it wrong in a prior round
-    // Still attribute it — show as wrong
-    if (oppInGame) return pick;
+  // Pass 2 — R32+ actual matchups differ from predicted
+  // Find pick by looking up each team name in the per-round index
+  // Try all possible rounds in order
+  const rounds = ['R32','S16','E8','F4','NCG'];
+  for (const r of rounds) {
+    for (const names of [t1Names, t2Names]) {
+      for (const n of names) {
+        const pick = findPickForTeam(n, r);
+        if (pick) return pick;
+      }
+    }
   }
 
   return null;
