@@ -1370,31 +1370,48 @@ function parseESPNEvents(data) {
 
 async function fetchESPNScores() {
   // Try multiple ESPN endpoints — CDN scoreboard has best CORS support
-  const URLS = [
-    // NCAA Tournament — groups=100 is the actual March Madness filter
-    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&limit=100',
-    // CDN version with tournament group
-    'https://cdn.espn.com/core/mens-college-basketball/scoreboard?xhr=1&limit=100&groups=100',
-    // Fallback with postseason type filter
-    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=100&groups=50',
-  ];
-
-  for (const url of URLS) {
-    try {
-      const res = await fetch(url, { method: 'GET', mode: 'cors' });
-      if (!res.ok) continue;
-      const data = await res.json();
-      // CDN wraps in .content.sbData
-      const root = data.content?.sbData || data;
-      const parsed = parseESPNEvents(root);
-      if (parsed.length > 0) return parsed;
-    } catch(e) {
-      continue;
-    }
+  // Fetch multiple dates to get full tournament history
+  // ESPN scoreboard only returns one day at a time by default
+  const today = new Date();
+  const dates = [];
+  for (let d = 0; d <= 20; d++) {
+    const dd = new Date(today);
+    dd.setDate(dd.getDate() - d);
+    const yy = dd.getFullYear();
+    const mm = String(dd.getMonth()+1).padStart(2,'0');
+    const day = String(dd.getDate()).padStart(2,'0');
+    dates.push(`${yy}${mm}${day}`);
   }
 
-  // All endpoints failed — return empty so schedule preview shows
-  return [];
+  const allGames = [];
+  const seenIds = new Set();
+
+  for (const date of dates) {
+    const urls = [
+      `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&limit=100&dates=${date}`,
+      `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=100&dates=${date}`,
+    ];
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, { method: 'GET', mode: 'cors' });
+        if (!res.ok) continue;
+        const data = await res.json();
+        const root = data.content?.sbData || data;
+        const parsed = parseESPNEvents(root);
+        parsed.forEach(g => {
+          if (!seenIds.has(g.id)) {
+            seenIds.add(g.id);
+            allGames.push(g);
+          }
+        });
+        if (parsed.length > 0) break; // got data for this date, move on
+      } catch(e) { continue; }
+    }
+    // Stop fetching past dates if we've gone back far enough
+    if (date < '20260317') break;
+  }
+
+  return allGames;
 }
 
 // ESPN returns full names — map them to our abbreviated pick names
@@ -1502,47 +1519,40 @@ function normalizeTeamName(name) {
 }
 
 function teamMatches(espnName, pickName) {
-  if (!espnName || !pickName) return false;
-  const e = espnName.toLowerCase().trim();
-  const p = pickName.toLowerCase().trim();
-
-  // Direct contains check both ways
-  if (e.includes(p) || p.includes(e)) return true;
-
-  // Word-by-word: any significant word in pick matches any word in ESPN name
-  const eWords = e.split(/\s+/).filter(w => w.length > 3);
-  const pWords = p.split(/\s+/).filter(w => w.length > 3);
-  return pWords.some(pw => eWords.some(ew => ew.startsWith(pw) || pw.startsWith(ew)));
+  return strictTeamMatch(espnName, pickName);
 }
 
-// Build a lookup: team name → which pick covers them in each round
-// This prevents "Iowa State" matching "Utah State" via word "State"
-const TEAM_TO_PICK = {};
-ML_PICKS_FLAT.forEach(pick => {
-  const key = (name, r) => name.toLowerCase().trim() + '|' + r;
-  TEAM_TO_PICK[key(pick.pick, pick.r)] = pick;
-  TEAM_TO_PICK[key(pick.opp,  pick.r)] = pick;
-});
+// ── EXACT TEAM → PICK LOOKUP ─────────────────────────────────────
+// Maps every team name variant → their pick entry for each round
+// Uses only distinctive words to avoid "Iowa State" → "Utah State" false matches
+const SKIP_WORDS = new Set(['state','university','college','a&m','the','of','at']);
+
+function distinctWords(name) {
+  return name.toLowerCase().split(/[\s.]+/)
+    .filter(w => w.length > 2 && !SKIP_WORDS.has(w));
+}
+
+function strictTeamMatch(espnName, pickName) {
+  if (!espnName || !pickName) return false;
+  const en = espnName.toLowerCase().trim();
+  const pn = pickName.toLowerCase().trim();
+  // Exact full match
+  if (en === pn || en.includes(pn) || pn.includes(en)) return true;
+  // Distinctive word match — ALL distinctive words in pick must appear in ESPN name
+  const pickWords = distinctWords(pn);
+  const espnWords = distinctWords(en);
+  if (pickWords.length === 0) return false;
+  // Every distinctive pick word must match an ESPN word
+  return pickWords.every(pw => espnWords.some(ew => ew === pw || ew.startsWith(pw) || pw.startsWith(ew)));
+}
 
 function findPickForTeam(teamName, round) {
   if (!teamName) return null;
-  const n = teamName.toLowerCase().trim();
-  const r = round;
-  // Direct key lookup
-  const directKey = n + '|' + r;
-  if (TEAM_TO_PICK[directKey]) return TEAM_TO_PICK[directKey];
-  // Try all picks for this round — strict word match only
-  const roundPicks = ML_PICKS_FLAT.filter(p => p.r === r);
+  const roundPicks = ML_PICKS_FLAT.filter(p => p.r === round);
   for (const pick of roundPicks) {
-    const pn = pick.pick.toLowerCase();
-    const on = pick.opp.toLowerCase();
-    // Must match the FULL team name or a distinctive word (not generic like "state")
-    const SKIP_WORDS = new Set(['state','university','college','a&m']);
-    const pWords = pn.split(/\s+/).filter(w => w.length > 3 && !SKIP_WORDS.has(w));
-    const oWords = on.split(/\s+/).filter(w => w.length > 3 && !SKIP_WORDS.has(w));
-    const nWords = n.split(/\s+/);
-    if (pWords.some(pw => nWords.some(nw => nw === pw || nw.startsWith(pw)))) return pick;
-    if (oWords.some(ow => nWords.some(nw => nw === ow || nw.startsWith(ow)))) return pick;
+    if (strictTeamMatch(teamName, pick.pick) || strictTeamMatch(teamName, pick.opp)) {
+      return pick;
+    }
   }
   return null;
 }
