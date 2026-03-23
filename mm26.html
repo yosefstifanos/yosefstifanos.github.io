@@ -281,10 +281,32 @@ button.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     <div class="acc-grid" id="acc-grid">
       <div class="acc-stat"><div class="acc-num" id="acc-correct" style="color:#66bb6a">—</div><div class="acc-lbl">Correct picks</div></div>
       <div class="acc-stat"><div class="acc-num" id="acc-wrong" style="color:#ef5350">—</div><div class="acc-lbl">Wrong picks</div></div>
-      <div class="acc-stat"><div class="acc-num" id="acc-pct" style="color:#90caf9">—</div><div class="acc-lbl">Accuracy</div></div>
+      <div class="acc-stat"><div class="acc-num" id="acc-pct" style="color:#90caf9">—</div><div class="acc-lbl">Pick accuracy</div></div>
       <div class="acc-stat"><div class="acc-num" id="acc-upsets" style="color:#ffd54f">—</div><div class="acc-lbl">Upsets caught</div></div>
       <div class="acc-stat"><div class="acc-num" id="acc-pending" style="color:#888">—</div><div class="acc-lbl">Games pending</div></div>
     </div>
+
+    <div style="height:1px;background:#2a2a2a;margin:16px 0"></div>
+
+    <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px">Bracket score tracker <span style="font-size:10px;color:#555;font-weight:400">(ESPN standard: R64=10 · R32=20 · S16=40 · E8=80 · F4=160 · NCG=320)</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;">
+      <div class="acc-stat"><div class="acc-num" id="bracket-pts" style="color:#90caf9">—</div><div class="acc-lbl">Points earned</div></div>
+      <div class="acc-stat"><div class="acc-num" id="bracket-max" style="color:#66bb6a">—</div><div class="acc-lbl">Max possible</div></div>
+      <div class="acc-stat"><div class="acc-num" id="bracket-total" style="color:#aaa">1920</div><div class="acc-lbl">Total points</div></div>
+      <div class="acc-stat"><div class="acc-num" id="bracket-pct" style="color:#ffd54f">—</div><div class="acc-lbl">Bracket %</div></div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:11px;color:#555">
+        <span>Bracket health</span>
+        <span id="bracket-health-label">—</span>
+      </div>
+      <div style="background:#2a2a2a;border-radius:4px;height:8px;overflow:hidden">
+        <div id="bracket-health-bar" style="height:100%;border-radius:4px;background:#3f51b5;width:0%;transition:width .6s"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px" id="bracket-round-breakdown"></div>
   </div>
 
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap">
@@ -1494,25 +1516,35 @@ function teamMatches(espnName, pickName) {
 }
 
 function matchPickToGame(game) {
-  // Collect all name variants ESPN gives us
-  const espnNames = [
-    game.t1.name, game.t1.fullName,
-    game.t2.name, game.t2.fullName
-  ].filter(Boolean);
+  const t1Names = [game.t1.name, game.t1.fullName].filter(Boolean);
+  const t2Names = [game.t2.name, game.t2.fullName].filter(Boolean);
+  const allNames = [...t1Names, ...t2Names];
 
+  // First try: exact matchup match (both pick and opp found on opposite sides)
   for (const pick of ML_PICKS_FLAT) {
-    const t1Names = [game.t1.name, game.t1.fullName].filter(Boolean);
-    const t2Names = [game.t2.name, game.t2.fullName].filter(Boolean);
-
     const pickMatchesT1 = t1Names.some(n => teamMatches(n, pick.pick));
     const oppMatchesT2  = t2Names.some(n => teamMatches(n, pick.opp));
     const pickMatchesT2 = t2Names.some(n => teamMatches(n, pick.pick));
     const oppMatchesT1  = t1Names.some(n => teamMatches(n, pick.opp));
-
     if ((pickMatchesT1 && oppMatchesT2) || (pickMatchesT2 && oppMatchesT1)) {
       return pick;
     }
   }
+
+  // Second try: for R32+ games, actual matchups differ from predictions
+  // Just find which pick covers this round and one of the teams matches
+  // (e.g. Iowa State vs Kentucky — model picked Iowa State to win R32 regardless of who they faced)
+  for (const pick of ML_PICKS_FLAT) {
+    if (pick.r === 'R64') continue; // R64 matchups are fixed, skip fuzzy
+    const pickInGame = allNames.some(n => teamMatches(n, pick.pick));
+    const oppInGame  = allNames.some(n => teamMatches(n, pick.opp));
+    // If our pick appears in this game, that's the relevant pick
+    if (pickInGame) return pick;
+    // If the opp appears but not the pick, model got it wrong in a prior round
+    // Still attribute it — show as wrong
+    if (oppInGame) return pick;
+  }
+
   return null;
 }
 
@@ -1595,6 +1627,12 @@ function scoreCardHTML(game) {
   </div>`;
 }
 
+// Points per round — ESPN standard scoring
+const ROUND_PTS = { R64:10, R32:20, S16:40, E8:80, F4:160, NCG:320 };
+
+// Total possible points in a perfect bracket
+const TOTAL_POSSIBLE = 32*10 + 16*20 + 8*40 + 4*80 + 2*160 + 1*320; // = 1920
+
 function renderAccuracy() {
   const all = Object.values(gameResults);
   const correct = all.filter(v => v === 'correct').length;
@@ -1609,6 +1647,75 @@ function renderAccuracy() {
   document.getElementById('acc-pct').textContent = pct;
   document.getElementById('acc-upsets').textContent = upsetsCaught || '—';
   document.getElementById('acc-pending').textContent = pending;
+
+  // ── Bracket score tracking ────────────────────────────────────
+  // Points earned so far
+  let ptsEarned = 0;
+  const roundPtsEarned = { R64:0, R32:0, S16:0, E8:0, F4:0, NCG:0 };
+  const roundPtsLost   = { R64:0, R32:0, S16:0, E8:0, F4:0, NCG:0 };
+
+  ML_PICKS_FLAT.forEach(pick => {
+    const pts = ROUND_PTS[pick.r] || 10;
+    if (gameResults[pick.id] === 'correct') {
+      ptsEarned += pts;
+      roundPtsEarned[pick.r] = (roundPtsEarned[pick.r] || 0) + pts;
+    } else if (gameResults[pick.id] === 'wrong') {
+      roundPtsLost[pick.r] = (roundPtsLost[pick.r] || 0) + pts;
+    }
+  });
+
+  // Max possible = points earned + points from all pending picks
+  // (assumes all remaining picks are correct)
+  let ptsMaxPossible = ptsEarned;
+  ML_PICKS_FLAT.forEach(pick => {
+    if (!gameResults[pick.id]) {
+      // Still pending — could still get these points IF the pick survives
+      // But if a team was eliminated, their future picks are worth 0
+      // Simple version: add pending points optimistically
+      ptsMaxPossible += (ROUND_PTS[pick.r] || 10);
+    }
+  });
+
+  const bracketPct = ((ptsEarned / TOTAL_POSSIBLE) * 100).toFixed(1);
+  const maxPct = ((ptsMaxPossible / TOTAL_POSSIBLE) * 100).toFixed(1);
+
+  document.getElementById('bracket-pts').textContent = total > 0 ? ptsEarned : '—';
+  document.getElementById('bracket-max').textContent = total > 0 ? ptsMaxPossible : '—';
+  document.getElementById('bracket-pct').textContent = total > 0 ? bracketPct + '%' : '—';
+
+  // Health bar — based on max possible vs total
+  const healthPct = Math.min(100, (ptsMaxPossible / TOTAL_POSSIBLE) * 100);
+  const bar = document.getElementById('bracket-health-bar');
+  const lbl = document.getElementById('bracket-health-label');
+  if (bar && total > 0) {
+    bar.style.width = healthPct.toFixed(0) + '%';
+    bar.style.background = healthPct > 70 ? '#388e3c' : healthPct > 40 ? '#f57c00' : '#c62828';
+    lbl.textContent = healthPct > 70 ? 'Still alive 🔥' : healthPct > 40 ? 'Hanging on ⚠️' : 'Bracket busted 💀';
+    lbl.style.color = healthPct > 70 ? '#66bb6a' : healthPct > 40 ? '#ffd54f' : '#ef5350';
+  }
+
+  // Round breakdown
+  const breakdown = document.getElementById('bracket-round-breakdown');
+  if (breakdown && total > 0) {
+    const rounds = ['R64','R32','S16','E8','F4','NCG'];
+    const labels = {'R64':'R64','R32':'R32','S16':'S16','E8':'E8','F4':'F4','NCG':'NCG'};
+    let html = '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+    rounds.forEach(r => {
+      const earned = roundPtsEarned[r] || 0;
+      const lost = roundPtsLost[r] || 0;
+      const maxR = rounds.indexOf(r) < rounds.indexOf('NCG') ? 
+        ML_PICKS_FLAT.filter(p=>p.r===r).length * ROUND_PTS[r] : ROUND_PTS[r];
+      if (earned === 0 && lost === 0) return; // skip untouched rounds
+      const color = lost > earned ? '#ef5350' : earned > 0 ? '#66bb6a' : '#888';
+      html += `<div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:5px 10px;text-align:center;min-width:48px">
+        <div style="font-size:10px;color:#555;font-weight:700">${labels[r]}</div>
+        <div style="font-size:13px;font-weight:700;color:${color}">${earned}</div>
+        <div style="font-size:9px;color:#444">/ ${maxR}</div>
+      </div>`;
+    });
+    html += '</div>';
+    breakdown.innerHTML = html;
+  }
 }
 
 function renderSchedulePreview() {
