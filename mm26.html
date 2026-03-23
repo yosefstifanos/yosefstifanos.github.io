@@ -1224,6 +1224,47 @@ const ML_PICKS_FLAT = [
   {id:'s6', r:'R64', pick:'Illinois', opp:'Penn', upset:false, seed:3, oseed:14},
   {id:'s7', r:'R64', pick:"Saint Mary's", opp:'Texas A&M', upset:false, seed:7, oseed:10},
   {id:'s8', r:'R64', pick:'Houston', opp:'Idaho', upset:false, seed:2, oseed:15},
+
+  // ROUND OF 32
+  {id:'r32_e1', r:'R32', pick:'Duke',        opp:'TCU',          upset:false, seed:1,  oseed:9},
+  {id:'r32_e2', r:'R32', pick:'Kansas',      opp:"St. John's",   upset:false, seed:4,  oseed:5},
+  {id:'r32_e3', r:'R32', pick:'Michigan St.',opp:'S. Florida',   upset:false, seed:3,  oseed:11},
+  {id:'r32_e4', r:'R32', pick:'UConn',       opp:'UCLA',         upset:false, seed:2,  oseed:7},
+  {id:'r32_w1', r:'R32', pick:'Arizona',     opp:'Utah State',   upset:false, seed:1,  oseed:9},
+  {id:'r32_w2', r:'R32', pick:'Arkansas',    opp:'High Point',   upset:false, seed:4,  oseed:12},
+  {id:'r32_w3', r:'R32', pick:'Gonzaga',     opp:'BYU',          upset:false, seed:3,  oseed:6},
+  {id:'r32_w4', r:'R32', pick:'Purdue',      opp:'Miami (FL)',   upset:false, seed:2,  oseed:7},
+  {id:'r32_m1', r:'R32', pick:'Michigan',    opp:'Saint Louis',  upset:false, seed:1,  oseed:9},
+  {id:'r32_m2', r:'R32', pick:'Alabama',     opp:'Akron',        upset:false, seed:4,  oseed:12},
+  {id:'r32_m3', r:'R32', pick:'Virginia',    opp:'Tennessee',    upset:false, seed:3,  oseed:6},
+  {id:'r32_m4', r:'R32', pick:'Iowa State',  opp:'Santa Clara',  upset:false, seed:2,  oseed:10},
+  {id:'r32_s1', r:'R32', pick:'Florida',     opp:'Iowa',         upset:false, seed:1,  oseed:9},
+  {id:'r32_s2', r:'R32', pick:'Nebraska',    opp:'McNeese',      upset:false, seed:4,  oseed:12},
+  {id:'r32_s3', r:'R32', pick:'Illinois',    opp:'N. Carolina',  upset:false, seed:3,  oseed:6},
+  {id:'r32_s4', r:'R32', pick:'Houston',     opp:"Saint Mary's", upset:false, seed:2,  oseed:7},
+
+  // SWEET 16
+  {id:'s16_e1', r:'S16', pick:'Duke',        opp:'Kansas',       upset:false, seed:1,  oseed:4},
+  {id:'s16_e2', r:'S16', pick:'UConn',       opp:'Michigan St.', upset:false, seed:2,  oseed:3},
+  {id:'s16_w1', r:'S16', pick:'Arizona',     opp:'Arkansas',     upset:false, seed:1,  oseed:4},
+  {id:'s16_w2', r:'S16', pick:'Gonzaga',     opp:'Purdue',       upset:true,  seed:3,  oseed:2},
+  {id:'s16_m1', r:'S16', pick:'Michigan',    opp:'Alabama',      upset:false, seed:1,  oseed:4},
+  {id:'s16_m2', r:'S16', pick:'Iowa State',  opp:'Virginia',     upset:false, seed:2,  oseed:3},
+  {id:'s16_s1', r:'S16', pick:'Florida',     opp:'Nebraska',     upset:false, seed:1,  oseed:4},
+  {id:'s16_s2', r:'S16', pick:'Houston',     opp:'Illinois',     upset:false, seed:2,  oseed:3},
+
+  // ELITE EIGHT
+  {id:'e8_e',   r:'E8',  pick:'Duke',        opp:'UConn',        upset:false, seed:1,  oseed:2},
+  {id:'e8_w',   r:'E8',  pick:'Arizona',     opp:'Gonzaga',      upset:false, seed:1,  oseed:3},
+  {id:'e8_m',   r:'E8',  pick:'Michigan',    opp:'Iowa State',   upset:false, seed:1,  oseed:2},
+  {id:'e8_s',   r:'E8',  pick:'Florida',     opp:'Houston',      upset:false, seed:1,  oseed:2},
+
+  // FINAL FOUR
+  {id:'f4_1',   r:'F4',  pick:'Michigan',    opp:'Arizona',      upset:false, seed:1,  oseed:1},
+  {id:'f4_2',   r:'F4',  pick:'Duke',        opp:'Florida',      upset:false, seed:1,  oseed:1},
+
+  // NATIONAL CHAMPIONSHIP
+  {id:'ncg',    r:'NCG', pick:'Michigan',    opp:'Duke',         upset:false, seed:1,  oseed:1},
 ];
 
 // Stored results — keyed by game id. 'correct'|'wrong'|null
@@ -1438,29 +1479,39 @@ function normalizeTeamName(name) {
   return ESPN_NAME_MAP[lower] || lower;
 }
 
+function teamMatches(espnName, pickName) {
+  if (!espnName || !pickName) return false;
+  const e = espnName.toLowerCase().trim();
+  const p = pickName.toLowerCase().trim();
+
+  // Direct contains check both ways
+  if (e.includes(p) || p.includes(e)) return true;
+
+  // Word-by-word: any significant word in pick matches any word in ESPN name
+  const eWords = e.split(/\s+/).filter(w => w.length > 3);
+  const pWords = p.split(/\s+/).filter(w => w.length > 3);
+  return pWords.some(pw => eWords.some(ew => ew.startsWith(pw) || pw.startsWith(ew)));
+}
+
 function matchPickToGame(game) {
-  const n1 = normalizeTeamName(game.t1.name);
-  const n2 = normalizeTeamName(game.t2.name);
-  // Also try fullName if available
-  const fn1 = game.t1.fullName ? normalizeTeamName(game.t1.fullName) : n1;
-  const fn2 = game.t2.fullName ? normalizeTeamName(game.t2.fullName) : n2;
+  // Collect all name variants ESPN gives us
+  const espnNames = [
+    game.t1.name, game.t1.fullName,
+    game.t2.name, game.t2.fullName
+  ].filter(Boolean);
 
   for (const pick of ML_PICKS_FLAT) {
-    const p = pick.pick.toLowerCase();
-    const o = pick.opp.toLowerCase();
-    const bothNorm = [n1, n2, fn1, fn2];
+    const t1Names = [game.t1.name, game.t1.fullName].filter(Boolean);
+    const t2Names = [game.t2.name, game.t2.fullName].filter(Boolean);
 
-    // Exact match first
-    const pMatch = bothNorm.some(b => b === p || b.includes(p) || p.includes(b.split(' ')[0]));
-    const oMatch = bothNorm.some(b => b === o || b.includes(o) || o.includes(b.split(' ')[0]));
+    const pickMatchesT1 = t1Names.some(n => teamMatches(n, pick.pick));
+    const oppMatchesT2  = t2Names.some(n => teamMatches(n, pick.opp));
+    const pickMatchesT2 = t2Names.some(n => teamMatches(n, pick.pick));
+    const oppMatchesT1  = t1Names.some(n => teamMatches(n, pick.opp));
 
-    if (pMatch && oMatch) return pick;
-
-    // First-word fuzzy fallback
-    const p0 = p.split(' ')[0], o0 = o.split(' ')[0];
-    const pFuzz = bothNorm.some(b => b.startsWith(p0) || p0.length > 3 && b.includes(p0));
-    const oFuzz = bothNorm.some(b => b.startsWith(o0) || o0.length > 3 && b.includes(o0));
-    if (pFuzz && oFuzz) return pick;
+    if ((pickMatchesT1 && oppMatchesT2) || (pickMatchesT2 && oppMatchesT1)) {
+      return pick;
+    }
   }
   return null;
 }
@@ -1468,23 +1519,15 @@ function matchPickToGame(game) {
 // getWinnerName defined above
 
 function isPickCorrect(pick, game) {
-  // Determine winner by score if winner flag not set
+  // Determine winner — use score if winner flag not set
   let winner;
   if (game.t1.winner) winner = game.t1;
   else if (game.t2.winner) winner = game.t2;
   else winner = game.t1.score >= game.t2.score ? game.t1 : game.t2;
-  
-  const winnerNorm = normalizeTeamName(winner.name);
-  const winnerFull = winner.fullName ? normalizeTeamName(winner.fullName) : winnerNorm;
-  const pickNorm = pick.pick.toLowerCase();
-  
-  return [winnerNorm, winnerFull].some(w =>
-    w === pickNorm ||
-    w.includes(pickNorm) ||
-    pickNorm.includes(w) ||
-    w.startsWith(pickNorm.split(' ')[0]) ||
-    pickNorm.startsWith(w.split(' ')[0])
-  );
+
+  // Check if winner matches our pick using same flexible logic
+  const winnerNames = [winner.name, winner.fullName].filter(Boolean);
+  return winnerNames.some(n => teamMatches(n, pick.pick));
 }
 
 function getWinnerName(game) {
