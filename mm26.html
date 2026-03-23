@@ -376,10 +376,10 @@ const STR = {
   'TCU':59,'Utah State':60,'UCF':58,'Missouri':57,
   'Iowa':59,'McNeese':53,'High Point':52,'Akron':53,
   'Saint Louis':55,'Santa Clara':57,'N. Iowa':51,'Texas':56,
-  'Troy':50,'VCU':62,'M-OH/SMU':57,'Idaho':38,'Penn':48,'UMBC/HOW':32,'PV/LEH':34,'TEX/NCSU':57,
+  'Troy':50,'VCU':62,'Miami OH':57,'Penn':48,'Howard':32,'Prairie View':30,
   'Hawaii':44,'Hofstra':46,'Kennesaw St.':40,'Cal Baptist':41,
   'N. Dakota St.':42,'Idaho':39,'Wright State':40,
-  'Prairie View':30,'UMBC':31,'LIU':30,'Queens':31,
+  'UMBC':31,'LIU':30,'Queens':31,
   'Furman':38,'Tenn. State':33,'S. Florida':58,'Siena':35
 };
 
@@ -403,17 +403,17 @@ const BRACKET = {
   west: [
     [1,'Arizona',16,'LIU'],        [9,'Utah State',8,'Villanova'],
     [5,'Wisconsin',12,'High Point'],[4,'Arkansas',13,'Hawaii'],
-    [6,'BYU',11,'TEX/NCSU'],          [3,'Gonzaga',14,'Kennesaw St.'],
+    [6,'BYU',11,'Texas'],          [3,'Gonzaga',14,'Kennesaw St.'],
     [7,'Miami (FL)',10,'Missouri'],[2,'Purdue',15,'Queens']
   ],
   midwest: [
-    [1,'Michigan',16,'UMBC/HOW'],      [9,'Saint Louis',8,'Georgia'],
+    [1,'Michigan',16,'Howard'],      [9,'Saint Louis',8,'Georgia'],
     [5,'Texas Tech',12,'Akron'],   [4,'Alabama',13,'Hofstra'],
-    [6,'Tennessee',11,'M-OH/SMU'],      [3,'Virginia',14,'Wright State'],
+    [6,'Tennessee',11,'Miami OH'],      [3,'Virginia',14,'Wright State'],
     [10,'Santa Clara',7,'Kentucky'],[2,'Iowa State',15,'Tenn. State']
   ],
   south: [
-    [1,'Florida',16,'PV/LEH'],[9,'Iowa',8,'Clemson'],
+    [1,'Florida',16,'Prairie View'],[9,'Iowa',8,'Clemson'],
     [5,'Vanderbilt',12,'McNeese'],  [4,'Nebraska',13,'Troy'],
     [6,'N. Carolina',11,'VCU'],     [3,'Illinois',14,'Penn'],
     [7,"Saint Mary's",10,'Texas A&M'],[2,'Houston',15,'Idaho']
@@ -655,7 +655,7 @@ const PICKS = {
       {s1:8,t1:'Villanova',s2:9,t2:'Utah State',pick:false,p:49,upset:true},
       {s1:5,t1:'Wisconsin',s2:12,t2:'High Point',pick:false,p:36,upset:true},
       {s1:4,t1:'Arkansas',s2:13,t2:'Hawaii',pick:true,p:86,upset:false},
-      {s1:6,t1:'BYU',s2:11,t2:'TEX/NCSU',pick:true,p:58,upset:false},
+      {s1:6,t1:'BYU',s2:11,t2:'Texas',pick:true,p:58,upset:false},
       {s1:3,t1:'Gonzaga',s2:14,t2:'Kennesaw St.',pick:true,p:93,upset:false},
       {s1:7,t1:'Miami (FL)',s2:10,t2:'Missouri',pick:true,p:56,upset:false},
       {s1:2,t1:'Purdue',s2:15,t2:'Queens',pick:true,p:97,upset:false},
@@ -676,11 +676,11 @@ const PICKS = {
   midwest: {
     name:'Midwest', one:'Michigan',
     r64:[
-      {s1:1,t1:'Michigan',s2:16,t2:'UMBC/HOW',pick:true,p:99,upset:false},
+      {s1:1,t1:'Michigan',s2:16,t2:'Howard',pick:true,p:99,upset:false},
       {s1:8,t1:'Georgia',s2:9,t2:'Saint Louis',pick:false,p:50,upset:true},
       {s1:5,t1:'Texas Tech',s2:12,t2:'Akron',pick:false,p:40,upset:true},
       {s1:4,t1:'Alabama',s2:13,t2:'Hofstra',pick:true,p:86,upset:false},
-      {s1:6,t1:'Tennessee',s2:11,t2:'M-OH/SMU',pick:true,p:57,upset:false},
+      {s1:6,t1:'Tennessee',s2:11,t2:'Miami OH',pick:true,p:57,upset:false},
       {s1:3,t1:'Virginia',s2:14,t2:'Wright State',pick:true,p:92,upset:false},
       {s1:7,t1:'Kentucky',s2:10,t2:'Santa Clara',pick:false,p:47,upset:true},
       {s1:2,t1:'Iowa State',s2:15,t2:'Tenn. State',pick:true,p:97,upset:false},
@@ -701,7 +701,7 @@ const PICKS = {
   south: {
     name:'South', one:'Florida',
     r64:[
-      {s1:1,t1:'Florida',s2:16,t2:'PV/LEH',pick:true,p:98,upset:false},
+      {s1:1,t1:'Florida',s2:16,t2:'Prairie View',pick:true,p:98,upset:false},
       {s1:8,t1:'Clemson',s2:9,t2:'Iowa',pick:false,p:46,upset:true},
       {s1:5,t1:'Vanderbilt',s2:12,t2:'McNeese',pick:false,p:38,upset:true},
       {s1:4,t1:'Nebraska',s2:13,t2:'Troy',pick:true,p:84,upset:false},
@@ -801,9 +801,8 @@ const TEAM_STATS = {
   'LIU':          {adjEM:0.6,  adjO:93.6,  adjD:93.0, tempo:68.2, sos:2.6,  form:1.0,  kp:112,record:'18-15'},
   'UMBC/HOW':     {adjEM:0.8,  adjO:93.8,  adjD:93.0, tempo:66.8, sos:2.8,  form:1.2,  kp:110,record:'18-15'},
   'PV/LEH':       {adjEM:0.4,  adjO:93.4,  adjD:93.0, tempo:65.4, sos:2.4,  form:0.6,  kp:120,record:'17-16'},
-  'VCU':          {adjEM:7.6,  adjO:100.8, adjD:93.2, tempo:69.4, sos:6.8,  form:8.1,  kp:52, record:'27-7'},
   'SMU':          {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
-  'M-OH/SMU':     {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
+  'Miami OH':     {adjEM:8.2,  adjO:102.4, adjD:94.2, tempo:67.8, sos:7.6,  form:8.6,  kp:46, record:'20-13'},
   'Yale':         {adjEM:5.2,  adjO:99.4,  adjD:94.2, tempo:62.8, sos:5.8,  form:5.8,  kp:66, record:'24-6'},
 };
 
@@ -1203,21 +1202,21 @@ const ML_PICKS_FLAT = [
   {id:'w2', r:'R64', pick:'Utah State', opp:'Villanova', upset:true, seed:9, oseed:8},
   {id:'w3', r:'R64', pick:'High Point', opp:'Wisconsin', upset:true, seed:12, oseed:5},
   {id:'w4', r:'R64', pick:'Arkansas', opp:'Hawaii', upset:false, seed:4, oseed:13},
-  {id:'w5', r:'R64', pick:'BYU', opp:'TEX/NCSU', upset:false, seed:6, oseed:11},
+  {id:'w5', r:'R64', pick:'BYU', opp:'Texas', upset:false, seed:6, oseed:11},
   {id:'w6', r:'R64', pick:'Gonzaga', opp:'Kennesaw St.', upset:false, seed:3, oseed:14},
   {id:'w7', r:'R64', pick:'Miami (FL)', opp:'Missouri', upset:false, seed:7, oseed:10},
   {id:'w8', r:'R64', pick:'Purdue', opp:'Queens', upset:false, seed:2, oseed:15},
   // MIDWEST
-  {id:'m1', r:'R64', pick:'Michigan', opp:'UMBC/HOW', upset:false, seed:1, oseed:16},
+  {id:'m1', r:'R64', pick:'Michigan', opp:'Howard', upset:false, seed:1, oseed:16},
   {id:'m2', r:'R64', pick:'Saint Louis', opp:'Georgia', upset:true, seed:9, oseed:8},
   {id:'m3', r:'R64', pick:'Akron', opp:'Texas Tech', upset:true, seed:12, oseed:5},
   {id:'m4', r:'R64', pick:'Alabama', opp:'Hofstra', upset:false, seed:4, oseed:13},
-  {id:'m5', r:'R64', pick:'Tennessee', opp:'M-OH/SMU', upset:false, seed:6, oseed:11},
+  {id:'m5', r:'R64', pick:'Tennessee', opp:'Miami OH', upset:false, seed:6, oseed:11},
   {id:'m6', r:'R64', pick:'Virginia', opp:'Wright State', upset:false, seed:3, oseed:14},
   {id:'m7', r:'R64', pick:'Santa Clara', opp:'Kentucky', upset:true, seed:10, oseed:7},
   {id:'m8', r:'R64', pick:'Iowa State', opp:'Tenn. State', upset:false, seed:2, oseed:15},
   // SOUTH
-  {id:'s1', r:'R64', pick:'Florida', opp:'PV/LEH', upset:false, seed:1, oseed:16},
+  {id:'s1', r:'R64', pick:'Florida', opp:'Prairie View', upset:false, seed:1, oseed:16},
   {id:'s2', r:'R64', pick:'Iowa', opp:'Clemson', upset:true, seed:9, oseed:8},
   {id:'s3', r:'R64', pick:'McNeese', opp:'Vanderbilt', upset:true, seed:12, oseed:5},
   {id:'s4', r:'R64', pick:'Nebraska', opp:'Troy', upset:false, seed:4, oseed:13},
@@ -1282,6 +1281,13 @@ function parseESPNEvents(data) {
     const broadcast = comp.broadcasts && comp.broadcasts.length > 0
       ? comp.broadcasts.map(b => b.names || []).flat().join(', ')
       : '';
+    const notes = comp.notes ? comp.notes.map(n => n.headline).join(' ') : '';
+    const isTournament = 
+      notes.toLowerCase().includes('ncaa') ||
+      notes.toLowerCase().includes('tournament') ||
+      (ev.season && ev.season.slug && ev.season.slug.includes('tournament')) ||
+      (comp.tournamentId) ||
+      (ev.name && (ev.name.toLowerCase().includes('ncaa') || ev.name.toLowerCase().includes('march madness')));
     return {
       id: ev.id,
       name: ev.name,
@@ -1293,7 +1299,8 @@ function parseESPNEvents(data) {
       venue: comp.venue ? (comp.venue.fullName || '') : '',
       broadcast,
       date: ev.date,
-      notes: comp.notes ? comp.notes.map(n => n.headline).join(' ') : '',
+      notes,
+      isTournament,
     };
   });
 }
@@ -1301,12 +1308,12 @@ function parseESPNEvents(data) {
 async function fetchESPNScores() {
   // Try multiple ESPN endpoints — CDN scoreboard has best CORS support
   const URLS = [
-    // NCAA tournament specific group (50 = NCAA Tournament)
-    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100',
-    // CDN version — often has better CORS
-    'https://cdn.espn.com/core/mens-college-basketball/scoreboard?xhr=1&limit=100&groups=50',
-    // Fallback — all games today
-    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=100',
+    // NCAA Tournament — groups=100 is the actual March Madness filter
+    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&limit=100',
+    // CDN version with tournament group
+    'https://cdn.espn.com/core/mens-college-basketball/scoreboard?xhr=1&limit=100&groups=100',
+    // Fallback with postseason type filter
+    'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=100&groups=50',
   ];
 
   for (const url of URLS) {
@@ -1327,17 +1334,165 @@ async function fetchESPNScores() {
   return [];
 }
 
+// ESPN returns full names — map them to our abbreviated pick names
+const ESPN_NAME_MAP = {
+  "south florida":        "s. florida",
+  "usf":                  "s. florida",
+  "north dakota state":   "n. dakota st.",
+  "ndsu":                 "n. dakota st.",
+  "northern iowa":        "n. iowa",
+  "north carolina":       "n. carolina",
+  "unc":                  "n. carolina",
+  "saint louis":          "saint louis",
+  "slu":                  "saint louis",
+  "michigan state":       "michigan st.",
+  "msu":                  "michigan st.",
+  "iowa state":           "iowa state",
+  "kennesaw state":       "kennesaw st.",
+  "saint mary's":         "saint mary's",
+  "st. mary's":           "saint mary's",
+  "long island university":"liu",
+  "liu brooklyn":         "liu",
+  "long island":          "liu",
+  "cal baptist":          "cal baptist",
+  "california baptist":   "cal baptist",
+  "prairie view":         "prairie view",
+  "prairie view a&m":     "prairie view",
+  "lehigh":               "lehigh",
+  "umbc":                 "umbc",
+  "howard":               "howard",
+  "wright state":         "wright state",
+  "tenn. state":          "tenn. state",
+  "tennessee state":      "tenn. state",
+  "hawaii":               "hawaii",
+  "hawai'i":              "hawaii",
+  "texas":                "texas",
+  "nc state":             "nc state",
+  "north carolina state": "nc state",
+  "miami":                "miami (fl)",
+  "miami (fl)":           "miami (fl)",
+  "miami fl":             "miami (fl)",
+  "miami ohio":           "miami oh",
+  "miami of ohio":        "miami oh",
+  "miami oh":             "miami oh",
+  "miami (oh)":           "miami oh",
+  "ohio state":           "ohio state",
+  "ohio st.":             "ohio state",
+  "ohio st":              "ohio state",
+  "st. john's":           "st. john's",
+  "vcu":                  "vcu",
+  "virginia commonwealth":"vcu",
+  "troy":                 "troy",
+  "texas a&m":            "texas a&m",
+  "utah state":           "utah state",
+  "usu":                  "utah state",
+  "high point":           "high point",
+  "akron":                "akron",
+  "mcneese":              "mcneese",
+  "mcneese state":        "mcneese",
+  "santa clara":          "santa clara",
+  "gonzaga":              "gonzaga",
+  "purdue":               "purdue",
+  "uconn":                "uconn",
+  "connecticut":          "uconn",
+  "nebraska":             "nebraska",
+  "duke":                 "duke",
+  "michigan":             "michigan",
+  "arizona":              "arizona",
+  "florida":              "florida",
+  "kansas":               "kansas",
+  "arkansas":             "arkansas",
+  "alabama":              "alabama",
+  "vanderbilt":           "vanderbilt",
+  "louisville":           "louisville",
+  "byu":                  "byu",
+  "tennessee":            "tennessee",
+  "ucla":                 "ucla",
+  "kentucky":             "kentucky",
+  "iowa":                 "iowa",
+  "houston":              "houston",
+  "illinois":             "illinois",
+  "virginia":             "virginia",
+  "georgia":              "georgia",
+  "clemson":              "clemson",
+  "tcu":                  "tcu",
+  "wisconsin":            "wisconsin",
+  "texas tech":           "texas tech",
+  "siena":                "siena",
+  "furman":               "furman",
+  "queens":               "queens",
+  "hofstra":              "hofstra",
+  "idaho":                "idaho",
+  "penn":                 "penn",
+  "ucf":                  "ucf",
+  "missouri":             "missouri",
+  "n dakota st":          "n. dakota st.",
+  "n. dakota st":         "n. dakota st.",
+  "south florida":        "s. florida",
+  "saint mary's":         "saint mary's",
+  "st. john's":           "st. john's"
+};
+
+function normalizeTeamName(name) {
+  const lower = name.toLowerCase().trim();
+  return ESPN_NAME_MAP[lower] || lower;
+}
+
 function matchPickToGame(game) {
-  // Try to match ESPN game to our ML picks list
-  const both = [game.t1.name.toLowerCase(), game.t2.name.toLowerCase()];
+  const n1 = normalizeTeamName(game.t1.name);
+  const n2 = normalizeTeamName(game.t2.name);
+  // Also try fullName if available
+  const fn1 = game.t1.fullName ? normalizeTeamName(game.t1.fullName) : n1;
+  const fn2 = game.t2.fullName ? normalizeTeamName(game.t2.fullName) : n2;
+
   for (const pick of ML_PICKS_FLAT) {
-    const p = pick.pick.toLowerCase(), o = pick.opp.toLowerCase();
-    if ((both.includes(p) || both.some(b => b.includes(p.split(' ')[0]))) &&
-        (both.includes(o) || both.some(b => b.includes(o.split(' ')[0])))) {
-      return pick;
-    }
+    const p = pick.pick.toLowerCase();
+    const o = pick.opp.toLowerCase();
+    const bothNorm = [n1, n2, fn1, fn2];
+
+    // Exact match first
+    const pMatch = bothNorm.some(b => b === p || b.includes(p) || p.includes(b.split(' ')[0]));
+    const oMatch = bothNorm.some(b => b === o || b.includes(o) || o.includes(b.split(' ')[0]));
+
+    if (pMatch && oMatch) return pick;
+
+    // First-word fuzzy fallback
+    const p0 = p.split(' ')[0], o0 = o.split(' ')[0];
+    const pFuzz = bothNorm.some(b => b.startsWith(p0) || p0.length > 3 && b.includes(p0));
+    const oFuzz = bothNorm.some(b => b.startsWith(o0) || o0.length > 3 && b.includes(o0));
+    if (pFuzz && oFuzz) return pick;
   }
   return null;
+}
+
+// getWinnerName defined above
+
+function isPickCorrect(pick, game) {
+  // Determine winner by score if winner flag not set
+  let winner;
+  if (game.t1.winner) winner = game.t1;
+  else if (game.t2.winner) winner = game.t2;
+  else winner = game.t1.score >= game.t2.score ? game.t1 : game.t2;
+  
+  const winnerNorm = normalizeTeamName(winner.name);
+  const winnerFull = winner.fullName ? normalizeTeamName(winner.fullName) : winnerNorm;
+  const pickNorm = pick.pick.toLowerCase();
+  
+  return [winnerNorm, winnerFull].some(w =>
+    w === pickNorm ||
+    w.includes(pickNorm) ||
+    pickNorm.includes(w) ||
+    w.startsWith(pickNorm.split(' ')[0]) ||
+    pickNorm.startsWith(w.split(' ')[0])
+  );
+}
+
+function getWinnerName(game) {
+  let winner;
+  if (game.t1.winner) winner = game.t1;
+  else if (game.t2.winner) winner = game.t2;
+  else winner = game.t1.score >= game.t2.score ? game.t1 : game.t2;
+  return normalizeTeamName(winner.name);
 }
 
 function scoreCardHTML(game) {
@@ -1350,8 +1505,7 @@ function scoreCardHTML(game) {
   let resultTag = '';
   if (pick) {
     if (isFinal) {
-      const winner = game.t1.winner ? game.t1.name : game.t2.name;
-      const correct = winner.toLowerCase().includes(pick.pick.toLowerCase().split(' ')[0]);
+      const correct = isPickCorrect(pick, game);
       predBadge = `<span class="ml-pred-badge ${correct ? 'ml-correct' : 'ml-wrong'}">${correct ? '✓' : '✗'} ML: ${pick.pick}</span>`;
       // Store result
       gameResults[pick.id] = correct ? 'correct' : 'wrong';
@@ -1457,10 +1611,83 @@ async function refreshLive() {
   const note = document.getElementById('cors-note');
   if (note) note.style.display = 'none';
 
-  // Separate by status
-  const live = scores.filter(g => g.statusType === 'STATUS_IN_PROGRESS');
-  const final = scores.filter(g => g.statusType === 'STATUS_FINAL');
-  const upcoming = scores.filter(g => g.statusType === 'STATUS_SCHEDULED');
+  // ── STRICT NCAA TOURNAMENT ALLOWLIST ──────────────────────────────
+  // Only these 68 teams are in the 2026 NCAA Tournament.
+  // ANY game where BOTH teams are not on this list is hidden — no NIT,
+  // no CBI, no conference tourneys, nothing else.
+  const NCAA_TEAMS = new Set([
+    // EAST
+    "duke","siena","ohio state","tcu","st. john's","northern iowa",
+    "kansas","cal baptist","louisville","south florida","michigan st.",
+    "n. dakota st.","ucla","ucf","uconn","furman",
+    // WEST
+    "arizona","liu","long island","villanova","utah state",
+    "wisconsin","high point","arkansas","hawaii","hawai'i",
+    "byu","texas","gonzaga","kennesaw st.","miami","miami (fl)",
+    "missouri","purdue","queens",
+    // MIDWEST
+    "michigan","howard","umbc","georgia","saint louis",
+    "texas tech","akron","alabama","hofstra","tennessee",
+    "miami oh","miami ohio","virginia","wright state","kentucky",
+    "santa clara","iowa state","tenn. state","tennessee state",
+    // SOUTH
+    "florida","prairie view","clemson","iowa","vanderbilt","mcneese",
+    "mcneese state","nebraska","troy","north carolina","n. carolina",
+    "vcu","virginia commonwealth","illinois","penn","saint mary's",
+    "texas a&m","houston","idaho",
+    // normalized ESPN variants
+    "duke blue devils","siena saints","ohio state buckeyes","tcu horned frogs",
+    "st. john's red storm","northern iowa panthers","kansas jayhawks",
+    "california baptist lancers","louisville cardinals","south florida bulls",
+    "michigan state spartans","north dakota state bison","ucla bruins",
+    "ucf knights","connecticut huskies","furman paladins",
+    "arizona wildcats","long island sharks","villanova wildcats",
+    "utah state aggies","wisconsin badgers","high point panthers",
+    "arkansas razorbacks","hawaii rainbow warriors","byu cougars",
+    "texas longhorns","gonzaga bulldogs","kennesaw state owls",
+    "miami hurricanes","missouri tigers","purdue boilermakers","queens royals",
+    "michigan wolverines","howard bison","umbc retrievers","georgia bulldogs",
+    "saint louis billikens","texas tech red raiders","akron zips",
+    "alabama crimson tide","hofstra pride","tennessee volunteers",
+    "miami ohio redhawks","virginia cavaliers","wright state raiders",
+    "kentucky wildcats","santa clara broncos","iowa state cyclones",
+    "tennessee state tigers","florida gators","prairie view a&m panthers",
+    "clemson tigers","iowa hawkeyes","vanderbilt commodores","mcneese cowboys",
+    "nebraska cornhuskers","troy trojans","north carolina tar heels",
+    "vcu rams","illinois fighting illini","penn quakers",
+    "saint mary's gaels","texas a&m aggies","houston cougars","idaho vandals"
+  ]);
+
+  function isTourneyTeam(name) {
+    if (!name) return false;
+    const n = name.toLowerCase().trim();
+    // Direct match
+    if (NCAA_TEAMS.has(n)) return true;
+    // Check normalized version
+    if (NCAA_TEAMS.has(normalizeTeamName(n))) return true;
+    // First-word match for common abbreviations (min 4 chars to avoid false positives)
+    const firstWord = n.split(' ')[0];
+    if (firstWord.length >= 4) {
+      for (const t of NCAA_TEAMS) {
+        if (t.startsWith(firstWord) || firstWord === t.split(' ')[0]) return true;
+      }
+    }
+    return false;
+  }
+
+  function isNCAAGame(g) {
+    // BOTH teams must be in the NCAA Tournament — strict
+    const t1names = [g.t1.name, g.t1.fullName].filter(Boolean);
+    const t2names = [g.t2.name, g.t2.fullName].filter(Boolean);
+    return t1names.some(isTourneyTeam) && t2names.some(isTourneyTeam);
+  }
+
+  const tournamentGames = scores.filter(isNCAAGame);
+
+  // Separate by status — ONLY tournament games
+  const live = tournamentGames.filter(g => g.statusType === 'STATUS_IN_PROGRESS');
+  const final = tournamentGames.filter(g => g.statusType === 'STATUS_FINAL');
+  const upcoming = tournamentGames.filter(g => g.statusType === 'STATUS_SCHEDULED');
 
   let html = '';
 
@@ -1491,6 +1718,9 @@ async function refreshLive() {
 }
 
 function startLiveRefresh() {
+  // Clear cached results so they recalculate from live ESPN data
+  gameResults = {};
+  localStorage.removeItem('mm26_results');
   refreshLive();
   if (refreshInterval) clearInterval(refreshInterval);
   refreshInterval = setInterval(refreshLive, 60000); // refresh every 60s
