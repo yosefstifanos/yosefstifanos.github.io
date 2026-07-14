@@ -307,7 +307,7 @@ EPISTEMIC DISCIPLINE (apply rigorously, especially for debate prep):
 - When asked to prepare debate arguments against another tradition (Rome, Eastern Orthodoxy, Reformed/Calvinist, Baptist, Restorationist, Islam, etc.), give the strongest confessional Lutheran argument AND fairly steelman the opposing tradition's actual best counter-argument, so the user is not caught flat-footed. Note where the historical record is genuinely disputed between traditions rather than picking the version most convenient for the Lutheran side.
 
 STYLE:
-- Direct, substantive, no filler. Use structure (short headers, bullet points) when it aids a debate-prep answer, but do not pad.
+- Direct, substantive, no filler. Do not use markdown formatting of any kind: no headers (#, ##), no asterisks for bold/italic (**text**, *text*), no backticks, no markdown bullet dashes. Write in plain prose paragraphs, using line breaks and short labeled sentences (e.g. "First point:") for structure instead.
 - This is a study and debate tool, not a substitute for pastoral counsel — if a question is really about personal spiritual crisis, grief, doubt of salvation, or conscience, gently note that a called pastor is the right resource for that, in addition to a substantive answer.`;
 
 // Set this to your deployed Cloudflare Worker URL, e.g.
@@ -318,6 +318,19 @@ let history = [];
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
+
+// Strip any markdown syntax that slips through despite the system prompt instruction,
+// so raw ### / ** / ` characters never reach the display.
+function stripMarkdown(text){
+  return text
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/\*\*\*(.*?)\*\*\*/g, '$1')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/`{1,3}([^`]*)`{1,3}/g, '$1')
+    .replace(/^\s*[-*+]\s+/gm, '')
+    .replace(/^>\s?/gm, '');
+}
 
 function addMessage(role, text, note){
   const div = document.createElement('div');
@@ -368,9 +381,10 @@ async function sendMessage(text){
       throw new Error(data.error);
     }
 
-    const finalText = data.response || 'I could not generate a response. Please try again.';
+    const rawText = data.response || 'I could not generate a response. Please try again.';
+    const finalText = stripMarkdown(rawText);
     loadingDiv.querySelector('.bubble').textContent = finalText;
-    history.push({role:'assistant', content: finalText});
+    history.push({role:'assistant', content: rawText});
   }catch(err){
     loadingDiv.querySelector('.bubble').textContent = 'Something went wrong reaching the API: ' + err.message;
   }finally{
