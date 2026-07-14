@@ -43,7 +43,7 @@ I completed the Google Cybersecurity Professional Certificate program, gaining h
 
 [View Certificate](https://coursera.org/share/f9bf6647320fe57074c391169d92f173)
 
-![Google Cybersecurity Professional Certificate](yosef_cert_google.jpg)
+![Google Cybersecurity Professional Certificate](assets/yosef_cert_google.jpg)
 
 ---
 
