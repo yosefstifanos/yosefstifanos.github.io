@@ -22,23 +22,26 @@
   --white:#fff; --gray0:#fbfbfd; --gray1:#f5f5f7;
   --line:rgba(0,0,0,.08);
   --ink:#1d1d1f; --ink2:#6e6e73; --ink3:#86868b;
-  --blue:#0071e3; --blue-dk:#0058b0;
+  --blue:#0071e3; --blue-dk:#0058b0; --silver:#e3e4e6; --silver-dk:#b8b9bd;
+  --c-blue:#0071e3; --c-orange:#ff8a3d; --c-green:#2fb768; --c-purple:#8a5cf5; --c-pink:#ff5c8d;
   --sys:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{background:var(--white);color:var(--ink);font-family:var(--sys);font-size:17px;line-height:1.47}
 a{color:inherit}
 ::selection{background:var(--blue);color:#fff}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:300;height:44px;display:flex;align-items:center;
-  padding:0 max(1.5rem,env(safe-area-inset-left));background:rgba(255,255,255,.8);
-  backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:.5px solid var(--line)}
+  padding:0 max(1.5rem,env(safe-area-inset-left));background:rgba(255,255,255,0);
+  backdrop-filter:saturate(180%) blur(0px);-webkit-backdrop-filter:saturate(180%) blur(0px);
+  border-bottom:.5px solid rgba(0,0,0,0);transition:background .3s ease,backdrop-filter .3s ease,border-color .3s ease}
+nav.scrolled{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.03),0 8px 24px -12px rgba(0,0,0,.06)}
 .nav-logo{font-size:.88rem;font-weight:600;text-decoration:none;letter-spacing:-.01em;margin-right:auto}
 .nav-links{list-style:none;display:flex;gap:2rem;margin-right:2rem}
-.nav-links a{font-size:.72rem;color:var(--ink2);text-decoration:none;letter-spacing:-.005em;transition:color .2s}
+.nav-links a{font-size:.72rem;color:var(--ink2);text-decoration:none;letter-spacing:-.005em;transition:color .2s;padding-bottom:2px;border-bottom:1.5px solid transparent}
 .nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--blue);border-bottom-color:var(--blue)}
 .nav-cta{font-size:.72rem;color:var(--blue);text-decoration:none}
 .nav-cta:hover{text-decoration:underline}
 
@@ -48,36 +51,58 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;height:44px;display:flex;ali
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:120px 1.5rem 80px; position:relative; color:var(--ink);
 }
-.g-blue{background:linear-gradient(180deg,#eaf2fb 0%,#ffffff 78%)}
-.g-peach{background:linear-gradient(180deg,#fdf1e6 0%,#ffffff 78%)}
-.g-mint{background:linear-gradient(180deg,#eaf7f0 0%,#ffffff 78%)}
-.g-lav{background:linear-gradient(180deg,#f1eefb 0%,#ffffff 78%)}
-.g-rose{background:linear-gradient(180deg,#fdecef 0%,#ffffff 78%)}
+.g-blue{background:linear-gradient(180deg,#cfe6fd 0%,#ffffff 78%)}
+.g-peach{background:linear-gradient(180deg,#ffdcb8 0%,#ffffff 78%)}
+.g-mint{background:linear-gradient(180deg,#c6f0d6 0%,#ffffff 78%)}
+.g-lav{background:linear-gradient(180deg,#e2d4fc 0%,#ffffff 78%)}
+.g-rose{background:linear-gradient(180deg,#ffd2df 0%,#ffffff 78%)}
+.g-blue .eyebrow.blue,.g-blue .stat{color:var(--c-blue)}
+.g-blue .btn-fill{background:var(--c-blue);border-color:var(--c-blue)}
+.g-blue .btn-fill:hover{background:#0058b0;border-color:#0058b0}
+.g-blue .btn-outline{color:var(--c-blue);border-color:var(--c-blue)}
+.g-peach .eyebrow.blue,.g-peach .stat{color:var(--c-orange)}
+.g-peach .btn-fill{background:var(--c-orange);border-color:var(--c-orange)}
+.g-peach .btn-fill:hover{background:#e06f22;border-color:#e06f22}
+.g-peach .btn-outline{color:var(--c-orange);border-color:var(--c-orange)}
+.g-mint .eyebrow.blue,.g-mint .stat{color:var(--c-green)}
+.g-mint .btn-fill{background:var(--c-green);border-color:var(--c-green)}
+.g-mint .btn-fill:hover{background:#218f50;border-color:#218f50}
+.g-mint .btn-outline{color:var(--c-green);border-color:var(--c-green)}
+.g-lav .eyebrow.blue,.g-lav .stat{color:var(--c-purple)}
+.g-lav .btn-fill{background:var(--c-purple);border-color:var(--c-purple)}
+.g-lav .btn-fill:hover{background:#6f3fe0;border-color:#6f3fe0}
+.g-lav .btn-outline{color:var(--c-purple);border-color:var(--c-purple)}
+.g-rose .eyebrow.blue,.g-rose .stat{color:var(--c-pink)}
+.g-rose .btn-fill{background:var(--c-pink);border-color:var(--c-pink)}
+.g-rose .btn-fill:hover{background:#e0406f;border-color:#e0406f}
+.g-rose .btn-outline{color:var(--c-pink);border-color:var(--c-pink)}
 
 .eyebrow{font-size:.98rem;font-weight:600;margin-bottom:.7rem;letter-spacing:-.005em;color:var(--ink2)}
 .eyebrow.blue{color:var(--blue)}
 
-.big-title{font-size:clamp(2.6rem,6.4vw,5.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.03;margin-bottom:.8rem;color:var(--ink)}
+.big-title{font-size:clamp(2.6rem,6.4vw,5.6rem);font-weight:700;letter-spacing:-.035em;line-height:1.02;margin-bottom:.8rem;color:var(--ink)}
 .big-sub{font-size:clamp(1.2rem,2.1vw,1.7rem);font-weight:400;color:var(--ink2);max-width:640px;margin:0 auto 2.2rem;line-height:1.4;letter-spacing:-.01em}
 
 .stat{font-size:clamp(3.2rem,9vw,6.5rem);font-weight:700;letter-spacing:-.04em;line-height:1;margin:1.4rem 0 .4rem;color:var(--blue)}
 .stat-label{font-size:1.02rem;color:var(--ink2);letter-spacing:-.005em;max-width:420px;margin:0 auto}
 
-/* button pair, exactly like Apple's Learn more / Buy */
 .cta-row{display:flex;gap:.9rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:.6rem}
-.btn-fill{font-size:1rem;font-weight:500;background:var(--blue);color:#fff;padding:11px 28px;border-radius:980px;text-decoration:none;transition:background .2s;display:inline-block;border:1.5px solid var(--blue)}
-.btn-fill:hover{background:var(--blue-dk);border-color:var(--blue-dk)}
-.btn-outline{font-size:1rem;font-weight:500;background:transparent;color:var(--blue);padding:9.5px 28px;border-radius:980px;text-decoration:none;transition:background .2s;display:inline-block;border:1.5px solid var(--blue)}
-.btn-outline:hover{background:rgba(0,113,227,.08)}
+.btn-fill{font-size:1rem;font-weight:500;background:var(--blue);color:#fff;padding:11px 28px;border-radius:980px;text-decoration:none;transition:background .25s,transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;display:inline-block;border:1.5px solid var(--blue)}
+.btn-fill:hover{background:var(--blue-dk);border-color:var(--blue-dk);transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(0,0,0,.25)}
+.btn-outline{font-size:1rem;font-weight:500;background:transparent;color:var(--blue);padding:9.5px 28px;border-radius:980px;text-decoration:none;transition:background .25s,transform .25s cubic-bezier(.16,1,.3,1);display:inline-block;border:1.5px solid var(--blue)}
+.btn-outline:hover{background:rgba(0,113,227,.08);transform:translateY(-1px)}
 
 .detail-list{list-style:none;max-width:640px;margin:2.2rem auto 0;text-align:left}
 .detail-list li{font-size:1.02rem;line-height:1.6;padding:.35rem 0 .35rem 1.2rem;position:relative;color:var(--ink2);letter-spacing:-.005em}
 .detail-list li::before{content:'–';position:absolute;left:0;color:var(--ink3)}
 
 .tag-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:2.6rem}
-.tag{font-size:.78rem;color:var(--ink2);background:rgba(255,255,255,.7);border:.5px solid var(--line);padding:6px 14px;border-radius:980px}
+.tag{font-size:.78rem;color:var(--ink2);background:rgba(255,255,255,.7);border:.5px solid var(--line);padding:6px 14px;border-radius:980px;text-decoration:none;transition:border-color .25s,color .25s,transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}
+.tag:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 16px -6px rgba(0,0,0,.12)}
 
-#hero{padding-top:150px}
+#hero{padding-top:150px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:900px;height:900px;max-width:140vw;background:radial-gradient(circle,rgba(0,113,227,.16) 0%,rgba(0,113,227,0) 68%);pointer-events:none;z-index:0}
+#hero > *{position:relative;z-index:1}
 .scroll-cue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);width:1px;height:40px;
   background:linear-gradient(to bottom,var(--ink3),transparent);animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.25}50%{opacity:.8}}
@@ -93,10 +118,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;height:44px;display:flex;ali
 .intro h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:.7rem}
 .intro p{font-size:1.15rem;color:var(--ink2);letter-spacing:-.005em}
 
+/* Get the highlights — Apple-style anchor pill gallery */
+.highlights-nav{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;max-width:900px;margin:0 auto 2.5rem}
+.highlights-nav a{font-size:.82rem;color:var(--ink2);background:var(--gray1);padding:8px 18px;border-radius:980px;text-decoration:none;transition:background .2s,color .2s}
+.highlights-nav a:hover{background:#e8e8ed;color:var(--ink)}
+
 .grid-wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem 110px}
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-.proj-card{background:var(--gray1);border-radius:22px;padding:2.4rem 2.2rem;display:flex;flex-direction:column;min-height:280px;transition:transform .25s,background .25s}
-.proj-card:hover{background:#ececec;transform:translateY(-3px)}
+.proj-card{background:var(--gray1);border-radius:22px;padding:2.4rem 2.2rem;display:flex;flex-direction:column;min-height:280px;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1),background .35s}
+.proj-card:hover{background:#ffffff;transform:translateY(-6px);box-shadow:0 24px 48px -12px rgba(0,0,0,.14),0 1px 2px rgba(0,0,0,.06)}
 .proj-type{font-size:.72rem;font-weight:600;color:var(--blue);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.04em}
 .proj-title{font-size:1.35rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.7rem;line-height:1.25}
 .proj-desc{font-size:.92rem;color:var(--ink2);line-height:1.6;flex:1;margin-bottom:1.3rem;letter-spacing:-.005em}
@@ -138,19 +168,20 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
   <a class="nav-logo" href="#hero">Yosef.</a>
   <ul class="nav-links">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#experience" data-section="experience">Experience</a></li>
+    <li><a href="#projects" data-section="projects">Projects</a></li>
+    <li><a href="#skills" data-section="skills">Skills</a></li>
+    <li><a href="#contact" data-section="contact">Contact</a></li>
   </ul>
   <a href="Yosef_Resume_2026_Web.pdf" target="_blank" class="nav-cta">Resume ›</a>
 </nav>
 
 <!-- HERO -->
 <section class="screen g-blue" id="hero">
+  <div class="hero-glow"></div>
   <div class="eyebrow">UIUC Class of 2026</div>
   <h1 class="big-title">Yosef.</h1>
   <p class="big-sub">Now supercharged by AI, GRC, and real security work.</p>
@@ -169,6 +200,20 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 </section>
 
 <div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
+
+<!-- "Get the highlights" style quick nav, Apple's overview pattern -->
+<div class="intro reveal">
+  <div class="eyebrow blue">Get the highlights</div>
+  <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)">Jump to what matters.</h2>
+  <div class="highlights-nav">
+    <a href="#experience">Caterpillar</a>
+    <a href="#experience">Freddie Mac</a>
+    <a href="#projects">BoM Squad</a>
+    <a href="#projects">OSCAL PoV</a>
+    <a href="#skills">Tech Stack</a>
+    <a href="#contact">Get in Touch</a>
+  </div>
+</div>
 
 <!-- EXPERIENCE INTRO -->
 <div class="intro reveal" id="experience">
@@ -263,6 +308,8 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
       <div class="proj-title">BoM Squad</div>
       <p class="proj-desc">Multi-agent pipeline that converts engineering requirements into a draft Bill of Materials in minutes: PDF ingestion → Azure AI Search catalog research → automated BoM assembly → engineer-facing chatbot.</p>
       <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Azure AI Search</span><span class="proj-tag">Multi-Agent</span><span class="proj-tag">LLM</span></div>
+      <div class="proj-stat"><em>100%+</em> project goals achieved · 7/7 deliverables</div>
+      <div class="proj-stat">Est. <em>$100k+</em>/yr value per team · 15 hrs/week saved</div>
     </div>
     <div class="proj-card">
       <div class="proj-type">Security Tool</div>
@@ -342,8 +389,34 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 const tools=['OSCAL','ServiceNow IRM','NIST RMF','MITRE ATT&CK','Splunk','Wireshark','Kali Linux','NMAP','SIEM','Burp Suite','Python','SQL','Power BI','Azure AI Search','Multi-Agent LLM','Scikit-learn','Pandas','Incident Response','Threat Detection','IPAM','Web Crypto API','CTF','IDS/IPS','Linux','KenPom','Monte Carlo'];
 const track=document.getElementById('ticker');
 [...tools,...tools].forEach(t=>{const el=document.createElement('span');el.className='t-item';el.innerHTML=`<span class="t-dot"></span>${t}`;track.appendChild(el);});
+
+/* Reveal on scroll */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+/* Apple-style nav: transparent over hero, blurred white once scrolled */
+const nav=document.getElementById('mainNav');
+function updateNav(){
+  if(window.scrollY>60){nav.classList.add('scrolled');}else{nav.classList.remove('scrolled');}
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+updateNav();
+
+/* Apple-style active section highlighting in the nav */
+const navLinks=document.querySelectorAll('.nav-links a[data-section]');
+const sectionEls=[...navLinks].map(l=>document.getElementById(l.dataset.section)).filter(Boolean);
+const sectionObs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    const id=entry.target.id;
+    const link=[...navLinks].find(l=>l.dataset.section===id);
+    if(!link) return;
+    if(entry.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      link.classList.add('active');
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+sectionEls.forEach(s=>sectionObs.observe(s));
 </script>
 </body>
 </html>
