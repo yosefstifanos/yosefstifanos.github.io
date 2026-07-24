@@ -100,8 +100,10 @@ nav.scrolled{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur
 .tag{font-size:.78rem;color:var(--ink2);background:rgba(255,255,255,.7);border:.5px solid var(--line);padding:6px 14px;border-radius:980px;text-decoration:none;transition:border-color .25s,color .25s,transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}
 .tag:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 16px -6px rgba(0,0,0,.12)}
 
-#hero{padding-top:150px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:900px;height:900px;max-width:140vw;background:radial-gradient(circle,rgba(0,113,227,.16) 0%,rgba(0,113,227,0) 68%);pointer-events:none;z-index:0}
+#hero{padding-top:190px;padding-bottom:120px;min-height:0;height:auto;justify-content:flex-start;position:relative;overflow:hidden}
+.hero-reveal{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1)}
+.hero-reveal.in{opacity:1;transform:none}
+.hero-glow{position:absolute !important;top:-10%;left:50%;transform:translateX(-50%);width:900px;height:900px;max-width:140vw;background:radial-gradient(circle,rgba(0,113,227,.16) 0%,rgba(0,113,227,0) 68%);pointer-events:none;z-index:0}
 #hero > *{position:relative;z-index:1}
 .scroll-cue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);width:1px;height:40px;
   background:linear-gradient(to bottom,var(--ink3),transparent);animation:pulse 2.2s ease-in-out infinite}
@@ -184,12 +186,12 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <div class="hero-glow"></div>
   <div class="eyebrow">UIUC Class of 2026</div>
   <h1 class="big-title">Yosef.</h1>
-  <p class="big-sub">Now supercharged by AI, GRC, and real security work.</p>
-  <div class="cta-row">
+  <p class="big-sub hero-reveal" id="heroSub">Now supercharged by AI, GRC, and real security work.</p>
+  <div class="cta-row hero-reveal" id="heroCta">
     <a href="#experience" class="btn-fill">Learn more</a>
     <a href="Yosef_Resume_2026_Web.pdf" target="_blank" class="btn-outline">Resume</a>
   </div>
-  <div class="tag-row">
+  <div class="tag-row hero-reveal" id="heroTags">
     <span class="tag">Offensive Security</span>
     <span class="tag">Defensive Security</span>
     <span class="tag">GRC & Compliance</span>
@@ -299,7 +301,7 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 <div class="intro reveal" id="projects">
   <div class="eyebrow blue">Selected Work</div>
   <h2>Projects.</h2>
-  <p>Five things built end to end, from idea to something people actually used.</p>
+  <p>Six things built end to end, from idea to something people actually used.</p>
 </div>
 <div class="grid-wrap reveal">
   <div class="proj-grid">
@@ -331,6 +333,20 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
       <div class="proj-title">OSCAL Compliance Automation</div>
       <p class="proj-desc">End-to-end compliance data pipeline integrating OSCAL-formatted control data with ServiceNow IRM transform maps and Snowflake.</p>
       <div class="proj-tags"><span class="proj-tag">OSCAL</span><span class="proj-tag">ServiceNow IRM</span><span class="proj-tag">NIST RMF</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-type">AI / Faith Tech</div>
+      <div class="proj-title">Concordia</div>
+      <p class="proj-desc">An LCMS confessional study assistant grounded in the Book of Concord and Luther's writings, with live web verification against current LCMS/CTCR positions and built-in debate prep across Christian traditions.</p>
+      <div class="proj-tags"><span class="proj-tag">Claude API</span><span class="proj-tag">Web Search Tool</span><span class="proj-tag">Book of Concord</span></div>
+      <a href="concordia.html" class="proj-link">Live demo ›</a>
+    </div>
+    <div class="proj-card">
+      <div class="proj-type">Web / Creative</div>
+      <div class="proj-title">Red Resilience</div>
+      <p class="proj-desc">An interactive longform feature on Manchester United's 2024/25 season, exploring resilience and loyalty through scroll-triggered reveal animations, key stats, and fan voices.</p>
+      <div class="proj-tags"><span class="proj-tag">HTML / CSS / JS</span><span class="proj-tag">Scroll Animation</span><span class="proj-tag">Storytelling</span></div>
+      <a href="red_resilience_website.html" class="proj-link">Read the piece ›</a>
     </div>
     <div class="proj-card">
       <div class="proj-type">ML / Data Science</div>
@@ -393,6 +409,19 @@ const track=document.getElementById('ticker');
 /* Reveal on scroll */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+/* Hero scroll reveal: name is visible immediately; subtitle, buttons,
+   and tags cascade in as soon as the user starts scrolling */
+const heroBits=[document.getElementById('heroSub'),document.getElementById('heroCta'),document.getElementById('heroTags')];
+let heroRevealed=false;
+function revealHero(){
+  if(heroRevealed) return;
+  heroRevealed=true;
+  heroBits.forEach((el,i)=>{ if(el) setTimeout(()=>el.classList.add('in'), i*120); });
+}
+if(window.scrollY>4) revealHero();
+window.addEventListener('scroll',()=>{ if(window.scrollY>4) revealHero(); },{passive:true});
+setTimeout(revealHero,1600); // reveal anyway if the person never scrolls
 
 /* Apple-style nav: transparent over hero, blurred white once scrolled */
 const nav=document.getElementById('mainNav');
