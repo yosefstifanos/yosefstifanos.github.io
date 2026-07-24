@@ -39,13 +39,53 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;height:44px;display:flex;ali
   backdrop-filter:saturate(180%) blur(0px);-webkit-backdrop-filter:saturate(180%) blur(0px);
   border-bottom:.5px solid rgba(0,0,0,0);transition:background .3s ease,backdrop-filter .3s ease,border-color .3s ease}
 nav.scrolled{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.03),0 8px 24px -12px rgba(0,0,0,.06)}
-.nav-logo{font-size:.88rem;font-weight:600;text-decoration:none;letter-spacing:-.01em;margin-right:auto}
-.nav-links{list-style:none;display:flex;gap:2rem;margin-right:2rem}
+.nav-logo{font-size:.88rem;font-weight:600;text-decoration:none;letter-spacing:-.01em}
+.nav-links{list-style:none;display:flex;gap:2rem;margin-left:1.8rem}
 .nav-links a{font-size:.72rem;color:var(--ink2);text-decoration:none;letter-spacing:-.005em;transition:color .2s;padding-bottom:2px;border-bottom:1.5px solid transparent}
 .nav-links a:hover{color:var(--ink)}
 .nav-links a.active{color:var(--blue);border-bottom-color:var(--blue)}
-.nav-cta{font-size:.72rem;color:var(--blue);text-decoration:none}
+.nav-cta{font-size:.72rem;color:var(--blue);text-decoration:none;margin-left:2.0rem}
 .nav-cta:hover{text-decoration:underline}
+.theme-toggle{
+  display:inline-flex;align-items:center;gap:.45rem;
+  margin-left:auto;
+  border:1px solid var(--line);border-radius:980px;padding:8px 12px;
+  background:rgba(255,255,255,.62);color:var(--ink);font:600 .72rem var(--sys);
+  letter-spacing:-.01em;cursor:pointer;backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);transition:background .25s,border-color .25s,transform .25s,box-shadow .25s;
+}
+.theme-toggle:hover{transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(0,0,0,.18)}
+.theme-toggle .theme-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#ffd86b 0%,#ff9f1a 100%);box-shadow:0 0 0 4px rgba(255,159,26,.12)}
+
+body.theme-dark{
+  --white:#050608; --gray0:#09090b; --gray1:#111114;
+  --line:rgba(255,255,255,.08);
+  --ink:#f5f5f7; --ink2:#b7b7c0; --ink3:#8a8a93;
+  --blue:#6cb8ff; --blue-dk:#4098f2;
+}
+body.theme-dark{background:radial-gradient(circle at top,rgba(86,127,255,.12),transparent 34%),#050608;color:var(--ink)}
+body.theme-dark nav{background:rgba(8,8,10,0);border-bottom:.5px solid rgba(255,255,255,0)}
+body.theme-dark nav.scrolled{background:rgba(10,10,12,.78);border-bottom:.5px solid rgba(255,255,255,.09);box-shadow:0 1px 0 rgba(255,255,255,.03),0 8px 24px -12px rgba(0,0,0,.65)}
+body.theme-dark .screen{color:var(--ink)}
+body.theme-dark .g-blue{background:linear-gradient(180deg,#0e2036 0%,#050608 80%)}
+body.theme-dark .g-peach{background:linear-gradient(180deg,#2d1a13 0%,#050608 80%)}
+body.theme-dark .g-mint{background:linear-gradient(180deg,#0f261d 0%,#050608 80%)}
+body.theme-dark .g-lav{background:linear-gradient(180deg,#1f1734 0%,#050608 80%)}
+body.theme-dark .g-rose{background:linear-gradient(180deg,#2b1520 0%,#050608 80%)}
+body.theme-dark .big-title,body.theme-dark #heroName{color:var(--ink)}
+body.theme-dark .big-sub,body.theme-dark .eyebrow,body.theme-dark .detail-list li,body.theme-dark .stat-label,body.theme-dark .proj-desc,body.theme-dark .proj-stat,body.theme-dark .cert-meta,body.theme-dark .cert-courses,body.theme-dark .footer-l,body.theme-dark .footer-r,body.theme-dark .nav-links a{color:var(--ink2)}
+body.theme-dark .nav-logo,body.theme-dark .nav-links a.active,body.theme-dark .nav-cta,body.theme-dark .proj-link{color:var(--blue)}
+body.theme-dark .tag,body.theme-dark .proj-card,body.theme-dark .proj-tag,body.theme-dark .spec-pill,body.theme-dark .cert-row{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);color:var(--ink2)}
+body.theme-dark .proj-card:hover{background:rgba(255,255,255,.07)}
+body.theme-dark .tag:hover,body.theme-dark .nav-links a:hover{color:#fff}
+body.theme-dark .btn-fill{color:#04101f;box-shadow:none}
+body.theme-dark .btn-outline{color:var(--blue);border-color:rgba(108,184,255,.55);background:rgba(108,184,255,.04)}
+body.theme-dark .btn-outline:hover{background:rgba(108,184,255,.12)}
+body.theme-dark .ticker-wrap,body.theme-dark footer{background:#0b0b0e}
+body.theme-dark .cert-row,body.theme-dark .spec-row{border-color:rgba(255,255,255,.08)}
+body.theme-dark .hero-glow{background:radial-gradient(circle,rgba(108,184,255,.15) 0%,rgba(108,184,255,0) 68%)}
+body.theme-dark .theme-toggle{background:rgba(16,17,20,.78);border-color:rgba(255,255,255,.1);color:var(--ink)}
+body.theme-dark .theme-toggle .theme-dot{background:linear-gradient(180deg,#a8d2ff 0%,#6cb8ff 100%);box-shadow:0 0 0 4px rgba(108,184,255,.16)}
 
 /* ===== SOFT GRADIENT SECTION SYSTEM ===== */
 .screen{
@@ -175,6 +215,32 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 .footer-l{font-size:.76rem;color:var(--ink3);font-style:italic}
 .footer-r{font-size:.72rem;color:var(--ink3)}
 
+#pandaEgg .sleep-cap,
+#pandaEgg .sleep-pajamas,
+#pandaEgg .sleep-zzz{
+  opacity:0;
+  transition:opacity .2s ease;
+}
+#pandaEgg.sleeping .sleep-cap,
+#pandaEgg.sleeping .sleep-pajamas,
+#pandaEgg.sleeping .sleep-zzz{opacity:1}
+#pandaEgg.sleeping .p-wrap{animation:pSleepBreathe 3.8s ease-in-out infinite}
+#pandaEgg.sleeping .p-lid{animation:pSleepBlink 5.2s ease-in-out infinite}
+@keyframes pSleepBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1px) scale(1.005)}}
+@keyframes pSleepBlink{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(.14)}}
+#pandaEgg.sleeping .sleep-zzz{
+  position:absolute; left:50%; top:-18px; transform:translateX(-50%);
+  color:var(--ink3); font-size:.68rem; font-weight:700; letter-spacing:.02em; pointer-events:none;
+  animation:zzzRise 1.8s ease-in-out infinite;
+}
+#pandaEgg.sleeping .z-two{animation-delay:.25s}
+#pandaEgg.sleeping .z-three{animation-delay:.5s}
+@keyframes zzzRise{
+  0%{opacity:0; transform:translateX(-50%) translateY(10px) scale(.95)}
+  20%{opacity:1}
+  100%{opacity:0; transform:translateX(-50%) translateY(-18px) scale(1.05)}
+}
+
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.28,.11,.32,1),transform .7s cubic-bezier(.28,.11,.32,1)}
 .reveal.visible{opacity:1;transform:none}
 
@@ -187,10 +253,11 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 
 /* ============ Easter egg: animated panda buddy ============ */
 #pandaEgg{
-  position:absolute; z-index:250; width:84px; height:96px; cursor:default;
-  pointer-events:none;
+  position:absolute; z-index:250; width:84px; height:96px; cursor:pointer;
+  pointer-events:auto; will-change:left,top,opacity,transform;
+  transition:opacity .18s ease, transform .18s ease;
 }
-#pandaEgg.catching-up{transition:left .05s linear, top .05s linear}
+#pandaEgg.hidden{opacity:0; transform:scale(.55) translateY(12px); pointer-events:none}
 #pandaEgg svg{width:100%;height:100%;display:block;overflow:visible}
 #pandaEgg .p-shadow{opacity:.16}
 #pandaEgg .p-leg,#pandaEgg .p-arm{transform-box:fill-box;transform-origin:50% 0%}
@@ -216,31 +283,54 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 @keyframes pArmSwingR{0%,100%{transform:rotate(46deg)}50%{transform:rotate(-24deg)}}
 #pandaEgg.running .p-motion{opacity:1}
 #pandaEgg .p-motion{opacity:0;transition:opacity .15s}
+#pandaEgg.jumping{animation:pandaHop .56s cubic-bezier(.2,.85,.25,1)}
+@keyframes pandaHop{0%,100%{transform:translateY(0) rotate(0)}38%{transform:translateY(-18px) rotate(-2deg)}65%{transform:translateY(-6px) rotate(1deg)}}
 
-.panda-bubble{
-  position:absolute; bottom:100%; left:50%; transform:translateX(-50%) translateY(6px);
-  background:var(--ink); color:#fff; font-family:var(--sys); font-size:.72rem; font-weight:600;
-  padding:6px 12px; border-radius:980px; white-space:nowrap; opacity:0; pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease; letter-spacing:-.005em; z-index:5;
+#pandaHideout{
+  position:absolute; z-index:249; width:112px; height:132px; display:none;
+  border:0; padding:0; margin:0; background:transparent; cursor:pointer;
+  pointer-events:auto; will-change:left,top,transform; transition:transform .18s ease;
 }
-.panda-bubble::after{
-  content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
-  border:5px solid transparent; border-top-color:var(--ink);
+#pandaHideout:hover{transform:translateY(-2px) scale(1.02)}
+#pandaHideout.show{display:block}
+#pandaHideout .b-stalk{
+  position:absolute; bottom:0; width:12px; border-radius:999px;
+  background:linear-gradient(180deg,#8ddb78 0%,#4aa64c 55%,#2d6d34 100%);
+  box-shadow:inset -2px 0 0 rgba(0,0,0,.08);
 }
-.panda-bubble.show{opacity:1; transform:translateX(-50%) translateY(0)}
+#pandaHideout .b-one{left:18px; height:92px; transform:rotate(-4deg)}
+#pandaHideout .b-two{left:42px; height:112px}
+#pandaHideout .b-three{left:66px; height:98px; transform:rotate(4deg)}
+#pandaHideout .b-node{
+  position:absolute; left:0; width:100%; height:8px; border-radius:999px;
+  background:rgba(255,255,255,.18);
+}
+#pandaHideout .b-node.one{bottom:24px}
+#pandaHideout .b-node.two{bottom:54px}
+#pandaHideout .b-leaf{
+  position:absolute; width:24px; height:10px; border-radius:999px 0 999px 0;
+  background:#4a9b54; transform-origin:left center;
+}
+#pandaHideout .leaf-one{left:22px; top:28px; transform:rotate(-30deg)}
+#pandaHideout .leaf-two{left:50px; top:14px; transform:rotate(18deg)}
+#pandaHideout .leaf-three{left:70px; top:36px; transform:rotate(-12deg)}
 </style>
 </head>
 <body>
 
 <nav id="mainNav">
   <a class="nav-logo" href="#hero">Yosef.</a>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" data-panda-perch="true">
+    <span class="theme-dot"></span>
+    <span class="theme-label">Light</span>
+  </button>
   <ul class="nav-links">
     <li><a href="#experience" data-section="experience">Experience</a></li>
     <li><a href="#projects" data-section="projects">Projects</a></li>
     <li><a href="#skills" data-section="skills">Skills</a></li>
     <li><a href="#contact" data-section="contact">Contact</a></li>
   </ul>
-  <a href="Yosef_Resume_2026_Web.pdf" target="_blank" class="nav-cta">Resume ›</a>
+  <a href="Yosef_Resume_2026_Web.pdf" target="_blank" class="nav-cta" data-panda-perch="true">Resume ›</a>
 </nav>
 
 <!-- HERO -->
@@ -249,7 +339,7 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <h1 class="big-title" id="heroName">Yosef.</h1>
   <p class="big-sub hero-reveal" id="heroSub">Now supercharged by AI, GRC, and real security work.</p>
   <div class="cta-row hero-reveal" id="heroCta">
-    <a href="#experience" class="btn-fill">Learn more</a>
+    <a href="#experience" class="btn-fill" data-panda-perch="true">Learn more</a>
     <a href="Yosef_Resume_2026_Web.pdf" target="_blank" class="btn-outline">Resume</a>
   </div>
   <div class="tag-row hero-reveal" id="heroTags">
@@ -291,7 +381,7 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <h2 class="big-title">Caterpillar Inc.</h2>
   <p class="big-sub">Cybersecurity Engineer — compliance automation and applied AI.</p>
   <div class="cta-row">
-    <a href="https://www.caterpillar.com" target="_blank" class="btn-fill">Learn more</a>
+    <a href="https://www.caterpillar.com" target="_blank" class="btn-fill" data-panda-perch="true">Learn more</a>
   </div>
   <div class="stat">$100k+</div>
   <p class="stat-label">estimated annual value delivered by BoM Squad, a multi-agent AI system co-developed to automate Bill of Materials generation — 15 hours/week saved per design team.</p>
@@ -308,7 +398,7 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <h2 class="big-title">Freddie Mac</h2>
   <p class="big-sub">Technology Analyst — enterprise resilience and cyber incident response.</p>
   <div class="cta-row">
-    <a href="https://www.freddiemac.com" target="_blank" class="btn-fill">Learn more</a>
+    <a href="https://www.freddiemac.com" target="_blank" class="btn-fill" data-panda-perch="true">Learn more</a>
   </div>
   <ul class="detail-list">
     <li>Planned and executed 2 tabletop exercises simulating cyber incidents and recovery scenarios to stress-test enterprise resilience</li>
@@ -323,7 +413,7 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <h2 class="big-title">Grainger Engineering, UIUC</h2>
   <p class="big-sub">Network & Infrastructure Engineering Student Consultant.</p>
   <div class="cta-row">
-    <a href="https://grainger.illinois.edu" target="_blank" class="btn-fill">Learn more</a>
+    <a href="https://grainger.illinois.edu" target="_blank" class="btn-fill" data-panda-perch="true">Learn more</a>
   </div>
   <div class="stat">150+</div>
   <p class="stat-label">IP address allocations administered via IPAM with zero documentation errors.</p>
@@ -467,9 +557,9 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
   <h2 class="big-title">Let's connect.</h2>
   <p class="big-sub">Open to roles across the full cybersecurity spectrum — offensive, defensive, GRC, and everything in between.</p>
   <div class="cta-row">
-    <a href="mailto:yosefstifanos30@gmail.com" class="btn-fill">Email me</a>
-    <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank" class="btn-outline">LinkedIn</a>
-    <a href="https://github.com/yosefstifanos" target="_blank" class="btn-outline">GitHub</a>
+    <a href="mailto:yosefstifanos30@gmail.com" class="btn-fill" data-panda-perch="true">Email me</a>
+    <a href="https://www.linkedin.com/in/yosefstifanos" target="_blank" class="btn-outline" data-panda-perch="true">LinkedIn</a>
+    <a href="https://github.com/yosefstifanos" target="_blank" class="btn-outline" data-panda-perch="true">GitHub</a>
   </div>
 </section>
 
@@ -528,16 +618,15 @@ const sectionObs=new IntersectionObserver(entries=>{
 sectionEls.forEach(s=>sectionObs.observe(s));
 
 /* ============================================================
-   Easter egg: an animated cartoon panda that lives tucked in a
-   viewport corner. It's positioned in DOCUMENT coordinates (not
-   fixed), so when you scroll, it visibly "gets left behind" —
-   the page moves but the panda doesn't, exactly like a buddy who
-   didn't notice you walked off. Once scrolling settles, it senses
-   the gap, sprints across the screen with a real run-cycle
-   animation, and plants itself back in the corner to wait.
-   ============================================================ */
+  Easter egg: a document-anchored panda that idles near safe
+  page edges, chases the viewport after scroll, and can hide in
+  a clickable bamboo cluster if you click it.
+  ============================================================ */
 (function(){
   const arriveLines=["there you are!","phew, made it!","wait for me next time!","found you!"];
+  const revealLines=["you found me","how did you find me?","okay okay, you got me","i was hiding"];
+  const pandaWidth=84;
+  const pandaHeight=96;
 
   const wrap=document.createElement('div');
   wrap.id='pandaEgg';
@@ -565,75 +654,373 @@ sectionEls.forEach(s=>sectionObs.observe(s));
           <rect class="p-lid" x="7" y="-3.5" width="7" height="6" rx="1" fill="#1d1d1f"/>
           <ellipse cx="0" cy="8" rx="3.2" ry="2.4" fill="#1d1d1f"/>
         </g>
+        <g class="sleep-pajamas">
+          <rect x="27" y="54" width="46" height="34" rx="14" fill="rgba(108,184,255,.12)" stroke="rgba(108,184,255,.55)" stroke-width="1.8"/>
+          <circle cx="41" cy="66" r="1.3" fill="rgba(255,255,255,.9)"/>
+          <circle cx="50" cy="69" r="1.3" fill="rgba(255,255,255,.9)"/>
+          <circle cx="59" cy="66" r="1.3" fill="rgba(255,255,255,.9)"/>
+        </g>
+        <g class="sleep-cap">
+          <path d="M47 8c8-8 21-6 26 3-4 2-7 5-8 9H52c-3-4-4-8-5-12z" fill="#101827" stroke="rgba(255,255,255,.18)" stroke-width="1.4"/>
+          <circle cx="71" cy="13" r="2.8" fill="#f8fafc"/>
+        </g>
       </g>
     </svg>
-    <span class="panda-bubble" id="pandaBubble"></span>`;
-  document.body.appendChild(wrap);
+    <span class="sleep-zzz z-one">Z</span>
+    <span class="sleep-zzz z-two">Z</span>
+    <span class="sleep-zzz z-three">Z</span>`;
 
-  const bubble=document.getElementById('pandaBubble');
-  let bubbleTimer=null;
+  const hideout=document.createElement('button');
+  hideout.id='pandaHideout';
+  hideout.type='button';
+  hideout.setAttribute('aria-label','bamboo hideout');
+  hideout.innerHTML=`
+    <span class="b-stalk b-one"></span>
+    <span class="b-stalk b-two"></span>
+    <span class="b-stalk b-three"></span>
+    <span class="b-node one"></span>
+    <span class="b-node two"></span>
+    <span class="b-leaf leaf-one"></span>
+    <span class="b-leaf leaf-two"></span>
+    <span class="b-leaf leaf-three"></span>`;
+
+  document.body.appendChild(wrap);
+  document.body.appendChild(hideout);
+
+  let roamTimer=null;
+  let sleepTimer=null;
+  let scrollTimer=null;
+  let lastScrollY=window.scrollY;
+  let wakeHoldUntil=0;
+  let actionToken=0;
+  let running=false;
+  let hidden=false;
+  let sleeping=false;
+  let sleepTarget=null;
+  let themeMode=localStorage.getItem('themeMode') || 'light';
+  let current={x:0,y:0};
+  const themeToggle=document.getElementById('themeToggle');
+
   function showBubble(text,duration){
-    bubble.textContent=text;
-    bubble.classList.add('show');
-    clearTimeout(bubbleTimer);
-    bubbleTimer=setTimeout(()=>bubble.classList.remove('show'),duration||1500);
+    return;
   }
   function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-  // Resting spot: bottom-right corner of the CURRENT viewport, expressed
-  // in document coordinates (adds scroll offset), tucked so it never
-  // overlaps readable content.
-  function cornerTarget(){
+  function clamp(value,min,max){ return Math.min(max, Math.max(min, value)); }
+  function isNight(){ return themeMode==='dark'; }
+  function viewportBounds(){
+    const minX=window.scrollX + 12;
+    const minY=window.scrollY + 48;
+    const maxX=Math.max(minX, window.scrollX + window.innerWidth - pandaWidth - 12);
+    const maxY=Math.max(minY, window.scrollY + window.innerHeight - pandaHeight - 12);
+    return {minX,maxX,minY,maxY};
+  }
+  function edgeSpots(){
+    const {minX,maxX,minY,maxY}=viewportBounds();
+    const midX=Math.round((minX+maxX)/2);
+    const midY=Math.round((minY+maxY)/2);
+    const topBandY=Math.round(minY + (maxY-minY)*0.12);
+    const bottomBandY=Math.round(maxY - (maxY-minY)*0.08);
+    const leftBandX=Math.round(minX + (maxX-minX)*0.08);
+    const rightBandX=Math.round(maxX - (maxX-minX)*0.08);
+    return [
+      {x:minX, y:minY},
+      {x:rightBandX, y:minY},
+      {x:minX, y:bottomBandY},
+      {x:maxX, y:maxY},
+      {x:minX, y:topBandY},
+      {x:maxX, y:topBandY},
+      {x:leftBandX, y:maxY},
+      {x:rightBandX, y:maxY},
+      {x:minX, y:midY},
+      {x:maxX, y:midY},
+      {x:midX, y:minY},
+      {x:midX, y:maxY}
+    ];
+  }
+  function pickSafeSpot(preferTop){
+    const spots=edgeSpots();
+    const filtered=spots.filter(spot=>{
+      if(preferTop===true) return spot.y<=viewportBounds().minY + 160;
+      if(preferTop===false) return spot.y>=viewportBounds().maxY - 160;
+      return true;
+    });
+    const pool=(filtered.length ? filtered : spots).filter(spot=>spot.x!==current.x || spot.y!==current.y);
+    return pool[Math.floor(Math.random()*pool.length)] || spots[0];
+  }
+  function buttonPerchTargets(){
+    return [...document.querySelectorAll('[data-panda-perch="true"]')].map(el=>{
+      const rect=el.getBoundingClientRect();
+      if(rect.width<36 || rect.height<18) return null;
+      return {
+        x:Math.round(window.scrollX + rect.left + rect.width/2 - pandaWidth/2),
+        y:Math.round(window.scrollY + rect.top - pandaHeight + 6)
+      };
+    }).filter(Boolean).map(spot=>{
+      const bounds=viewportBounds();
+      return {
+        x:clamp(spot.x, bounds.minX, bounds.maxX),
+        y:clamp(spot.y, bounds.minY, bounds.maxY)
+      };
+    });
+  }
+  function pickRoamTarget(){
+    const perchTargets=buttonPerchTargets();
+    if(perchTargets.length && Math.random()<(isNight() ? 0.76 : 0.38)) return pick(perchTargets);
+    return pickSafeSpot();
+  }
+  function pickNightPerch(){
+    const perchTargets=buttonPerchTargets().filter(spot=>spot.y<=window.scrollY + 96);
+    return perchTargets.length ? pick(perchTargets) : pickSafeSpot(true);
+  }
+  function hideoutPosition(){
+    const base=pickSafeSpot(Math.random()<.5);
+    const {minX,maxX,minY,maxY}=viewportBounds();
     return {
-      x: window.scrollX + window.innerWidth - 96,
-      y: window.scrollY + window.innerHeight - 108
+      x:clamp(base.x + Math.round((Math.random()*2-1)*10), minX, maxX),
+      y:clamp(base.y + Math.round((Math.random()*2-1)*8), minY, maxY)
     };
   }
-
-  let current=cornerTarget();
-  wrap.style.left=current.x+'px';
-  wrap.style.top=current.y+'px';
-
-  function place(x,y){
+  function cornerTarget(){
+    const {maxX,maxY}=viewportBounds();
+    return {x:maxX, y:maxY};
+  }
+  function setPandaPosition(x,y){
+    current={x,y};
     wrap.style.left=x+'px';
     wrap.style.top=y+'px';
-    current={x,y};
+    syncBubblePosition();
+  }
+  function setHideoutPosition(x,y){
+    hideout.style.left=x+'px';
+    hideout.style.top=y+'px';
+  }
+  function clearRoamTimer(){
+    clearTimeout(roamTimer);
+    roamTimer=null;
+  }
+  function clearSleepTimer(){
+    clearTimeout(sleepTimer);
+    sleepTimer=null;
+  }
+  function syncBubblePosition(){
+    return;
+  }
+  function scheduleRoam(){
+    clearRoamTimer();
+    if(hidden || sleeping) return;
+    if(isNight() && Date.now()<wakeHoldUntil) return;
+    roamTimer=setTimeout(()=>{
+      if(hidden || running || sleeping) {
+        scheduleRoam();
+        return;
+      }
+      const target=pickRoamTarget();
+      const sleepAfter=isNight() && buttonPerchTargets().some(spot=>spot.x===target.x && spot.y===target.y);
+      hopTo(target, {sleepAfter});
+    }, isNight() ? 4300 + Math.random()*3600 : 6500 + Math.random()*8500);
   }
 
-  let running=false;
-  function runTo(target){
-    if(running) return;
-    running=true;
-    wrap.classList.remove('idle');
-    wrap.classList.add('running');
-    const dist=Math.hypot(target.x-current.x, target.y-current.y);
-    const duration=Math.min(1200, Math.max(350, dist*1.6));
-    wrap.style.transition=`left ${duration}ms cubic-bezier(.3,.1,.2,1), top ${duration}ms cubic-bezier(.3,.1,.2,1)`;
-    requestAnimationFrame(()=>place(target.x,target.y));
+  function scheduleSleep(delay){
+    clearSleepTimer();
+    if(!isNight() || hidden || sleeping) return;
+    sleepTimer=setTimeout(()=>{
+      if(!isNight() || hidden || sleeping) return;
+      const target=pickNightPerch();
+      hopTo(target,{duration:Math.min(850,Math.max(380,Math.hypot(target.x-current.x,target.y-current.y)*1.35)),silent:true,sleepAfter:true});
+    }, delay ?? (2800 + Math.random()*4200));
+  }
+
+  function enterSleepMode(target){
+    sleeping=true;
+    sleepTarget=target || sleepTarget || pickNightPerch();
+    wrap.classList.add('sleeping');
+    wrap.classList.remove('running','jumping');
+    if(sleepTarget) setPandaPosition(sleepTarget.x,sleepTarget.y);
+    showBubble('zzz...', 1100);
+  }
+
+  function wakePanda(){
+    if(!isNight() || !sleeping) return;
+    sleeping=false;
+    wakeHoldUntil=Date.now()+5000;
+    clearSleepTimer();
+    wrap.classList.remove('sleeping');
+    showBubble(pick(["why'd you wake me up?","mmm... five more minutes","i was dreaming"]), 1700);
+    hopTo(cornerTarget(), {duration: 520, silent:true});
     setTimeout(()=>{
+      if(!isNight() || hidden) return;
+      enterSleepMode(sleepTarget || pickNightPerch());
+    }, 5000);
+  }
+
+  function applyThemeState(){
+    if(isNight()){
+      document.body.classList.add('theme-dark');
+      document.body.classList.remove('theme-light');
+      if(themeToggle){
+        themeToggle.setAttribute('aria-pressed','true');
+        const label=themeToggle.querySelector('.theme-label');
+        if(label) label.textContent='Dark';
+      }
+      clearRoamTimer();
+      clearSleepTimer();
+      sleepTarget=pickNightPerch();
+      hopTo(sleepTarget,{duration:560,silent:true,sleepAfter:true});
+    }else{
+      document.body.classList.remove('theme-dark');
+      document.body.classList.add('theme-light');
+      clearSleepTimer();
+      sleeping=false;
+      wakeHoldUntil=0;
+      wrap.classList.remove('sleeping');
+      if(themeToggle){
+        themeToggle.setAttribute('aria-pressed','false');
+        const label=themeToggle.querySelector('.theme-label');
+        if(label) label.textContent='Light';
+      }
+    }
+  }
+
+  function setTheme(mode){
+    themeMode=mode;
+    localStorage.setItem('themeMode', themeMode);
+    applyThemeState();
+  }
+
+  function toggleTheme(){
+    setTheme(isNight() ? 'light' : 'dark');
+  }
+
+  function hopTo(target, options={}){
+    if(running || hidden) return;
+    running=true;
+    const token=++actionToken;
+    const currentDistance=Math.hypot(target.x-current.x, target.y-current.y);
+    const duration=options.duration || Math.min(900, Math.max(320, currentDistance*1.45));
+    wrap.classList.remove('hidden');
+    wrap.classList.remove('idle');
+    wrap.classList.add('running','jumping');
+    wrap.style.transition='none';
+    wrap.getBoundingClientRect();
+    if(token!==actionToken) return;
+    wrap.style.transition=`left ${duration}ms cubic-bezier(.2,.8,.2,1), top ${duration}ms cubic-bezier(.2,.8,.2,1), opacity .18s ease, transform .18s ease`;
+    setPandaPosition(target.x,target.y);
+    setTimeout(()=>{
+      if(token!==actionToken) return;
       running=false;
+      wrap.classList.remove('running','jumping');
+      wrap.classList.add('idle');
+      if(options.silent !== true) showBubble(pick(options.lines || arriveLines), options.bubbleDuration || 1300);
+      if(options.sleepAfter && isNight() && !hidden){
+        enterSleepMode(target);
+        return;
+      }
+      scheduleRoam();
+    }, duration+40);
+  }
+
+  function runAcross(){
+    if(running || hidden) return;
+    const nextSpot=pickSafeSpot(Math.random()<.5);
+    hopTo(nextSpot, {duration: 560});
+  }
+
+  function enterHideMode(){
+    if(hidden) return;
+    hidden=true;
+    running=true;
+    const token=++actionToken;
+    clearRoamTimer();
+    const spot=hideoutPosition();
+    wrap.classList.remove('idle');
+    wrap.classList.remove('hidden');
+    wrap.classList.add('running');
+    hideout.classList.remove('show');
+    wrap.style.transition=`left 650ms cubic-bezier(.3,.1,.2,1), top 650ms cubic-bezier(.3,.1,.2,1), opacity .18s ease, transform .18s ease`;
+    wrap.getBoundingClientRect();
+    if(token!==actionToken) return;
+    setPandaPosition(spot.x, spot.y);
+    setHideoutPosition(spot.x - 10, spot.y - 8);
+    hideout.classList.add('show');
+    setTimeout(()=>{
+      if(token!==actionToken) return;
+      running=false;
+      wrap.classList.add('hidden');
+    }, 680);
+  }
+
+  function revealPanda(){
+    if(!hidden) return;
+    hidden=false;
+    running=false;
+    ++actionToken;
+    hideout.classList.remove('show');
+    wrap.classList.remove('hidden');
+    wrap.classList.add('running');
+    showBubble(pick(revealLines), 1700);
+    setTimeout(()=>{
       wrap.classList.remove('running');
       wrap.classList.add('idle');
-      showBubble(pick(arriveLines));
-    }, duration+20);
+      scheduleRoam();
+    }, 280);
   }
 
-  // While scrolling, the panda is document-anchored so it visually stays
-  // behind (page moves, panda doesn't reposition) — exactly the "left
-  // behind" effect. Once scrolling settles, it sprints to catch up.
-  let scrollDebounce=null;
+  wrap.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    if(hidden) return;
+    if(isNight()){
+      wakePanda();
+      return;
+    }
+    enterHideMode();
+  });
+
+  hideout.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    revealPanda();
+  });
+
+  if(themeToggle){
+    themeToggle.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      toggleTheme();
+    });
+  }
+
+  const start=cornerTarget();
+  setPandaPosition(start.x,start.y);
+  setHideoutPosition(start.x,start.y);
+  document.body.classList.add('theme-light');
+  applyThemeState();
+  scheduleRoam();
+
   window.addEventListener('scroll',()=>{
-    clearTimeout(scrollDebounce);
-    scrollDebounce=setTimeout(()=>{
+    const delta=window.scrollY-lastScrollY;
+    lastScrollY=window.scrollY;
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(()=>{
+      if(hidden || sleeping || Math.abs(delta)<8) return;
+      clearRoamTimer();
+      actionToken++;
+      running=false;
+      wrap.classList.remove('running','jumping');
       const target=cornerTarget();
-      const moved=Math.hypot(target.x-current.x, target.y-current.y);
-      if(moved>40) runTo(target);
-    },260);
-  },{passive:true});
+      hopTo(target, {duration: Math.min(1000, Math.max(420, Math.abs(delta)*0.45)), lines: delta>0 ? ["up we go","wheee","catch me" ] : ["down we go","last one there","whoops"]});
+    }, 140);
+  }, {passive:true});
 
   window.addEventListener('resize',()=>{
-    if(!running) place(cornerTarget().x, cornerTarget().y);
+    const bounds=viewportBounds();
+    const nextX=clamp(current.x, bounds.minX, bounds.maxX);
+    const nextY=clamp(current.y, bounds.minY, bounds.maxY);
+    setPandaPosition(nextX,nextY);
+    setHideoutPosition(nextX - 10, nextY - 8);
+    syncBubblePosition();
   });
+
 })();
 </script>
 </body>
