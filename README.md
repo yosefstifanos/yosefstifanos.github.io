@@ -34,7 +34,7 @@ GPA 3.88/4.00 · 6x Dean's List · NSBE Chicago Scholarship Recipient
 ## 📄 Resume
 
 You can view my resume directly at:
-[📎 Yosef's Resume](https://yosefstifanos.github.io/Yosef_Resume_2026_Web.pdf)
+[📎 Yosef's Resume](https://yosefstifanos.github.io/Yosef_Resume_2026.pdf)
 
 ---
 
