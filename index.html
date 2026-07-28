@@ -84,6 +84,7 @@ body.theme-dark .btn-outline:hover{background:rgba(108,184,255,.12)}
 body.theme-dark .ticker-wrap,body.theme-dark footer{background:#0b0b0e}
 body.theme-dark .cert-row,body.theme-dark .spec-row{border-color:rgba(255,255,255,.08)}
 body.theme-dark .hero-glow{background:radial-gradient(circle,rgba(108,184,255,.15) 0%,rgba(108,184,255,0) 68%)}
+body.theme-dark .highlights-nav a:hover{background:rgba(255,255,255,.12);color:#fff}
 body.theme-dark .theme-toggle{background:rgba(16,17,20,.78);border-color:rgba(255,255,255,.1);color:var(--ink)}
 body.theme-dark .theme-toggle .theme-dot{background:linear-gradient(180deg,#a8d2ff 0%,#6cb8ff 100%);box-shadow:0 0 0 4px rgba(108,184,255,.16)}
 
@@ -314,6 +315,31 @@ footer{background:var(--gray1);padding:1.6rem 1.5rem;display:flex;align-items:ce
 #pandaHideout .leaf-one{left:22px; top:28px; transform:rotate(-30deg)}
 #pandaHideout .leaf-two{left:50px; top:14px; transform:rotate(18deg)}
 #pandaHideout .leaf-three{left:70px; top:36px; transform:rotate(-12deg)}
+
+/* ============ Apple-style custom cursor ============ */
+@media (hover:hover) and (pointer:fine){
+  body.cursor-ready, body.cursor-ready a, body.cursor-ready button,
+  body.cursor-ready .tag, body.cursor-ready .proj-card,
+  body.cursor-ready .btn-fill, body.cursor-ready .btn-outline{cursor:none}
+}
+.cursor-dot{
+  position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;
+  background:var(--blue);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:opacity .2s ease,background .3s ease,transform .05s linear;
+  will-change:transform;
+}
+.cursor-ring{
+  position:fixed;top:0;left:0;width:32px;height:32px;border-radius:50%;
+  border:1.5px solid var(--blue);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);opacity:.45;
+  transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),
+             opacity .3s ease,background .3s ease;
+  will-change:transform;
+}
+.cursor-ring.hover{width:60px;height:60px;background:rgba(0,113,227,.08);opacity:1}
+.cursor-dot.is-hidden,.cursor-ring.is-hidden{opacity:0}
+@media (prefers-reduced-motion:reduce){.cursor-dot,.cursor-ring{transition:none}}
+@media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
@@ -1021,6 +1047,43 @@ sectionEls.forEach(s=>sectionObs.observe(s));
     syncBubblePosition();
   });
 
+})();
+
+/* ============================================================
+  Apple-style custom cursor: instant dot + spring-lagging ring
+  that expands on hover over links, buttons, tags, and cards.
+  Disabled automatically on touch devices.
+  ============================================================ */
+(function(){
+  if(window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+  const dot=document.createElement('div'); dot.className='cursor-dot';
+  const ring=document.createElement('div'); ring.className='cursor-ring';
+  document.body.append(dot,ring);
+  document.body.classList.add('cursor-ready');
+
+  let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
+
+  window.addEventListener('mousemove', e=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  }, {passive:true});
+
+  (function loop(){
+    rx+=(mx-rx)*0.16; ry+=(my-ry)*0.16;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  })();
+
+  const HOVER_SEL='a, button, .tag, .proj-card, .btn-fill, .btn-outline, .highlights-nav a';
+  document.addEventListener('mouseover', e=>{
+    if(e.target.closest(HOVER_SEL)) ring.classList.add('hover');
+  });
+  document.addEventListener('mouseout', e=>{
+    if(e.target.closest(HOVER_SEL)) ring.classList.remove('hover');
+  });
+  document.addEventListener('mouseleave', ()=>{dot.classList.add('is-hidden');ring.classList.add('is-hidden')});
+  document.addEventListener('mouseenter', ()=>{dot.classList.remove('is-hidden');ring.classList.remove('is-hidden')});
 })();
 </script>
 </body>
